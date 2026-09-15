@@ -1,6 +1,7 @@
 import XCTest
 import UIKit
 import SwiftUI
+import RevenueCat
 @testable import KitchenTable
 
 final class CookingSessionTests: XCTestCase {
@@ -1023,6 +1024,37 @@ final class CookingSessionTests: XCTestCase {
         }
     }
 
+    @MainActor
+    func testPlusAccessKeepsOriginalFreeAndPreservesExistingUITestCoverage() async {
+        let suite = "plus-access-" + UUID().uuidString
+        let defaults = UserDefaults(suiteName: suite)!
+        defer { defaults.removePersistentDomain(forName: suite) }
+        let appearance = AppearanceStore(defaults: defaults, iconClient: TestAppIconClient())
+        appearance.theme = .ferran
+
+        let integrationRun = PlusAccessStore(
+            appearance: appearance,
+            client: UnconfiguredPlusAccessClient(),
+            arguments: ["--ui-testing", "--revenuecat-test-user", "fresh-customer"]
+        )
+        XCTAssertFalse(integrationRun.hasPlus)
+        XCTAssertEqual(appearance.availableThemes, [.original])
+        XCTAssertEqual(appearance.theme, .original)
+        XCTAssertEqual(appearance.preferredTheme, .ferran)
+        await integrationRun.observeCustomerInfo()
+        XCTAssertEqual(integrationRun.phase, .unavailable)
+        XCTAssertTrue(integrationRun.isCustomerInfoLoaded)
+
+        let ordinaryUITest = PlusAccessStore(appearance: appearance, arguments: ["--ui-testing"])
+        XCTAssertTrue(ordinaryUITest.hasPlus)
+        XCTAssertTrue(ordinaryUITest.isCustomerInfoLoaded)
+        XCTAssertEqual(appearance.availableThemes, Set(AppTheme.allCases))
+        XCTAssertEqual(appearance.theme, .ferran)
+        XCTAssertEqual(PlusPlan.billingPeriod(for: "kitchen_table_plus_monthly"), .monthly)
+        XCTAssertEqual(PlusPlan.billingPeriod(for: "kitchen_table_plus_yearly"), .yearly)
+        XCTAssertEqual(PlusPlan.billingPeriod(for: "another_product"), .unknown)
+    }
+
     func testScreenAwakeOnlyWhileEnabledAndActivelyCooking() {
         for enabled in [false, true] {
             for visible in [false, true] {
@@ -1213,6 +1245,19 @@ final class CookingSessionTests: XCTestCase {
         XCTAssertFalse(duration.issues.isEmpty)
     }
 
+}
+
+private struct UnconfiguredPlusAccessClient: PlusAccessClient {
+    enum StubError: Error { case unavailable }
+
+    let isConfigured = false
+    var customerInfoStream: AsyncStream<CustomerInfo> {
+        AsyncStream { $0.finish() }
+    }
+
+    func customerInfo() async throws -> CustomerInfo { throw StubError.unavailable }
+    func offerings() async throws -> Offerings { throw StubError.unavailable }
+    func restorePurchases() async throws -> CustomerInfo { throw StubError.unavailable }
 }
 
 @MainActor

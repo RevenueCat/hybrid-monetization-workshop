@@ -4,6 +4,7 @@ import SwiftUI
 struct KitchenTableApp: App {
     @StateObject private var appearance: AppearanceStore
     @StateObject private var walkthrough: WalkthroughStore
+    @StateObject private var plus: PlusAccessStore
     @Environment(\.scenePhase) private var phase
     private let isUITesting: Bool
     private let result: Result<RecipeLibrary, Error>
@@ -14,7 +15,10 @@ struct KitchenTableApp: App {
         isUITesting = launch.isUITesting
         let defaults = launch.makeUserDefaults()
         _walkthrough = StateObject(wrappedValue: WalkthroughStore(defaults: defaults, skip: launch.skipsWalkthrough))
-        _appearance = StateObject(wrappedValue: AppearanceStore(defaults: defaults))
+        let appearance = AppearanceStore(defaults: defaults)
+        _appearance = StateObject(wrappedValue: appearance)
+        RevenueCatConfiguration.configureIfAvailable(arguments: launch.arguments)
+        _plus = StateObject(wrappedValue: PlusAccessStore(appearance: appearance, arguments: launch.arguments))
         result = Result { try AppBootstrap.makeRecipeLibrary(launch: launch) }
     }
 
@@ -24,7 +28,10 @@ struct KitchenTableApp: App {
             case .success(let library):
                 WalkthroughRoot(library: library, walkthrough: walkthrough)
                     .environmentObject(appearance)
+                    .environmentObject(plus)
                     .preferredColorScheme(appearance.mode.scheme)
+                    .plusPaywallPresenter(plus)
+                    .task { await plus.observeCustomerInfo() }
                     .task {
                         library.incoming?.setActive(phase == .active)
                         appearance.setIconsActive(phase == .active && !isUITesting)

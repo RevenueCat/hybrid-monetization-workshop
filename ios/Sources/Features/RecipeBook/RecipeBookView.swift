@@ -2,6 +2,7 @@ import SwiftUI
 
 struct RecipeBookView: View {
     @EnvironmentObject private var appearance: AppearanceStore
+    @EnvironmentObject private var plus: PlusAccessStore
     @ObservedObject var library: RecipeLibrary
     var openWalkthrough: () -> Void = {}
     @State private var path: [String] = []
@@ -93,7 +94,7 @@ struct RecipeBookView: View {
                         VStack(spacing: 0) {
                             Button {
                                 guard !editingRecipes, revealedRecipeID != store.graph.recipe.id else { return }
-                                path.append(store.graph.recipe.id)
+                                plus.requireAccess { path.append(store.graph.recipe.id) }
                             } label: {
                                 RecipeBookRow(title: store.graph.recipe.title, subtitle: cookingStatus(store)) {
                                     Image(systemName: "chevron.right")
@@ -162,7 +163,7 @@ struct RecipeBookView: View {
                 if !editingRecipes && library.incoming != nil {
                     Button {
                         revealedRecipeID = nil
-                        showingAddRecipe = true
+                        plus.requireAccess { showingAddRecipe = true }
                     } label: {
                         Image(systemName: "plus")
                             .font(.system(size: 22, weight: .medium))

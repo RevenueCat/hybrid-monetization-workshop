@@ -17,6 +17,102 @@ final class KitchenTableUITests: XCTestCase {
     }
 
     @MainActor
+    func testPlusPaywallGatesCookingAndCanBeDismissed() {
+        continueAfterFailure = false
+        let customer = RevenueCatTestCustomer()
+        let app = XCUIApplication()
+        app.launchArguments = customer.launchArguments + ["--skip-walkthrough", "--reset-session"]
+        app.launch()
+
+        let recipe = app.buttons["book.open.baba-ganoush"]
+        XCTAssertTrue(recipe.waitForExistence(timeout: 10))
+        recipe.tap()
+
+        XCTAssertTrue(app.staticTexts["Kitchen Table Plus"].waitForExistence(timeout: 10))
+        XCTAssertTrue(app.staticTexts["Import recipes from anywhere"].exists)
+        XCTAssertTrue(app.staticTexts["Start a recipe and cook step by step"].exists)
+        XCTAssertTrue(app.staticTexts["Studio, Editorial, Archive and Classic themes"].exists)
+        XCTAssertEqual(app.buttons.matching(NSPredicate(format: "label CONTAINS %@", "29,99")).count, 1)
+        XCTAssertEqual(app.buttons.matching(NSPredicate(format: "label CONTAINS %@", "4,99")).count, 1)
+        XCTAssertFalse(app.scrollViews["recipe.grid"].exists)
+
+        app.buttons["Close"].tap()
+        XCTAssertTrue(recipe.waitForExistence(timeout: 5))
+        XCTAssertFalse(app.staticTexts["Kitchen Table Plus"].exists)
+        XCTAssertFalse(app.scrollViews["recipe.grid"].exists)
+    }
+
+    @MainActor
+    func testPlanSectionShowsFreeAndCanUpgrade() {
+        continueAfterFailure = false
+        let customer = RevenueCatTestCustomer()
+        let app = XCUIApplication()
+        app.launchArguments = customer.launchArguments + ["--skip-walkthrough", "--reset-session"]
+        app.launch()
+
+        XCTAssertTrue(app.buttons["book.menu"].waitForExistence(timeout: 10))
+        app.buttons["book.menu"].tap()
+        app.buttons["Settings"].tap()
+        XCTAssertTrue(app.staticTexts["settings.plan.name"].waitForExistence(timeout: 10))
+        XCTAssertEqual(app.staticTexts["settings.plan.name"].label, "Free")
+        XCTAssertTrue(app.buttons["settings.plan.upgrade"].exists)
+        XCTAssertTrue(app.buttons["settings.plan.restore"].exists)
+
+        app.buttons["settings.plan.upgrade"].tap()
+        XCTAssertTrue(app.staticTexts["Kitchen Table Plus"].waitForExistence(timeout: 10))
+        app.buttons["Close"].tap()
+        XCTAssertTrue(app.staticTexts["settings.plan.name"].waitForExistence(timeout: 5))
+        XCTAssertEqual(app.staticTexts["settings.plan.name"].label, "Free")
+    }
+
+    @MainActor
+    func testPlanPurchaseRestoreAndManagement() {
+        continueAfterFailure = false
+        let customer = RevenueCatTestCustomer()
+        print("RevenueCat Test Store customer: \(customer.id)")
+        let app = XCUIApplication()
+        app.launchArguments = customer.launchArguments + ["--skip-walkthrough", "--reset-session"]
+        app.launch()
+
+        XCTAssertTrue(app.buttons["book.menu"].waitForExistence(timeout: 10))
+        app.buttons["book.menu"].tap()
+        app.buttons["Settings"].tap()
+        XCTAssertTrue(app.buttons["settings.plan.upgrade"].waitForExistence(timeout: 10))
+        app.buttons["settings.plan.upgrade"].tap()
+        XCTAssertTrue(app.buttons["Subscribe"].waitForExistence(timeout: 10))
+        app.buttons["Subscribe"].tap()
+        XCTAssertTrue(app.buttons["Test valid purchase"].waitForExistence(timeout: 10))
+        app.buttons["Test valid purchase"].tap()
+
+        let planName = app.staticTexts["settings.plan.name"]
+        XCTAssertTrue(planName.waitForExistence(timeout: 10))
+        XCTAssertEqual(planName.label, "Plus Yearly")
+        XCTAssertTrue(app.buttons["settings.plan.manage"].exists)
+        capture("plan-plus-yearly", app: app)
+
+        app.buttons["settings.plan.restore"].tap()
+        XCTAssertTrue(app.staticTexts["Kitchen Table Plus has been restored."].waitForExistence(timeout: 10))
+        app.buttons["OK"].tap()
+
+        app.buttons["settings.plan.manage"].tap()
+        XCTAssertTrue(app.buttons["circled_close_button"].waitForExistence(timeout: 10))
+        capture("plan-customer-center", app: app)
+        app.buttons["circled_close_button"].tap()
+        XCTAssertTrue(app.buttons["settings.plan.manage"].waitForExistence(timeout: 5))
+
+        app.terminate()
+        app.launchArguments = customer.launchArguments + ["--skip-walkthrough", "-theme", "ferran"]
+        app.launch()
+        XCTAssertTrue(app.buttons["book.menu"].waitForExistence(timeout: 10))
+        app.buttons["book.menu"].tap()
+        app.buttons["Settings"].tap()
+        XCTAssertTrue(planName.waitForExistence(timeout: 10))
+        XCTAssertEqual(planName.label, "Plus Yearly")
+        XCTAssertTrue(app.buttons["settings.plan.manage"].exists)
+        capture("plan-plus-yearly-studio", app: app)
+    }
+
+    @MainActor
     func testKeepScreenOnFromTablePersistsAndChangesActionLabel() throws {
         let app = XCUIApplication()
         app.launchArguments = ["--ui-testing", "--skip-walkthrough", "--reset-session"]
@@ -322,7 +418,10 @@ final class KitchenTableUITests: XCTestCase {
             XCTAssertTrue(app.buttons["page.back"].waitForExistence(timeout: 4))
         }
         page("Settings")
-        XCTAssertFalse(app.staticTexts["PLAN"].exists)
+        XCTAssertTrue(app.staticTexts["PLAN"].exists)
+        XCTAssertEqual(app.staticTexts["settings.plan.name"].label, "Free")
+        XCTAssertTrue(app.buttons["settings.plan.upgrade"].exists)
+        XCTAssertTrue(app.buttons["settings.plan.restore"].exists)
         XCTAssertTrue(app.staticTexts["COOKING"].exists)
         XCTAssertTrue(app.staticTexts["DISPLAY"].exists)
         let keepScreenOn = app.switches["settings.keepScreenAwake"]

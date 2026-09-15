@@ -2,6 +2,7 @@ import SwiftUI
 
 struct ThemesView: View {
     @EnvironmentObject private var appearance: AppearanceStore
+    @EnvironmentObject private var plus: PlusAccessStore
 
     var body: some View {
         LibraryPage(title: "Themes") {
@@ -14,7 +15,13 @@ struct ThemesView: View {
                 }
             }
             ForEach(AppTheme.allCases) { theme in
-                Button { appearance.theme = theme } label: {
+                Button {
+                    if theme == .original {
+                        appearance.theme = theme
+                    } else {
+                        plus.requireAccess { appearance.theme = theme }
+                    }
+                } label: {
                     ThemePreview(theme: theme, isSelected: appearance.theme == theme)
                 }
                 .buttonStyle(.plain)

@@ -5,6 +5,10 @@ struct SettingsView: View {
     var body: some View {
         LibraryPage(title: "Settings") {
             VStack(alignment: .leading, spacing: 0) {
+                PlanSection()
+
+                settingsDivider
+
                 SettingsSection(title: "Cooking") {
                     VStack(alignment: .leading, spacing: 12) {
                         ThemedToggle(title: "Keep screen on", isOn: $appearance.keepScreenAwake,

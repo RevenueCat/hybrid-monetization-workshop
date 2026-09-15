@@ -8,6 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		F00000000000000000000003 /* RevenueCat in Frameworks */ = {isa = PBXBuildFile; productRef = F00000000000000000000004; };
+		F40000000000000000000001 /* RevenueCatUI in Frameworks */ = {isa = PBXBuildFile; productRef = F40000000000000000000002; };
+		FB1000000000000000000001 /* PlusPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2000000000000000000001 /* PlusPlan.swift */; };
+		FB1000000000000000000002 /* PlusAccessClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2000000000000000000002 /* PlusAccessClient.swift */; };
+		FB1000000000000000000003 /* PlusAccessStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2000000000000000000003 /* PlusAccessStore.swift */; };
+		FB1000000000000000000004 /* RevenueCatConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2000000000000000000004 /* RevenueCatConfiguration.swift */; };
+		FB1000000000000000000005 /* PlusPaywallPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2000000000000000000005 /* PlusPaywallPresenter.swift */; };
+		FB1000000000000000000006 /* PlanSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2000000000000000000006 /* PlanSection.swift */; };
 		076918724BB55EC97500E4A8 /* recipe.json in Resources */ = {isa = PBXBuildFile; fileRef = 8590CB2EBDE651C3E864E808 /* recipe.json */; };
 		08623D5E3A678B4888AB86DA /* KitchenTableUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24C55B0D193BD74D4C016AFB /* KitchenTableUITests.swift */; };
 		08AD67BBF7B168F09C7EA9B5 /* CookingScreenAwake.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7371CAA0F0434197B5C4AD8 /* CookingScreenAwake.swift */; };
@@ -122,6 +129,12 @@
 		F2000000000000000000000A /* ThemesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemesView.swift; sourceTree = "<group>"; };
 		FA2000000000000000000001 /* RevenueCatTestSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RevenueCatTestSupport.swift; sourceTree = "<group>"; };
 		FA2000000000000000000002 /* UITestSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITestSupport.swift; sourceTree = "<group>"; };
+		FB2000000000000000000001 /* PlusPlan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusPlan.swift; sourceTree = "<group>"; };
+		FB2000000000000000000002 /* PlusAccessClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusAccessClient.swift; sourceTree = "<group>"; };
+		FB2000000000000000000003 /* PlusAccessStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusAccessStore.swift; sourceTree = "<group>"; };
+		FB2000000000000000000004 /* RevenueCatConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RevenueCatConfiguration.swift; sourceTree = "<group>"; };
+		FB2000000000000000000005 /* PlusPaywallPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusPaywallPresenter.swift; sourceTree = "<group>"; };
+		FB2000000000000000000006 /* PlanSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanSection.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -144,6 +157,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F00000000000000000000003 /* RevenueCat in Frameworks */,
+				F40000000000000000000001 /* RevenueCatUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -260,6 +274,7 @@
 		F3000000000000000000000B /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				FB2000000000000000000006 /* PlanSection.swift */,
 				E7BE827DC7DB55949CD0472C /* SettingsView.swift */,
 			);
 			path = Settings;
@@ -281,6 +296,43 @@
 			path = Walkthrough;
 			sourceTree = "<group>";
 		};
+		FB3000000000000000000001 /* Monetization */ = {
+			isa = PBXGroup;
+			children = (
+				FB3000000000000000000002 /* Access */,
+				FB3000000000000000000003 /* Paywall */,
+				FB3000000000000000000004 /* Support */,
+			);
+			path = Monetization;
+			sourceTree = "<group>";
+		};
+		FB3000000000000000000002 /* Access */ = {
+			isa = PBXGroup;
+			children = (
+				FB2000000000000000000002 /* PlusAccessClient.swift */,
+				FB2000000000000000000003 /* PlusAccessStore.swift */,
+				FB2000000000000000000001 /* PlusPlan.swift */,
+				FB2000000000000000000004 /* RevenueCatConfiguration.swift */,
+			);
+			path = Access;
+			sourceTree = "<group>";
+		};
+		FB3000000000000000000003 /* Paywall */ = {
+			isa = PBXGroup;
+			children = (
+				FB2000000000000000000005 /* PlusPaywallPresenter.swift */,
+			);
+			path = Paywall;
+			sourceTree = "<group>";
+		};
+		FB3000000000000000000004 /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				FA2000000000000000000001 /* RevenueCatTestSupport.swift */,
+			);
+			path = Support;
+			sourceTree = "<group>";
+		};
 		2EB56BE3C2D93CDAB0C52E67 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
@@ -288,7 +340,7 @@
 				F30000000000000000000002 /* DesignSystem */,
 				F30000000000000000000004 /* Domain */,
 				F30000000000000000000007 /* Features */,
-				FA2000000000000000000001 /* RevenueCatTestSupport.swift */,
+				FB3000000000000000000001 /* Monetization */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -402,6 +454,7 @@
 			name = KitchenTable;
 			packageProductDependencies = (
 				F00000000000000000000004 /* RevenueCat */,
+				F40000000000000000000002 /* RevenueCatUI */,
 			);
 			productName = KitchenTable;
 			productReference = 79CEF5F5D8BB4CFF0135F0EB /* KitchenTable.app */;
@@ -496,6 +549,12 @@
 				B00000000000000000000002 /* Walkthrough.swift in Sources */,
 				4911D93198907E66C426FCCB /* Appearance.swift in Sources */,
 				FA1000000000000000000001 /* RevenueCatTestSupport.swift in Sources */,
+				FB1000000000000000000001 /* PlusPlan.swift in Sources */,
+				FB1000000000000000000002 /* PlusAccessClient.swift in Sources */,
+				FB1000000000000000000003 /* PlusAccessStore.swift in Sources */,
+				FB1000000000000000000004 /* RevenueCatConfiguration.swift in Sources */,
+				FB1000000000000000000005 /* PlusPaywallPresenter.swift in Sources */,
+				FB1000000000000000000006 /* PlanSection.swift in Sources */,
 				7689E8A028FD06677B13B9B0 /* RecipeEditing.swift in Sources */,
 				C77878C85CD0B2D47C204512 /* SettingsView.swift in Sources */,
 				A10000000000000000000006 /* ThemePreview.swift in Sources */,
@@ -735,6 +794,7 @@
 
 /* Begin XCSwiftPackageProductDependency section */
 		F00000000000000000000004 /* RevenueCat */ = {isa = XCSwiftPackageProductDependency; package = F00000000000000000000005; productName = RevenueCat; };
+		F40000000000000000000002 /* RevenueCatUI */ = {isa = XCSwiftPackageProductDependency; package = F00000000000000000000005; productName = RevenueCatUI; };
 /* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = F6F4DA8D93E88A08220E03B7 /* Project object */;

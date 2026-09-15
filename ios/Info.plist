@@ -4,6 +4,8 @@
 <dict>
 	<key>RevenueCatAPIKey</key>
 	<string>$(WORKSHOP_REVENUECAT_KEY)</string>
+	<key>RevenueCatOfferingIdentifier</key>
+	<string>$(REVENUECAT_OFFERING_ID)</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>SpecialElite-Regular.ttf</string>

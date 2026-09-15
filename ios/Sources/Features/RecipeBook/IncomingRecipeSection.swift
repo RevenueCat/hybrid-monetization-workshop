@@ -2,6 +2,7 @@ import SwiftUI
 
 struct IncomingRecipeSection: View {
     @EnvironmentObject private var appearance: AppearanceStore
+    @EnvironmentObject private var plus: PlusAccessStore
     @ObservedObject var incoming: IncomingRecipeStore
     var discardImport: (IncomingRecipe) -> Void
 
@@ -29,7 +30,7 @@ struct IncomingRecipeSection: View {
                                     Image(systemName: "clock").frame(width: 44, height: 44, alignment: .trailing)
                                         .accessibilityLabel("Up next")
                                 default:
-                                    Button { incoming.prepare(item.id) } label: {
+                                    Button { plus.requireAccess { incoming.prepare(item.id) } } label: {
                                         Image(systemName: "tray.and.arrow.down").frame(width: 44, height: 44, alignment: .trailing).contentShape(Rectangle())
                                     }
                                     .buttonStyle(.plain)
