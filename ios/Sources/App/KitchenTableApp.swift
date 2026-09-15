@@ -5,6 +5,7 @@ struct KitchenTableApp: App {
     @StateObject private var appearance: AppearanceStore
     @StateObject private var walkthrough: WalkthroughStore
     @StateObject private var plus: PlusAccessStore
+    @StateObject private var ads: AdSupportStore
     @Environment(\.scenePhase) private var phase
     private let isUITesting: Bool
     private let result: Result<RecipeLibrary, Error>
@@ -19,6 +20,7 @@ struct KitchenTableApp: App {
         _appearance = StateObject(wrappedValue: appearance)
         RevenueCatConfiguration.configureIfAvailable(arguments: launch.arguments)
         _plus = StateObject(wrappedValue: PlusAccessStore(appearance: appearance, arguments: launch.arguments))
+        _ads = StateObject(wrappedValue: AdSupportStore(arguments: launch.arguments))
         result = Result { try AppBootstrap.makeRecipeLibrary(launch: launch) }
     }
 
@@ -29,9 +31,11 @@ struct KitchenTableApp: App {
                 WalkthroughRoot(library: library, walkthrough: walkthrough)
                     .environmentObject(appearance)
                     .environmentObject(plus)
+                    .environmentObject(ads)
                     .preferredColorScheme(appearance.mode.scheme)
                     .plusPaywallPresenter(plus)
                     .task { await plus.observeCustomerInfo() }
+                    .task(id: plus.phase) { ads.updateAccess(plus.phase) }
                     .task {
                         library.incoming?.setActive(phase == .active)
                         appearance.setIconsActive(phase == .active && !isUITesting)

@@ -16,6 +16,10 @@
 		FB1000000000000000000005 /* PlusPaywallPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2000000000000000000005 /* PlusPaywallPresenter.swift */; };
 		FB1000000000000000000006 /* PlanSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2000000000000000000006 /* PlanSection.swift */; };
 		F50000000000000000000001 /* RevenueCatAdMob in Frameworks */ = {isa = PBXBuildFile; productRef = F50000000000000000000002; };
+		FC1000000000000000000001 /* AdConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2000000000000000000001 /* AdConfiguration.swift */; };
+		FC1000000000000000000002 /* ViewControllerLocator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2000000000000000000002 /* ViewControllerLocator.swift */; };
+		FC1000000000000000000003 /* AdSupportStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2000000000000000000003 /* AdSupportStore.swift */; };
+		FC1000000000000000000004 /* RecipeBannerAdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2000000000000000000004 /* RecipeBannerAdView.swift */; };
 		076918724BB55EC97500E4A8 /* recipe.json in Resources */ = {isa = PBXBuildFile; fileRef = 8590CB2EBDE651C3E864E808 /* recipe.json */; };
 		08623D5E3A678B4888AB86DA /* KitchenTableUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24C55B0D193BD74D4C016AFB /* KitchenTableUITests.swift */; };
 		08AD67BBF7B168F09C7EA9B5 /* CookingScreenAwake.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7371CAA0F0434197B5C4AD8 /* CookingScreenAwake.swift */; };
@@ -136,6 +140,10 @@
 		FB2000000000000000000004 /* RevenueCatConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RevenueCatConfiguration.swift; sourceTree = "<group>"; };
 		FB2000000000000000000005 /* PlusPaywallPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusPaywallPresenter.swift; sourceTree = "<group>"; };
 		FB2000000000000000000006 /* PlanSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanSection.swift; sourceTree = "<group>"; };
+		FC2000000000000000000001 /* AdConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdConfiguration.swift; sourceTree = "<group>"; };
+		FC2000000000000000000002 /* ViewControllerLocator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerLocator.swift; sourceTree = "<group>"; };
+		FC2000000000000000000003 /* AdSupportStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdSupportStore.swift; sourceTree = "<group>"; };
+		FC2000000000000000000004 /* RecipeBannerAdView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeBannerAdView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -301,11 +309,23 @@
 		FB3000000000000000000001 /* Monetization */ = {
 			isa = PBXGroup;
 			children = (
+				FC3000000000000000000001 /* Ads */,
 				FB3000000000000000000002 /* Access */,
 				FB3000000000000000000003 /* Paywall */,
 				FB3000000000000000000004 /* Support */,
 			);
 			path = Monetization;
+			sourceTree = "<group>";
+		};
+		FC3000000000000000000001 /* Ads */ = {
+			isa = PBXGroup;
+			children = (
+				FC2000000000000000000001 /* AdConfiguration.swift */,
+				FC2000000000000000000002 /* ViewControllerLocator.swift */,
+				FC2000000000000000000003 /* AdSupportStore.swift */,
+				FC2000000000000000000004 /* RecipeBannerAdView.swift */,
+			);
+			path = Ads;
 			sourceTree = "<group>";
 		};
 		FB3000000000000000000002 /* Access */ = {
@@ -559,6 +579,10 @@
 				FB1000000000000000000004 /* RevenueCatConfiguration.swift in Sources */,
 				FB1000000000000000000005 /* PlusPaywallPresenter.swift in Sources */,
 				FB1000000000000000000006 /* PlanSection.swift in Sources */,
+				FC1000000000000000000001 /* AdConfiguration.swift in Sources */,
+				FC1000000000000000000002 /* ViewControllerLocator.swift in Sources */,
+				FC1000000000000000000003 /* AdSupportStore.swift in Sources */,
+				FC1000000000000000000004 /* RecipeBannerAdView.swift in Sources */,
 				7689E8A028FD06677B13B9B0 /* RecipeEditing.swift in Sources */,
 				C77878C85CD0B2D47C204512 /* SettingsView.swift in Sources */,
 				A10000000000000000000006 /* ThemePreview.swift in Sources */,

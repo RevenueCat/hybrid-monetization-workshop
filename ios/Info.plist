@@ -20,6 +20,8 @@
 	<string>$(ADMOB_INTERSTITIAL_PLACEMENT)</string>
 	<key>AdMobBannerPlacement</key>
 	<string>$(ADMOB_BANNER_PLACEMENT)</string>
+	<key>AdMobTestDeviceIdentifiers</key>
+	<string>$(ADMOB_TEST_DEVICE_IDENTIFIERS)</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>SpecialElite-Regular.ttf</string>

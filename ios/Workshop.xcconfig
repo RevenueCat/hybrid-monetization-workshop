@@ -6,9 +6,8 @@ DEVELOPMENT_TEAM =
 REVENUECAT_TEST_API_KEY = test_EfhuPXsstLtwKfbNvagdmVvKrCJ
 REVENUECAT_API_KEY =
 
-// Scenario B starts with the completed Scenario A subscription experience.
-// The exercise switches this to the ad-free offering.
-REVENUECAT_OFFERING_ID = plus_features
+// Scenario B presents the offering tailored to the ad-free upgrade.
+REVENUECAT_OFFERING_ID = plus_ad_free
 REVENUECAT_PLUS_ENTITLEMENT_ID = plus
 REVENUECAT_PREMIUM_THEMES_ENTITLEMENT_ID = premium_themes
 
@@ -23,5 +22,8 @@ ADMOB_NATIVE_AD_UNIT_ID = ca-app-pub-3940256099942544/3986624511
 ADMOB_BANNER_AD_UNIT_ID = $(ADMOB_COLLAPSIBLE_BANNER_AD_UNIT_ID)
 ADMOB_INTERSTITIAL_PLACEMENT = recipe_action
 ADMOB_BANNER_PLACEMENT = recipe_book_banner
+// Comma-separated Google test-device IDs. Keep participant-specific values in
+// Workshop.local.xcconfig; Debug builds register them before loading any ad.
+ADMOB_TEST_DEVICE_IDENTIFIERS =
 
 #include? "Workshop.local.xcconfig"

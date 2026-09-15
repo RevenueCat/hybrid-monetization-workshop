@@ -1055,6 +1055,14 @@ final class CookingSessionTests: XCTestCase {
         XCTAssertEqual(PlusPlan.billingPeriod(for: "another_product"), .unknown)
     }
 
+    func testAdsOnlyEnableForKnownFreeAccess() {
+        XCTAssertFalse(AdAccessPolicy.adsEnabled(for: .loading, disabledForTesting: false))
+        XCTAssertFalse(AdAccessPolicy.adsEnabled(for: .unavailable, disabledForTesting: false))
+        XCTAssertTrue(AdAccessPolicy.adsEnabled(for: .available(hasPlus: false, plan: nil), disabledForTesting: false))
+        XCTAssertFalse(AdAccessPolicy.adsEnabled(for: .available(hasPlus: true, plan: nil), disabledForTesting: false))
+        XCTAssertFalse(AdAccessPolicy.adsEnabled(for: .available(hasPlus: false, plan: nil), disabledForTesting: true))
+    }
+
     func testScreenAwakeOnlyWhileEnabledAndActivelyCooking() {
         for enabled in [false, true] {
             for visible in [false, true] {

@@ -2,7 +2,7 @@ import SwiftUI
 
 struct IncomingRecipeSection: View {
     @EnvironmentObject private var appearance: AppearanceStore
-    @EnvironmentObject private var plus: PlusAccessStore
+    @EnvironmentObject private var ads: AdSupportStore
     @ObservedObject var incoming: IncomingRecipeStore
     var discardImport: (IncomingRecipe) -> Void
 
@@ -30,7 +30,7 @@ struct IncomingRecipeSection: View {
                                     Image(systemName: "clock").frame(width: 44, height: 44, alignment: .trailing)
                                         .accessibilityLabel("Up next")
                                 default:
-                                    Button { plus.requireAccess { incoming.prepare(item.id) } } label: {
+                                    Button { ads.performAction { incoming.prepare(item.id) } } label: {
                                         Image(systemName: "tray.and.arrow.down").frame(width: 44, height: 44, alignment: .trailing).contentShape(Rectangle())
                                     }
                                     .buttonStyle(.plain)
@@ -78,6 +78,7 @@ struct IncomingRecipeSection: View {
 
 struct AddRecipeFromLinkSheet: View {
     @EnvironmentObject private var appearance: AppearanceStore
+    @EnvironmentObject private var ads: AdSupportStore
     @Environment(\.dismiss) private var dismiss
     @ObservedObject var incoming: IncomingRecipeStore
     @State private var link = ""
@@ -105,7 +106,7 @@ struct AddRecipeFromLinkSheet: View {
                             .autocorrectionDisabled()
                             .submitLabel(.done)
                             .focused($focused)
-                            .onSubmit(add)
+                            .onSubmit(importRecipe)
                             .padding(12)
                             .frame(minHeight: 48)
                             .background(Color(uiColor: appearance.theme.surface), in: RoundedRectangle(cornerRadius: appearance.theme.cornerRadius))
@@ -133,7 +134,7 @@ struct AddRecipeFromLinkSheet: View {
                 AdaptiveActionRow {
                     Button("Cancel") { dismiss() }.buttonStyle(KitchenButtonStyle())
                         .accessibilityIdentifier("addRecipe.cancel")
-                    Button("Import recipe", action: add).buttonStyle(KitchenButtonStyle(primary: true))
+                    Button("Import recipe", action: importRecipe).buttonStyle(KitchenButtonStyle(primary: true))
                         .disabled(url == nil)
                         .accessibilityIdentifier("addRecipe.save")
                 }
@@ -158,6 +159,12 @@ struct AddRecipeFromLinkSheet: View {
             focused = false
             dismiss()
         } catch { saveError = error.localizedDescription }
+    }
+
+    private func importRecipe() {
+        guard url != nil else { return }
+        focused = false
+        ads.performAction(add)
     }
 }
 

@@ -153,11 +153,12 @@ Suggested steps:
 2. **Model temporary access.** Use an entitlement that can represent both permanent subscriber access and a time-limited rewarded grant.
 3. **Configure the verified reward.** Connect an SSV-enabled rewarded ad unit to the temporary entitlement grant in RevenueCat. (Only when not using the predefined RevenueCat project.)
 4. **Override the AdMob configuration.** Set `ADMOB_APP_ID` and `ADMOB_REWARDED_AD_UNIT_ID` in the local configuration to the application and SSV-enabled rewarded unit from your AdMob account. (Only when not using the predefined RevenueCat project.)
-5. **Prepare the ad.** Preload the rewarded ad and expose the option only when an ad is ready to show.
-6. **Offer a clear choice.** Let eligible users subscribe or watch an ad, and explain the reward and its duration before playback.
-7. **Confirm access through RevenueCat.** Unlock the feature only after the verified grant appears in the customer's active entitlements; do not rely on a local timer or grant.
-8. **Handle expiration.** Refresh access when the grant expires and return the user to an available free experience.
-9. **Test the outcomes.** Verify successful reward, cancellation, failure, expiration, and the subscriber path with test traffic only.
+5. **Register physical test devices.** Add Google's test-device identifier to `ADMOB_TEST_DEVICE_IDENTIFIERS` in `Workshop.local.xcconfig`; separate multiple identifiers with commas. Simulators are test devices automatically.
+6. **Prepare the ad.** Preload the rewarded ad and expose the option only when an ad is ready to show.
+7. **Offer a clear choice.** Let eligible users subscribe or watch an ad, and explain the reward and its duration before playback.
+8. **Confirm access through RevenueCat.** Unlock the feature only after the verified grant appears in the customer's active entitlements; do not rely on a local timer or grant.
+9. **Handle expiration.** Refresh access when the grant expires and return the user to an available free experience.
+10. **Test the outcomes.** Verify successful reward, cancellation, failure, expiration, and the subscriber path with test traffic only.
 
 Scenario C reuses the existing subscription catalog and paywall. The predefined RevenueCat project maps the rewarded ad unit to a 30-minute grant of the existing `premium_themes` entitlement.
 
@@ -169,7 +170,7 @@ Scenario C reuses the existing subscription catalog and paywall. The predefined 
 | AdMob application | `ca-app-pub-8714904180834987~6755567849` | Preconfigured workshop application |
 | Rewarded ad unit | `ca-app-pub-8714904180834987/2209818177` | SSV-enabled 30-minute theme reward |
 
-The owned rewarded unit is required because Google's demo rewarded unit cannot be configured for server-side verification. iOS simulators request test ads automatically. Do not run this workshop unit on an unregistered physical test device or use it to generate production traffic.
+The owned rewarded unit is required because Google's demo rewarded unit cannot be configured for server-side verification. iOS simulators request test ads automatically. For a physical device, set `ADMOB_TEST_DEVICE_IDENTIFIERS` locally before requesting an ad; never commit participant-specific identifiers or generate production traffic.
 
 ## Scenario D: Rewarding ads with in-app currency
 

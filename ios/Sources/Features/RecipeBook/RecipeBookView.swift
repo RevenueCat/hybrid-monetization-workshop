@@ -2,11 +2,12 @@ import SwiftUI
 
 struct RecipeBookView: View {
     @EnvironmentObject private var appearance: AppearanceStore
-    @EnvironmentObject private var plus: PlusAccessStore
+    @EnvironmentObject private var ads: AdSupportStore
     @ObservedObject var library: RecipeLibrary
     var openWalkthrough: () -> Void = {}
     @State private var path: [String] = []
     @State private var showingAddRecipe = false
+    @State private var bannerHeight: CGFloat = 100
     @State private var editingRecipes = false
     @State private var revealedRecipeID: String?
     @State private var revealedBinFrame: CGRect = .zero
@@ -94,7 +95,7 @@ struct RecipeBookView: View {
                         VStack(spacing: 0) {
                             Button {
                                 guard !editingRecipes, revealedRecipeID != store.graph.recipe.id else { return }
-                                plus.requireAccess { path.append(store.graph.recipe.id) }
+                                ads.performAction { path.append(store.graph.recipe.id) }
                             } label: {
                                 RecipeBookRow(title: store.graph.recipe.title, subtitle: cookingStatus(store)) {
                                     Image(systemName: "chevron.right")
@@ -158,12 +159,12 @@ struct RecipeBookView: View {
             .alert("Recipe Book", isPresented: Binding(get: { library.errorMessage != nil }, set: { if !$0 { library.errorMessage = nil } })) {
                 Button("OK") { library.errorMessage = nil }
             } message: { Text(library.errorMessage ?? "") }
-            .contentMargins(.bottom, 88, for: .scrollContent)
+            .contentMargins(.bottom, ads.adsEnabled ? 16 : 88, for: .scrollContent)
             .overlay(alignment: .bottomTrailing) {
                 if !editingRecipes && library.incoming != nil {
                     Button {
                         revealedRecipeID = nil
-                        plus.requireAccess { showingAddRecipe = true }
+                        showingAddRecipe = true
                     } label: {
                         Image(systemName: "plus")
                             .font(.system(size: 22, weight: .medium))
@@ -185,6 +186,9 @@ struct RecipeBookView: View {
                 if let incoming = library.incoming {
                     AddRecipeFromLinkSheet(incoming: incoming)
                 }
+            }
+            .safeAreaInset(edge: .bottom, spacing: 0) {
+                RecipeBannerAdView(height: $bannerHeight)
             }
             .listStyle(.plain)
             .environment(\.defaultMinListRowHeight, 0)

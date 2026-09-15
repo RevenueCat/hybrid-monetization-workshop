@@ -9,12 +9,18 @@ enum PlusAccessPhase: Equatable {
 
 @MainActor
 final class PlusAccessStore: ObservableObject {
-    static let entitlementID = "plus"
+    static let entitlementID = Bundle.main.object(
+        forInfoDictionaryKey: "RevenueCatPlusEntitlementIdentifier"
+    ) as? String ?? "plus"
+    static let premiumThemesEntitlementID = Bundle.main.object(
+        forInfoDictionaryKey: "RevenueCatPremiumThemesEntitlementIdentifier"
+    ) as? String ?? "premium_themes"
     static let offeringID = Bundle.main.object(
         forInfoDictionaryKey: "RevenueCatOfferingIdentifier"
-    ) as? String ?? "plus_features"
+    ) as? String ?? "plus_ad_free"
 
     @Published private(set) var phase: PlusAccessPhase = .loading
+    @Published private(set) var hasPremiumThemes = false
     @Published private(set) var offering: Offering?
     @Published private(set) var isRestoring = false
     @Published var isPaywallPresented = false
@@ -34,7 +40,8 @@ final class PlusAccessStore: ObservableObject {
 
     private let appearance: AppearanceStore
     private let client: PlusAccessClient
-    private var pendingAction: (() -> Void)?
+    private enum Requirement { case plus, premiumThemes }
+    private var pendingAction: (requirement: Requirement, action: () -> Void)?
     private let testingBypass: Bool
 
     init(
@@ -47,9 +54,10 @@ final class PlusAccessStore: ObservableObject {
         testingBypass = arguments.contains("--ui-testing") && !arguments.contains("--revenuecat-test-user")
 
         if testingBypass {
+            hasPremiumThemes = true
             setPhase(.available(hasPlus: true, plan: nil))
         } else {
-            updateThemeAccess(false)
+            updateThemeAccess()
         }
     }
 
@@ -74,27 +82,11 @@ final class PlusAccessStore: ObservableObject {
     }
 
     func requireAccess(perform action: @escaping () -> Void) {
-        if hasPlus {
-            action()
-            return
-        }
-        guard client.isConfigured else {
-            alertMessage = "Kitchen Table Plus isn’t available in this build."
-            return
-        }
-        pendingAction = action
-        if offering != nil {
-            isPaywallPresented = true
-        } else {
-            Task {
-                await loadOffering()
-                if offering != nil {
-                    isPaywallPresented = true
-                } else {
-                    pendingAction = nil
-                }
-            }
-        }
+        require(.plus, unavailableMessage: "Kitchen Table Plus isn’t available in this build.", action: action)
+    }
+
+    func requirePremiumThemeAccess(perform action: @escaping () -> Void) {
+        require(.premiumThemes, unavailableMessage: "Premium themes aren’t available in this build.", action: action)
     }
 
     func presentPaywall() {
@@ -129,11 +121,11 @@ final class PlusAccessStore: ObservableObject {
 
     func complete(with customerInfo: CustomerInfo) {
         update(with: customerInfo)
-        guard hasPlus else { return }
+        guard let pendingAction,
+              satisfies(pendingAction.requirement) else { return }
         isPaywallPresented = false
-        let action = pendingAction
-        pendingAction = nil
-        action?()
+        self.pendingAction = nil
+        pendingAction.action()
     }
 
     func dismissPaywall() {
@@ -143,7 +135,43 @@ final class PlusAccessStore: ObservableObject {
 
     private func update(with customerInfo: CustomerInfo) {
         let entitlement = customerInfo.entitlements.active[Self.entitlementID]
+        hasPremiumThemes = customerInfo.entitlements.active[Self.premiumThemesEntitlementID] != nil
         setPhase(.available(hasPlus: entitlement != nil, plan: entitlement.map(PlusPlan.init)))
+    }
+
+    private func require(
+        _ requirement: Requirement,
+        unavailableMessage: String,
+        action: @escaping () -> Void
+    ) {
+        if satisfies(requirement) {
+            action()
+            return
+        }
+        guard client.isConfigured else {
+            alertMessage = unavailableMessage
+            return
+        }
+        pendingAction = (requirement, action)
+        if offering != nil {
+            isPaywallPresented = true
+        } else {
+            Task {
+                await loadOffering()
+                if offering != nil {
+                    isPaywallPresented = true
+                } else {
+                    pendingAction = nil
+                }
+            }
+        }
+    }
+
+    private func satisfies(_ requirement: Requirement) -> Bool {
+        switch requirement {
+        case .plus: hasPlus
+        case .premiumThemes: hasPremiumThemes
+        }
     }
 
     private func loadOffering() async {
@@ -162,11 +190,11 @@ final class PlusAccessStore: ObservableObject {
 
     private func setPhase(_ phase: PlusAccessPhase) {
         self.phase = phase
-        updateThemeAccess(hasPlus)
+        updateThemeAccess()
     }
 
-    private func updateThemeAccess(_ active: Bool) {
-        let themes = active ? Set(AppTheme.allCases) : Set([.original])
+    private func updateThemeAccess() {
+        let themes = hasPremiumThemes ? Set(AppTheme.allCases) : Set([.original])
         if appearance.availableThemes != themes {
             appearance.availableThemes = themes
         }

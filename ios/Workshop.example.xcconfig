@@ -14,9 +14,8 @@ PREFLIGHT_PRODUCT_IDS = kitchen_table_plus_monthly,kitchen_table_plus_yearly
 PREFLIGHT_ENTITLEMENTS = plus,premium_themes
 PREFLIGHT_OFFERINGS = plus_features,plus_ad_free
 
-// Scenario B starts with the completed Scenario A offering. Switch to
-// plus_ad_free while completing the exercise. Use only test ads during workshop development.
-REVENUECAT_OFFERING_ID = plus_features
+// Scenario B presents the ad-free offering. Use only test ads during workshop development.
+REVENUECAT_OFFERING_ID = plus_ad_free
 REVENUECAT_PLUS_ENTITLEMENT_ID = plus
 REVENUECAT_PREMIUM_THEMES_ENTITLEMENT_ID = premium_themes
 ADMOB_APP_ID = ca-app-pub-3940256099942544~1458002511
@@ -28,3 +27,6 @@ ADMOB_NATIVE_AD_UNIT_ID = ca-app-pub-3940256099942544/3986624511
 ADMOB_BANNER_AD_UNIT_ID = $(ADMOB_COLLAPSIBLE_BANNER_AD_UNIT_ID)
 ADMOB_INTERSTITIAL_PLACEMENT = recipe_action
 ADMOB_BANNER_PLACEMENT = recipe_book_banner
+// Optional, comma-separated IDs printed by Google Mobile Ads after an ad request.
+// Debug builds register these before loading ads; do not commit participant IDs.
+ADMOB_TEST_DEVICE_IDENTIFIERS =

@@ -13,33 +13,39 @@ final class KitchenTableUITests: XCTestCase {
     private func openRecipe(_ app: XCUIApplication) {
         let recipe = app.buttons["book.open.baba-ganoush"]
         XCTAssertTrue(recipe.waitForExistence(timeout: 10))
-        recipe.tap()
+        recipe.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tap()
     }
 
     @MainActor
-    func testPlusPaywallGatesCookingAndCanBeDismissed() {
+    func testFreeTierCanCookAndScenarioTwoPaywallCanBeDismissed() {
         continueAfterFailure = false
         let customer = RevenueCatTestCustomer()
         let app = XCUIApplication()
-        app.launchArguments = customer.launchArguments + ["--skip-walkthrough", "--reset-session"]
+        app.launchArguments = customer.launchArguments + ["--skip-walkthrough", "--reset-session", "--disable-ads"]
         app.launch()
 
         let recipe = app.buttons["book.open.baba-ganoush"]
         XCTAssertTrue(recipe.waitForExistence(timeout: 10))
         recipe.tap()
 
+        XCTAssertTrue(app.scrollViews["recipe.grid"].waitForExistence(timeout: 10))
+        XCTAssertFalse(app.staticTexts["Kitchen Table Plus"].exists)
+        app.buttons["navigation.recipes"].tap()
+        XCTAssertTrue(app.buttons["book.menu"].waitForExistence(timeout: 5))
+        app.buttons["book.menu"].tap()
+        app.buttons["Settings"].tap()
+        XCTAssertTrue(app.buttons["settings.plan.upgrade"].waitForExistence(timeout: 10))
+        app.buttons["settings.plan.upgrade"].tap()
+
         XCTAssertTrue(app.staticTexts["Kitchen Table Plus"].waitForExistence(timeout: 10))
-        XCTAssertTrue(app.staticTexts["Import recipes from anywhere"].exists)
-        XCTAssertTrue(app.staticTexts["Start a recipe and cook step by step"].exists)
+        XCTAssertTrue(app.staticTexts["Cook without ads"].exists)
         XCTAssertTrue(app.staticTexts["Studio, Editorial, Archive and Classic themes"].exists)
         XCTAssertEqual(app.buttons.matching(NSPredicate(format: "label CONTAINS %@", "29,99")).count, 1)
         XCTAssertEqual(app.buttons.matching(NSPredicate(format: "label CONTAINS %@", "4,99")).count, 1)
-        XCTAssertFalse(app.scrollViews["recipe.grid"].exists)
 
         app.buttons["Close"].tap()
-        XCTAssertTrue(recipe.waitForExistence(timeout: 5))
+        XCTAssertTrue(app.staticTexts["settings.plan.name"].waitForExistence(timeout: 5))
         XCTAssertFalse(app.staticTexts["Kitchen Table Plus"].exists)
-        XCTAssertFalse(app.scrollViews["recipe.grid"].exists)
     }
 
     @MainActor
@@ -47,7 +53,7 @@ final class KitchenTableUITests: XCTestCase {
         continueAfterFailure = false
         let customer = RevenueCatTestCustomer()
         let app = XCUIApplication()
-        app.launchArguments = customer.launchArguments + ["--skip-walkthrough", "--reset-session"]
+        app.launchArguments = customer.launchArguments + ["--skip-walkthrough", "--reset-session", "--disable-ads"]
         app.launch()
 
         XCTAssertTrue(app.buttons["book.menu"].waitForExistence(timeout: 10))
@@ -71,7 +77,7 @@ final class KitchenTableUITests: XCTestCase {
         let customer = RevenueCatTestCustomer()
         print("RevenueCat Test Store customer: \(customer.id)")
         let app = XCUIApplication()
-        app.launchArguments = customer.launchArguments + ["--skip-walkthrough", "--reset-session"]
+        app.launchArguments = customer.launchArguments + ["--skip-walkthrough", "--reset-session", "--disable-ads"]
         app.launch()
 
         XCTAssertTrue(app.buttons["book.menu"].waitForExistence(timeout: 10))

@@ -19,7 +19,7 @@ struct ThemesView: View {
                     if theme == .original {
                         appearance.theme = theme
                     } else {
-                        plus.requireAccess { appearance.theme = theme }
+                        plus.requirePremiumThemeAccess { appearance.theme = theme }
                     }
                 } label: {
                     ThemePreview(theme: theme, isSelected: appearance.theme == theme)
