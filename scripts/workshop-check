@@ -1,0 +1,212 @@
+#!/usr/bin/env python3
+"""Read-only workshop readiness checks. Optional --build writes build artifacts."""
+import argparse
+import json
+import os
+from pathlib import Path
+import platform
+import re
+import shutil
+import subprocess
+import sys
+
+ROOT = Path(__file__).resolve().parents[1]
+LOCAL = ROOT / 'ios/Workshop.local.xcconfig'
+
+
+class CheckError(Exception):
+    pass
+
+
+def run(argv, timeout=30):
+    # Never echo commands, stdout, or stderr: tools may include configuration values.
+    try:
+        result = subprocess.run(argv, cwd=ROOT, capture_output=True, text=True,
+                                timeout=timeout, env={**os.environ, 'NO_COLOR': '1'})
+    except FileNotFoundError:
+        raise CheckError('Required command is not installed.') from None
+    except subprocess.TimeoutExpired:
+        raise CheckError('Command timed out; check service access and retry.') from None
+    if result.returncode:
+        raise CheckError(f'Command failed (exit {result.returncode}); check permissions, authentication, or service availability.')
+    return result.stdout
+
+
+def read_settings():
+    # Deliberately not a shell source or a general xcconfig evaluator.
+    values = {}
+    if LOCAL.exists():
+        for line in LOCAL.read_text().splitlines():
+            match = re.fullmatch(r'\s*([A-Z][A-Z0-9_]*)\s*=\s*(.*?)\s*', line)
+            if match:
+                values[match[1]] = match[2].split('//', 1)[0].strip().strip('"')
+    return values
+
+
+def setting(values, key):
+    value = os.environ.get(key, values.get(key, '')).strip()
+    if '$' in value or 'YOUR_' in value or '<' in value:
+        raise CheckError(f'{key} must be a literal value for this check; interpolation is not supported.')
+    return value
+
+
+def choose_simulator(data, requested):
+    devices = []
+    for runtime, entries in data.get('devices', {}).items():
+        version = re.search(r'\.iOS-(\d+)', runtime)
+        if not version or int(version[1]) < 18:
+            continue
+        devices += [d for d in entries if d.get('isAvailable') and 'iPhone' in d.get('deviceTypeIdentifier', d.get('name', ''))]
+    if requested:
+        matches = [d for d in devices if requested in (d.get('udid'), d.get('name'))]
+    else:
+        booted = [d for d in devices if d.get('state') == 'Booted']
+        matches = booted if booted else devices
+    if len(matches) != 1:
+        raise CheckError('Select one available iOS 18+ iPhone with --simulator NAME_OR_UDID; no unique match was found.')
+    return matches[0]
+
+
+def simulator_inventory():
+    try:
+        return json.loads(run(['xcrun', 'simctl', 'list', 'devices', 'available', '--json']))
+    except CheckError:
+        raise CheckError('Unable to query CoreSimulator. Open Xcode once, install an iOS 18+ runtime, and retry; restricted agent environments may require simulator access.') from None
+    except (json.JSONDecodeError, TypeError):
+        raise CheckError('CoreSimulator returned an unreadable device list; restart Xcode and Simulator, then retry.') from None
+
+
+def rc_items(noun, project=None, extra=()):
+    scope = ['--project-id', project] if project else []
+    raw = run(['rc', noun, 'list', *scope, '--json', '--no-input', *extra])
+    data = json.loads(raw).get('data', {})
+    if not isinstance(data, dict) or not isinstance(data.get('items'), list):
+        raise CheckError('Unexpected RevenueCat CLI response; check the installed CLI version.')
+    if project and data.get('next_page'):
+        raise CheckError('Catalog is paginated; this small-project check cannot verify the complete inventory.')
+    return data['items']
+
+
+def require_matches(items, expected, field):
+    wanted = {s.strip() for s in expected.split(',') if s.strip()}
+    found = {item.get(field) for item in items}
+    if not wanted <= found:
+        raise CheckError(f'{len(wanted - found)} configured resource(s) missing; compare local expectations with the dashboard.')
+    return len(wanted)
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--simulator', help='Exact iPhone simulator name or UDID; otherwise select the only booted/available iPhone.')
+    parser.add_argument('--revenuecat', action='store_true', help='Verify authentication; inspect the Test Store catalog when a project is configured.')
+    parser.add_argument('--build', action='store_true', help='Also build Debug; writes ios/DerivedData and may download Swift packages. No tests or installation.')
+    args = parser.parse_args()
+    failures = []
+
+    def check(label, operation):
+        try:
+            detail = operation()
+            print(f'PASS  {label}: {detail}', flush=True)
+            return detail
+        except (CheckError, OSError, ValueError, TypeError, KeyError):
+            # Only our controlled CheckError messages are safe to display.
+            error = sys.exc_info()[1]
+            message = str(error) if isinstance(error, CheckError) else 'Unable to read or parse the required data.'
+            print(f'FAIL  {label}: {message}', flush=True)
+            failures.append(label)
+            return None
+
+    def xcode():
+        version = run(['xcodebuild', '-version'])
+        match = re.search(r'^Xcode [0-9.]+', version, re.M)
+        if not match:
+            raise CheckError('Select a full Xcode installation with xcode-select or DEVELOPER_DIR.')
+        selected = run(['xcode-select', '-p']).strip()
+        active = os.environ.get('DEVELOPER_DIR', selected)
+        print(f'INFO  Developer directory: {active}', flush=True)
+        return match[0]
+
+    check('Xcode', xcode)
+    selected = []
+
+    def simulator():
+        device = choose_simulator(simulator_inventory(), args.simulator)
+        selected.append(device)
+        return f"{device['name']} ({device['state']}); destination id={device['udid']}"
+
+    check('Simulator', simulator)
+    print(f"INFO  Simulator build architecture: {'arm64' if platform.machine() == 'arm64' else 'x86_64'}")
+
+    def local_config():
+        try:
+            run(['git', 'rev-parse', '--is-inside-work-tree'])
+        except CheckError:
+            raise CheckError('Use a Git clone of the workshop repository; downloaded ZIPs do not contain the required Git metadata.') from None
+        tracked = run(['git', 'ls-files', '--', 'ios/Workshop.local.xcconfig']).strip()
+        if tracked:
+            raise CheckError('Workshop.local.xcconfig is tracked or staged; remove it from Git before proceeding.')
+        if not LOCAL.exists():
+            return 'No local file; baseline simulator defaults are available.'
+        run(['git', 'check-ignore', '--', 'ios/Workshop.local.xcconfig'])
+        return 'Local file exists and is ignored; values are not displayed.'
+
+    check('Local configuration', local_config)
+    values = {}
+
+    def configuration():
+        values.update(read_settings())
+        return 'Literal settings loaded without displaying values.'
+
+    config_ok = check('Configuration syntax', configuration)
+    if args.revenuecat and config_ok:
+        def revenuecat():
+            if not shutil.which('rc'):
+                raise CheckError('Install the RevenueCat CLI from the AI Toolkit first.')
+            project = setting(values, 'REVENUECAT_PROJECT_ID')
+            if not project:
+                rc_items('projects')
+                print('SKIP  RevenueCat catalog: Project not configured; catalog checks skipped.', flush=True)
+                return 'Authentication verified; ready to configure a workshop project.'
+            apps = rc_items('apps', project)
+            app = setting(values, 'REVENUECAT_TEST_APP_ID')
+            key = setting(values, 'REVENUECAT_TEST_API_KEY')
+            if not app:
+                raise CheckError('Set REVENUECAT_TEST_APP_ID in ignored local configuration for the configured project.')
+            if not key.startswith('test_'):
+                raise CheckError('Set a public Test Store REVENUECAT_TEST_API_KEY in ignored local configuration.')
+            if not any(item.get('id') == app for item in apps):
+                raise CheckError('Configured test app was not found in the configured project.')
+            products = rc_items('products', project, ['--app-id', app])
+            entitlements = rc_items('entitlements', project)
+            offerings = rc_items('offerings', project)
+            count = 0
+            for items, name, field in [(products, 'PREFLIGHT_PRODUCT_IDS', 'store_identifier'),
+                                       (entitlements, 'PREFLIGHT_ENTITLEMENTS', 'lookup_key'),
+                                       (offerings, 'PREFLIGHT_OFFERINGS', 'lookup_key')]:
+                count += require_matches(items, setting(values, name), field)
+            return (f'Authenticated project access; configured app found; {len(products)} products, '
+                    f'{len(entitlements)} entitlements, {len(offerings)} offerings; {count} explicit expectations matched.')
+        check('RevenueCat', revenuecat)
+        print('INFO  Catalog inventory only: no validation of prices, package links, SDK key ownership, or purchases.')
+    elif not args.revenuecat:
+        print('SKIP  RevenueCat: use --revenuecat when needed for the selected exercise.')
+
+    if args.build:
+        if failures or not selected:
+            print('SKIP  Build: resolve preflight failures first.')
+        else:
+            def build():
+                run(['xcodebuild', '-project', 'ios/KitchenTable.xcodeproj', '-scheme', 'KitchenTable',
+                     '-configuration', 'Debug', '-destination', f"platform=iOS Simulator,id={selected[0]['udid']}",
+                     '-derivedDataPath', 'ios/DerivedData',
+                     f"ARCHS={'arm64' if platform.machine() == 'arm64' else 'x86_64'}", 'CODE_SIGN_IDENTITY=-', 'build'], timeout=600)
+                return 'Debug simulator build succeeded; app was not installed or launched.'
+            check('Build', build)
+    else:
+        print('SKIP  Build: use --build for an optional compile check.')
+    print(f"\n{'NOT READY' if failures else 'READY'}: {'resolve failed checks' if failures else 'requested checks passed; no runtime or purchase verification performed'}.")
+    return 1 if failures else 0
+
+
+if __name__ == '__main__':
+    sys.exit(main())

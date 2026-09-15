@@ -1,0 +1,320 @@
+{
+  "schema_version": 1,
+  "id": "coconut-chickpea-soup",
+  "title": "Coconut Chickpea Soup",
+  "source_url": "https://cooking.nytimes.com/recipes/1019772-spiced-chickpea-stew-with-coconut-and-turmeric",
+  "photo": "photo.jpg",
+  "ingredients": [
+    {
+      "id": "olive-oil",
+      "name": "Olive oil",
+      "quantity": "¼ cup + extra",
+      "clarification": "Extra for serving"
+    },
+    {
+      "id": "garlic",
+      "name": "Garlic",
+      "quantity": "4 cloves",
+      "clarification": "Chopped"
+    },
+    {
+      "id": "onion",
+      "name": "Onion",
+      "quantity": "1",
+      "clarification": "Chopped"
+    },
+    {
+      "id": "ginger",
+      "name": "Ginger",
+      "quantity": "2-inch piece",
+      "clarification": "Finely chopped"
+    },
+    {
+      "id": "salt",
+      "name": "Salt",
+      "quantity": "To taste"
+    },
+    {
+      "id": "pepper",
+      "name": "Black pepper",
+      "quantity": "To taste"
+    },
+    {
+      "id": "turmeric",
+      "name": "Turmeric",
+      "quantity": "1½ tsp + extra",
+      "clarification": "Extra for optional yogurt"
+    },
+    {
+      "id": "cayenne",
+      "name": "Cayenne",
+      "quantity": "1 tsp + extra",
+      "clarification": "Extra for serving"
+    },
+    {
+      "id": "chickpeas",
+      "name": "Chickpeas",
+      "quantity": "2 jars",
+      "clarification": "Drained and rinsed"
+    },
+    {
+      "id": "coconut-milk",
+      "name": "Coconut milk",
+      "quantity": "2 × 15 oz cans",
+      "clarification": "Full-fat"
+    },
+    {
+      "id": "stock",
+      "name": "Stock",
+      "quantity": "2 cups",
+      "clarification": "Vegetable or chicken"
+    },
+    {
+      "id": "mint",
+      "name": "Mint",
+      "quantity": "1 cup",
+      "clarification": "For serving · optional"
+    },
+    {
+      "id": "yogurt",
+      "name": "Yogurt",
+      "quantity": "4 tbsp",
+      "clarification": "For serving · optional"
+    },
+    {
+      "id": "bread",
+      "name": "Flatbread",
+      "quantity": "4 slices",
+      "clarification": "For serving · optional"
+    }
+  ],
+  "steps": [
+    {
+      "id": "saute",
+      "action": "Sauté",
+      "inputs": [
+        {
+          "ingredient": "olive-oil",
+          "allocation": "¼ cup"
+        },
+        {
+          "ingredient": "garlic"
+        },
+        {
+          "ingredient": "onion"
+        },
+        {
+          "ingredient": "ginger"
+        },
+        {
+          "ingredient": "salt"
+        },
+        {
+          "ingredient": "pepper"
+        }
+      ],
+      "outputs": [
+        {
+          "id": "soft-aromatics",
+          "name": "Softened aromatics"
+        }
+      ],
+      "instruction": "Heat the oil over medium heat. Cook the garlic, onion and ginger with salt and pepper for 3–5 minutes, stirring occasionally, until the onion is translucent and browning at the edges.",
+      "clarification": "Medium heat",
+      "duration": {
+        "min": 3,
+        "max": 5,
+        "unit": "min"
+      }
+    },
+    {
+      "id": "fry-chickpeas",
+      "action": "Fry chickpeas",
+      "inputs": [
+        {
+          "output": "soft-aromatics"
+        },
+        {
+          "ingredient": "turmeric",
+          "allocation": "1½ tsp"
+        },
+        {
+          "ingredient": "cayenne",
+          "allocation": "1 tsp"
+        },
+        {
+          "ingredient": "chickpeas"
+        },
+        {
+          "ingredient": "salt"
+        },
+        {
+          "ingredient": "pepper"
+        }
+      ],
+      "outputs": [
+        {
+          "id": "fried-chickpeas",
+          "name": "Fried chickpeas"
+        }
+      ],
+      "instruction": "Add turmeric, cayenne and chickpeas; season with salt and pepper. Stir frequently for 8–10 minutes until the chickpeas begin breaking down and become browned and crisp.",
+      "clarification": "Until browned and crisp",
+      "duration": {
+        "min": 8,
+        "max": 10,
+        "unit": "min"
+      }
+    },
+    {
+      "id": "reserve",
+      "action": "Reserve garnish",
+      "inputs": [
+        {
+          "output": "fried-chickpeas"
+        }
+      ],
+      "outputs": [
+        {
+          "id": "reserved-chickpeas",
+          "name": "Reserved chickpeas"
+        },
+        {
+          "id": "remaining-chickpeas",
+          "name": "Remaining chickpeas"
+        }
+      ],
+      "instruction": "Set aside about 1 cup of the fried chickpeas for serving. Keep the remaining chickpeas in the pot.",
+      "clarification": "About 1 cup"
+    },
+    {
+      "id": "crush",
+      "action": "Crush lightly",
+      "inputs": [
+        {
+          "output": "remaining-chickpeas"
+        }
+      ],
+      "outputs": [
+        {
+          "id": "crushed-chickpeas",
+          "name": "Lightly crushed chickpeas"
+        }
+      ],
+      "instruction": "Lightly crush some of the chickpeas left in the pot to help thicken the soup."
+    },
+    {
+      "id": "add-liquid",
+      "action": "Add liquids",
+      "inputs": [
+        {
+          "output": "crushed-chickpeas"
+        },
+        {
+          "ingredient": "coconut-milk"
+        },
+        {
+          "ingredient": "stock"
+        },
+        {
+          "ingredient": "salt"
+        },
+        {
+          "ingredient": "pepper"
+        }
+      ],
+      "outputs": [
+        {
+          "id": "soup-base",
+          "name": "Soup base"
+        }
+      ],
+      "instruction": "Stir in the coconut milk and stock; season with salt and pepper."
+    },
+    {
+      "id": "simmer",
+      "action": "Simmer",
+      "inputs": [
+        {
+          "output": "soup-base"
+        }
+      ],
+      "outputs": [
+        {
+          "id": "simmered-soup",
+          "name": "Simmered soup"
+        }
+      ],
+      "instruction": "Bring to a simmer and scrape up the browned bits. Simmer, stirring occasionally, for 30–35 minutes until thickened. Taste a chickpea as well as the liquid; simmer longer if needed for the texture you want.",
+      "clarification": "Until thickened",
+      "duration": {
+        "min": 30,
+        "max": 35,
+        "unit": "min"
+      }
+    },
+    {
+      "id": "toast-bread",
+      "action": "Toast",
+      "inputs": [
+        {
+          "ingredient": "bread",
+          "optional": true
+        }
+      ],
+      "outputs": [
+        {
+          "id": "toasted-bread",
+          "name": "Toasted flatbread"
+        }
+      ],
+      "instruction": "If serving bread, toast it to accompany the soup.",
+      "clarification": "Optional accompaniment"
+    },
+    {
+      "id": "serve",
+      "action": "Serve",
+      "inputs": [
+        {
+          "output": "simmered-soup"
+        },
+        {
+          "output": "reserved-chickpeas"
+        },
+        {
+          "ingredient": "mint",
+          "optional": true
+        },
+        {
+          "ingredient": "yogurt",
+          "optional": true
+        },
+        {
+          "output": "toasted-bread",
+          "optional": true
+        },
+        {
+          "ingredient": "olive-oil",
+          "allocation": "Extra drizzle"
+        },
+        {
+          "ingredient": "cayenne",
+          "allocation": "Extra sprinkle"
+        },
+        {
+          "ingredient": "turmeric",
+          "allocation": "Extra for yogurt",
+          "optional": true
+        }
+      ],
+      "outputs": [
+        {
+          "id": "served-soup",
+          "name": "Served soup"
+        }
+      ],
+      "instruction": "Divide into bowls. Add the reserved chickpeas, a drizzle of oil and a sprinkle of cayenne. Serve with mint, yogurt and toasted bread if desired; optionally dust the yogurt with turmeric."
+    }
+  ],
+  "yield": "4–6 servings"
+}

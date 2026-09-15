@@ -1,0 +1,328 @@
+{
+  "schema_version": 1,
+  "id": "banana-muffins",
+  "title": "Banana Muffins",
+  "yield": "10–12 muffins",
+  "photo": "photo.jpg",
+  "source_url": "https://sallysbakingaddiction.com/banana-muffins/",
+  "ingredients": [
+    {
+      "id": "flour",
+      "name": "All-purpose flour",
+      "quantity": "1½ cups (188 g)",
+      "clarification": "Spooned & leveled"
+    },
+    {
+      "id": "baking-powder",
+      "name": "Baking powder",
+      "quantity": "1 tsp"
+    },
+    {
+      "id": "baking-soda",
+      "name": "Baking soda",
+      "quantity": "1 tsp"
+    },
+    {
+      "id": "salt",
+      "name": "Salt",
+      "quantity": "½ tsp"
+    },
+    {
+      "id": "cinnamon",
+      "name": "Ground cinnamon",
+      "quantity": "1 tsp"
+    },
+    {
+      "id": "nutmeg",
+      "name": "Ground nutmeg",
+      "quantity": "¼ tsp"
+    },
+    {
+      "id": "bananas",
+      "name": "Ripe bananas",
+      "quantity": "1½ cups (345 g)",
+      "clarification": "About 4 medium or 3 large",
+      "instruction": "Fresh or frozen bananas work. If frozen, thaw and drain excess liquid before mashing; leave some small chunks."
+    },
+    {
+      "id": "butter",
+      "name": "Unsalted butter",
+      "quantity": "6 Tbsp (85 g)",
+      "clarification": "Melted",
+      "instruction": "Melted coconut oil may be used instead."
+    },
+    {
+      "id": "brown-sugar",
+      "name": "Brown sugar",
+      "quantity": "⅔ cup (135 g)",
+      "clarification": "Light or dark · packed",
+      "instruction": "Coconut sugar may replace some or all of the brown sugar; using all coconut sugar makes the muffins less sweet."
+    },
+    {
+      "id": "egg",
+      "name": "Large egg",
+      "quantity": "1",
+      "clarification": "Room temperature"
+    },
+    {
+      "id": "vanilla",
+      "name": "Pure vanilla extract",
+      "quantity": "1 tsp"
+    },
+    {
+      "id": "milk",
+      "name": "Milk",
+      "quantity": "2 Tbsp (30 ml)",
+      "clarification": "Dairy or nondairy"
+    },
+    {
+      "id": "add-ins",
+      "name": "Walnuts, pecans, or chocolate chips",
+      "quantity": "1 cup",
+      "clarification": "Chopped · optional"
+    },
+    {
+      "id": "pan-prep",
+      "name": "Nonstick spray or cupcake liners",
+      "clarification": "For a 12-count muffin pan"
+    }
+  ],
+  "steps": [
+    {
+      "id": "preheat",
+      "duration": { "min": 15, "max": 15, "unit": "min", "approximate": true },
+      "action": "Preheat",
+      "inputs": [],
+      "outputs": [],
+      "clarification": "425°F / 218°C",
+      "instruction": "Preheat the oven to 425°F (218°C), allowing about 15 minutes. Check the oven’s ready indicator or temperature before cooking; allow longer if needed."
+    },
+    {
+      "id": "whisk-dry",
+      "action": "Whisk dry",
+      "inputs": [
+        {
+          "ingredient": "flour"
+        },
+        {
+          "ingredient": "baking-powder"
+        },
+        {
+          "ingredient": "baking-soda"
+        },
+        {
+          "ingredient": "salt"
+        },
+        {
+          "ingredient": "cinnamon"
+        },
+        {
+          "ingredient": "nutmeg"
+        }
+      ],
+      "outputs": [
+        {
+          "id": "dry-mixture",
+          "name": "Dry mixture"
+        }
+      ],
+      "clarification": "Medium bowl · set aside",
+      "instruction": "Whisk the flour, baking powder, baking soda, salt, cinnamon, and nutmeg together in a medium bowl, then set aside."
+    },
+    {
+      "id": "mash-bananas",
+      "action": "Mash",
+      "inputs": [
+        {
+          "ingredient": "bananas"
+        }
+      ],
+      "outputs": [
+        {
+          "id": "mashed-bananas",
+          "name": "Mashed bananas"
+        }
+      ],
+      "clarification": "Large bowl · some chunks",
+      "instruction": "Mash the bananas in a large bowl or stand-mixer bowl, leaving some small chunks."
+    },
+    {
+      "id": "mix-wet",
+      "action": "Mix wet",
+      "inputs": [
+        {
+          "output": "mashed-bananas"
+        },
+        {
+          "ingredient": "butter"
+        },
+        {
+          "ingredient": "brown-sugar"
+        },
+        {
+          "ingredient": "egg"
+        },
+        {
+          "ingredient": "vanilla"
+        },
+        {
+          "ingredient": "milk"
+        }
+      ],
+      "outputs": [
+        {
+          "id": "wet-mixture",
+          "name": "Wet mixture"
+        }
+      ],
+      "clarification": "Beat or whisk · medium speed",
+      "instruction": "Beat or whisk the melted butter, brown sugar, egg, vanilla, and milk into the mashed bananas until combined. If using a mixer, use medium speed."
+    },
+    {
+      "id": "combine",
+      "action": "Combine",
+      "inputs": [
+        {
+          "output": "dry-mixture"
+        },
+        {
+          "output": "wet-mixture"
+        },
+        {
+          "ingredient": "add-ins",
+          "optional": true
+        }
+      ],
+      "outputs": [
+        {
+          "id": "finished-batter",
+          "name": "Finished muffin batter"
+        }
+      ],
+      "clarification": "Until combined · thick batter",
+      "instruction": "Pour the dry mixture into the wet mixture and beat or whisk until combined. The batter will be thick. If using nuts or chocolate chips, fold them in now; otherwise, continue with the plain batter."
+    },
+    {
+      "id": "prepare-pan",
+      "action": "Prepare pan",
+      "inputs": [
+        {
+          "ingredient": "pan-prep"
+        }
+      ],
+      "outputs": [
+        {
+          "id": "prepared-pan",
+          "name": "Prepared muffin pan"
+        }
+      ],
+      "clarification": "Grease or line 12 cups",
+      "instruction": "Coat a 12-count muffin pan with nonstick spray or line the cups with cupcake liners."
+    },
+    {
+      "id": "fill-pan",
+      "action": "Fill pan",
+      "inputs": [
+        {
+          "output": "finished-batter"
+        },
+        {
+          "output": "prepared-pan"
+        }
+      ],
+      "outputs": [
+        {
+          "id": "filled-pan",
+          "name": "Filled muffin pan"
+        }
+      ],
+      "clarification": "Fill cups to the top",
+      "instruction": "Spoon the batter into the prepared muffin cups, filling each one to the top."
+    },
+    {
+      "id": "bake-hot",
+      "action": "Bake hot",
+      "inputs": [
+        {
+          "output": "filled-pan"
+        }
+      ],
+      "outputs": [
+        {
+          "id": "risen-muffins",
+          "name": "Risen muffins"
+        }
+      ],
+      "after": [
+        "preheat"
+      ],
+      "duration": {
+        "min": 5,
+        "max": 5,
+        "unit": "min"
+      },
+      "clarification": "425°F / 218°C",
+      "instruction": "Bake for 5 minutes at 425°F (218°C). Keep the muffins in the oven for the temperature change."
+    },
+    {
+      "id": "bake-through",
+      "action": "Lower & bake",
+      "inputs": [
+        {
+          "output": "risen-muffins"
+        }
+      ],
+      "outputs": [
+        {
+          "id": "baked-muffins",
+          "name": "Baked muffins"
+        }
+      ],
+      "duration": {
+        "min": 16,
+        "max": 18,
+        "unit": "min"
+      },
+      "clarification": "350°F / 177°C · clean toothpick",
+      "instruction": "Without removing the muffins, lower the oven to 350°F (177°C) and bake for another 16–18 minutes, until a toothpick inserted in the center comes out clean."
+    },
+    {
+      "id": "cool-pan",
+      "action": "Cool in pan",
+      "inputs": [
+        {
+          "output": "baked-muffins"
+        }
+      ],
+      "outputs": [
+        {
+          "id": "partly-cooled-muffins",
+          "name": "Partly cooled muffins"
+        }
+      ],
+      "duration": {
+        "min": 5,
+        "max": 5,
+        "unit": "min"
+      },
+      "instruction": "Let the muffins cool in the pan for 5 minutes."
+    },
+    {
+      "id": "rack-cool",
+      "action": "Rack cool",
+      "inputs": [
+        {
+          "output": "partly-cooled-muffins"
+        }
+      ],
+      "outputs": [
+        {
+          "id": "banana-muffins",
+          "name": "Banana muffins"
+        }
+      ],
+      "clarification": "Transfer to a wire rack",
+      "instruction": "Transfer the muffins to a wire rack and let them continue cooling. Keep leftovers covered at room temperature for a few days or refrigerate for up to 1 week."
+    }
+  ]
+}

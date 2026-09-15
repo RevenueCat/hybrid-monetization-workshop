@@ -1,0 +1,3 @@
+// Safe simulator placeholders. Override account configuration locally.
+WORKSHOP_BUNDLE_ID = com.example.kitchentable.workshop
+DEVELOPMENT_TEAM =

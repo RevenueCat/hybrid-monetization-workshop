@@ -1,0 +1,121 @@
+{
+  "schema_version": 1,
+  "id": "pickled-onion",
+  "title": "Pickled Onion",
+  "source_url": "https://www.gimmesomeoven.com/quick-pickled-red-onions/",
+  "photo": "photo.jpg",
+  "ingredients": [
+    {
+      "id": "water",
+      "name": "Water",
+      "quantity": "¼ cup"
+    },
+    {
+      "id": "vinegar",
+      "name": "Apple cider vinegar",
+      "quantity": "¾ cup"
+    },
+    {
+      "id": "onion",
+      "name": "Red onion",
+      "quantity": "1"
+    },
+    {
+      "id": "sugar",
+      "name": "Sugar",
+      "quantity": "1 tbsp"
+    },
+    {
+      "id": "salt",
+      "name": "Fine salt",
+      "quantity": "1 tsp"
+    }
+  ],
+  "steps": [
+    {
+      "id": "heat-brine",
+      "action": "Heat brine",
+      "inputs": [
+        {
+          "ingredient": "vinegar"
+        },
+        {
+          "ingredient": "water"
+        },
+        {
+          "ingredient": "sugar"
+        },
+        {
+          "ingredient": "salt"
+        }
+      ],
+      "outputs": [
+        {
+          "id": "hot-brine",
+          "name": "Hot brine"
+        }
+      ],
+      "instruction": "Stir the vinegar, water, sugar and salt in a small saucepan over medium-high heat until simmering. Alternatively, heat the mixture in the microwave.",
+      "clarification": "Until simmering"
+    },
+    {
+      "id": "slice-onion",
+      "action": "Slice",
+      "inputs": [
+        {
+          "ingredient": "onion"
+        }
+      ],
+      "outputs": [
+        {
+          "id": "sliced-onion",
+          "name": "Sliced onion"
+        }
+      ],
+      "instruction": "Thinly slice the red onion.",
+      "clarification": "Thin slices"
+    },
+    {
+      "id": "combine",
+      "action": "Combine",
+      "inputs": [
+        {
+          "output": "sliced-onion"
+        },
+        {
+          "output": "hot-brine"
+        }
+      ],
+      "outputs": [
+        {
+          "id": "onions-in-brine",
+          "name": "Onions in brine"
+        }
+      ],
+      "instruction": "Put the sliced onion in a jar, pour over the hot brine, close the lid and shake briefly to coat the onion evenly."
+    },
+    {
+      "id": "marinate",
+      "action": "Marinate",
+      "inputs": [
+        {
+          "output": "onions-in-brine"
+        }
+      ],
+      "outputs": [
+        {
+          "id": "pickled-onion-dish",
+          "name": "Pickled onion"
+        }
+      ],
+      "instruction": "Let marinate for 30 minutes, pressing the onion beneath the brine with a spoon if needed. Serve immediately or refrigerate in a sealed container for up to 2 weeks.",
+      "clarification": "Keep submerged",
+      "duration": {
+        "min": 30,
+        "max": 30,
+        "unit": "min"
+      }
+    }
+  ],
+  "yield": "2 cups"
+}

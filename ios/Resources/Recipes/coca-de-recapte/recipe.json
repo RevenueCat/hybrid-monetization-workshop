@@ -1,0 +1,338 @@
+{
+  "schema_version": 1,
+  "id": "coca-de-recapte",
+  "title": "Coca de Recapte",
+  "source_url": "https://www.ccma.cat/3cat/t1xc9-coca-de-recapte-la-reina-de-totes-les-festes/video/6247266/",
+  "photo": "photo.jpg",
+  "ingredients": [
+    {
+      "id": "flour",
+      "name": "Flour",
+      "quantity": "230 g + extra",
+      "clarification": "Extra for kneading as needed"
+    },
+    {
+      "id": "water",
+      "name": "Water",
+      "quantity": "130 ml"
+    },
+    {
+      "id": "olive-oil",
+      "name": "Olive oil",
+      "quantity": "20 ml + extra",
+      "clarification": "Extra for shaping and finishing"
+    },
+    {
+      "id": "yeast",
+      "name": "Fresh yeast",
+      "quantity": "20 g"
+    },
+    {
+      "id": "salt",
+      "name": "Salt",
+      "quantity": "10 g + extra",
+      "clarification": "Extra to season dough"
+    },
+    {
+      "id": "sugar",
+      "name": "Sugar",
+      "quantity": "5 g"
+    },
+    {
+      "id": "eggplant",
+      "name": "Eggplants",
+      "quantity": "2"
+    },
+    {
+      "id": "peppers",
+      "name": "Red peppers",
+      "quantity": "2"
+    },
+    {
+      "id": "anchovies",
+      "name": "Tinned anchovies",
+      "quantity": "1 tin",
+      "clarification": "Optional alternative to sardines"
+    },
+    {
+      "id": "sardines",
+      "name": "Tinned sardines",
+      "quantity": "1 tin",
+      "clarification": "Optional alternative to anchovies"
+    },
+    {
+      "id": "black-pepper",
+      "name": "Black pepper",
+      "quantity": "To taste"
+    }
+  ],
+  "steps": [
+    {
+      "id": "preheat",
+      "duration": { "min": 15, "max": 15, "unit": "min", "approximate": true },
+      "action": "Preheat",
+      "inputs": [],
+      "outputs": [],
+      "instruction": "Preheat the oven to 200°C, allowing about 15 minutes. Check the oven’s ready indicator or temperature before cooking; allow longer if needed.",
+      "clarification": "200°C"
+    },
+    {
+      "id": "roast-vegetables",
+      "action": "Roast",
+      "inputs": [
+        {
+          "ingredient": "eggplant"
+        },
+        {
+          "ingredient": "peppers"
+        }
+      ],
+      "outputs": [
+        {
+          "id": "roasted-vegetables",
+          "name": "Roasted vegetables"
+        }
+      ],
+      "instruction": "Roast the eggplants and red peppers at 200°C for 60 minutes. This can be done ahead or started first.",
+      "clarification": "200°C",
+      "duration": {
+        "min": 60,
+        "max": 60,
+        "unit": "min"
+      },
+      "after": [
+        "preheat"
+      ]
+    },
+    {
+      "id": "rest-vegetables",
+      "action": "Rest",
+      "inputs": [
+        {
+          "output": "roasted-vegetables"
+        }
+      ],
+      "outputs": [
+        {
+          "id": "rested-vegetables",
+          "name": "Rested vegetables"
+        }
+      ],
+      "instruction": "Let the roasted vegetables rest covered with foil before peeling.",
+      "clarification": "Covered with foil"
+    },
+    {
+      "id": "peel-vegetables",
+      "action": "Peel",
+      "inputs": [
+        {
+          "output": "rested-vegetables"
+        }
+      ],
+      "outputs": [
+        {
+          "id": "peeled-vegetables",
+          "name": "Peeled roasted vegetables"
+        }
+      ],
+      "instruction": "Peel the rested roasted vegetables."
+    },
+    {
+      "id": "activate-yeast",
+      "action": "Activate yeast",
+      "inputs": [
+        {
+          "ingredient": "yeast"
+        },
+        {
+          "ingredient": "water"
+        },
+        {
+          "ingredient": "sugar"
+        }
+      ],
+      "outputs": [
+        {
+          "id": "activated-yeast",
+          "name": "Activated yeast"
+        }
+      ],
+      "instruction": "Mix the fresh yeast with the water and sugar. Rest for at least 5 minutes, until foamy; the source does not establish an exact time.",
+      "clarification": "At least 5 min · until foamy"
+    },
+    {
+      "id": "mix-flour",
+      "action": "Mix",
+      "inputs": [
+        {
+          "ingredient": "flour",
+          "allocation": "230 g"
+        },
+        {
+          "ingredient": "salt",
+          "allocation": "10 g"
+        },
+        {
+          "ingredient": "olive-oil",
+          "allocation": "20 ml"
+        }
+      ],
+      "outputs": [
+        {
+          "id": "flour-mixture",
+          "name": "Flour mixture"
+        }
+      ],
+      "instruction": "Meanwhile, mix 230 g flour, 10 g salt and 20 ml olive oil in a bowl with a fork."
+    },
+    {
+      "id": "combine-dough",
+      "action": "Combine",
+      "inputs": [
+        {
+          "output": "flour-mixture"
+        },
+        {
+          "output": "activated-yeast"
+        },
+        {
+          "ingredient": "flour",
+          "allocation": "Extra if sticky"
+        }
+      ],
+      "outputs": [
+        {
+          "id": "mixed-dough",
+          "name": "Mixed dough"
+        }
+      ],
+      "instruction": "Add the yeast mixture. Add more flour only as needed until the dough can be handled without sticking too much."
+    },
+    {
+      "id": "knead",
+      "action": "Knead",
+      "inputs": [
+        {
+          "output": "mixed-dough"
+        },
+        {
+          "ingredient": "flour",
+          "allocation": "Dust worktop"
+        }
+      ],
+      "outputs": [
+        {
+          "id": "kneaded-dough",
+          "name": "Kneaded dough"
+        }
+      ],
+      "instruction": "Dust the worktop with a little flour and knead until smooth and uniform. Occasionally slap the dough firmly against the worktop.",
+      "clarification": "Until smooth"
+    },
+    {
+      "id": "rise",
+      "action": "Rise",
+      "inputs": [
+        {
+          "output": "kneaded-dough"
+        }
+      ],
+      "outputs": [
+        {
+          "id": "risen-dough",
+          "name": "Risen dough"
+        }
+      ],
+      "instruction": "Rest for 20–60 minutes, until doubled in volume.",
+      "clarification": "Until doubled",
+      "duration": {
+        "min": 20,
+        "max": 60,
+        "unit": "min"
+      }
+    },
+    {
+      "id": "shape",
+      "action": "Shape",
+      "inputs": [
+        {
+          "output": "risen-dough"
+        },
+        {
+          "ingredient": "olive-oil",
+          "allocation": "Oil worktop"
+        }
+      ],
+      "outputs": [
+        {
+          "id": "shaped-dough",
+          "name": "Shaped dough"
+        }
+      ],
+      "instruction": "Oil the worktop and stretch the dough to 2–3 mm thick.",
+      "clarification": "2–3 mm thick"
+    },
+    {
+      "id": "top",
+      "action": "Top",
+      "inputs": [
+        {
+          "output": "shaped-dough"
+        },
+        {
+          "output": "peeled-vegetables"
+        },
+        {
+          "ingredient": "salt",
+          "allocation": "To season dough"
+        },
+        {
+          "ingredient": "black-pepper"
+        },
+        {
+          "ingredient": "anchovies",
+          "optional": true
+        },
+        {
+          "ingredient": "sardines",
+          "optional": true
+        },
+        {
+          "ingredient": "olive-oil",
+          "allocation": "Finishing drizzle"
+        }
+      ],
+      "outputs": [
+        {
+          "id": "topped-coca",
+          "name": "Topped coca"
+        }
+      ],
+      "instruction": "Season the dough with salt and pepper. Arrange the roasted vegetables on top; add sardines or anchovies if desired. Finish with a drizzle of olive oil.",
+      "clarification": "Optional sardines or anchovies"
+    },
+    {
+      "id": "bake",
+      "action": "Bake",
+      "inputs": [
+        {
+          "output": "topped-coca"
+        }
+      ],
+      "outputs": [
+        {
+          "id": "baked-coca",
+          "name": "Baked coca"
+        }
+      ],
+      "instruction": "Bake at 200°C for about 20–30 minutes until the underside of the dough is golden, checking every 5–10 minutes.",
+      "clarification": "200°C · golden underneath",
+      "duration": {
+        "min": 20,
+        "max": 30,
+        "unit": "min",
+        "approximate": true
+      }
+    }
+  ]
+}

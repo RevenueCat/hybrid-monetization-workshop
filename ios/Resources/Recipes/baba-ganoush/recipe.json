@@ -1,0 +1,298 @@
+{
+  "schema_version": 1,
+  "id": "baba-ganoush",
+  "title": "Baba Ganoush",
+  "yield": "4 cups",
+  "photo": "photo.jpg",
+  "source_url": "https://www.youtube.com/watch?v=uqrqDmR2baQ",
+  "ingredients": [
+    {
+      "id": "olive-oil",
+      "name": "Extra virgin olive oil",
+      "quantity": "Enough to cover garlic",
+      "instruction": "Use enough olive oil to cover the garlic. After cooking, use 1/4 cup of this oil in the base and some additional cooking oil for the optional garnish; any surplus is not needed for this recipe."
+    },
+    {
+      "id": "garlic",
+      "name": "Garlic",
+      "quantity": "1/4 cup"
+    },
+    {
+      "id": "tahini",
+      "name": "Tahini",
+      "quantity": "1/4 cup"
+    },
+    {
+      "id": "lemon",
+      "name": "Lemon",
+      "quantity": "1",
+      "clarification": "Juiced"
+    },
+    {
+      "id": "eggplant",
+      "name": "Eggplant",
+      "quantity": "2"
+    },
+    {
+      "id": "cumin",
+      "name": "Cumin",
+      "quantity": "1 tsp"
+    },
+    {
+      "id": "salt",
+      "name": "Salt",
+      "quantity": "To taste"
+    },
+    {
+      "id": "parsley",
+      "name": "Parsley",
+      "quantity": "Garnish",
+      "clarification": "Chopped · optional"
+    },
+    {
+      "id": "sweet-paprika",
+      "name": "Paprika",
+      "quantity": "1/4 tsp",
+      "clarification": "Extra for optional garnish"
+    }
+  ],
+  "steps": [
+    {
+      "id": "preheat",
+      "duration": { "min": 15, "max": 15, "unit": "min", "approximate": true },
+      "action": "Preheat",
+      "inputs": [],
+      "outputs": [],
+      "clarification": "220°C · until ready",
+      "instruction": "Preheat the oven to 220°C, allowing about 15 minutes. Check the oven’s ready indicator or temperature before cooking; allow longer if needed."
+    },
+    {
+      "id": "peel-garlic",
+      "action": "Peel",
+      "inputs": [
+        {
+          "ingredient": "garlic"
+        }
+      ],
+      "outputs": [
+        {
+          "id": "peeled-garlic",
+          "name": "Peeled garlic"
+        }
+      ],
+      "instruction": "Peel the garlic cloves."
+    },
+    {
+      "id": "roast-garlic",
+      "action": "Cook",
+      "inputs": [
+        {
+          "output": "peeled-garlic"
+        },
+        {
+          "ingredient": "olive-oil",
+          "allocation": "Enough to cover garlic"
+        }
+      ],
+      "outputs": [
+        {
+          "id": "garlic-in-oil",
+          "name": "Garlic in oil"
+        }
+      ],
+      "duration": {
+        "min": 35,
+        "max": 40,
+        "unit": "min"
+      },
+      "clarification": "Low heat · golden/light brown",
+      "instruction": "Cook the peeled garlic in enough olive oil to cover it over low heat for 35–40 minutes, until golden to slightly brown."
+    },
+    {
+      "id": "separate",
+      "action": "Separate",
+      "inputs": [
+        {
+          "output": "garlic-in-oil"
+        }
+      ],
+      "outputs": [
+        {
+          "id": "roasted-garlic",
+          "name": "Roasted garlic"
+        },
+        {
+          "id": "garlic-oil",
+          "name": "Garlic oil"
+        }
+      ],
+      "clarification": "¼ cup to blend · extra for garnish",
+      "instruction": "Separate the garlic cloves from the oil and keep both. Keep 1/4 cup of the cooking oil for the base and some additional cooking oil for the optional garnish. Any surplus oil is not needed for this recipe."
+    },
+    {
+      "id": "cut-eggplant",
+      "action": "Poke",
+      "inputs": [
+        {
+          "ingredient": "eggplant"
+        }
+      ],
+      "outputs": [
+        {
+          "id": "prepared-eggplant",
+          "name": "Prepared eggplant"
+        }
+      ],
+      "clarification": "A couple of times each · knife",
+      "instruction": "Poke each whole eggplant a couple of times with a knife."
+    },
+    {
+      "id": "roast-eggplant",
+      "action": "Bake",
+      "inputs": [
+        {
+          "output": "prepared-eggplant"
+        }
+      ],
+      "outputs": [
+        {
+          "id": "roasted-eggplant",
+          "name": "Roasted eggplant"
+        }
+      ],
+      "after": [
+        "preheat"
+      ],
+      "duration": {
+        "min": 60,
+        "max": 60,
+        "unit": "min",
+        "approximate": true
+      },
+      "clarification": "220°C · until soft",
+      "instruction": "Bake the whole eggplants at 220°C for about 1 hour, until soft."
+    },
+    {
+      "id": "cool",
+      "action": "Cool",
+      "inputs": [
+        {
+          "output": "roasted-eggplant"
+        }
+      ],
+      "outputs": [
+        {
+          "id": "cooled-eggplant",
+          "name": "Cooled eggplant"
+        }
+      ],
+      "clarification": "Let cool slightly",
+      "instruction": "Remove the eggplants from the oven and let them cool slightly."
+    },
+    {
+      "id": "extract-flesh",
+      "action": "Halve & scoop",
+      "inputs": [
+        {
+          "output": "cooled-eggplant"
+        }
+      ],
+      "outputs": [
+        {
+          "id": "eggplant-flesh",
+          "name": "Eggplant flesh"
+        }
+      ],
+      "clarification": "Discard skin · juice for texture",
+      "instruction": "Slice the eggplants in half and scrape out the flesh. Discard the skins. Include some of the eggplant juice according to your desired texture."
+    },
+    {
+      "id": "blend-base",
+      "action": "Blend",
+      "inputs": [
+        {
+          "output": "roasted-garlic"
+        },
+        {
+          "output": "garlic-oil",
+          "allocation": "1/4 cup"
+        },
+        {
+          "ingredient": "tahini"
+        },
+        {
+          "ingredient": "lemon"
+        },
+        {
+          "ingredient": "cumin"
+        },
+        {
+          "ingredient": "sweet-paprika",
+          "allocation": "1/4 tsp"
+        },
+        {
+          "ingredient": "salt"
+        }
+      ],
+      "outputs": [
+        {
+          "id": "blended-base",
+          "name": "Blended base"
+        }
+      ],
+      "clarification": "Food processor · until smooth",
+      "instruction": "In a food processor, blend the cooked garlic, tahini, lemon juice, cumin, 1/4 tsp paprika, salt and 1/4 cup garlic cooking oil until smooth."
+    },
+    {
+      "id": "mix",
+      "action": "Mix",
+      "inputs": [
+        {
+          "output": "blended-base"
+        },
+        {
+          "output": "eggplant-flesh"
+        }
+      ],
+      "outputs": [
+        {
+          "id": "baba-ganoush",
+          "name": "Baba ganoush"
+        }
+      ],
+      "clarification": "Keep a thick texture",
+      "instruction": "Add the eggplant flesh to the blended base and mix just enough to keep a thick texture."
+    },
+    {
+      "id": "serve",
+      "action": "Serve",
+      "inputs": [
+        {
+          "output": "baba-ganoush"
+        },
+        {
+          "output": "garlic-oil",
+          "allocation": "Extra cooking oil for garnish",
+          "optional": true
+        },
+        {
+          "ingredient": "sweet-paprika",
+          "allocation": "Extra for garnish",
+          "optional": true
+        },
+        {
+          "ingredient": "parsley",
+          "optional": true
+        }
+      ],
+      "outputs": [
+        {
+          "id": "served-dish",
+          "name": "Served dish"
+        }
+      ],
+      "clarification": "Optional garnishes",
+      "instruction": "Serve with optional garnishes of some additional garlic cooking oil, extra paprika and chopped parsley."
+    }
+  ]
+}
