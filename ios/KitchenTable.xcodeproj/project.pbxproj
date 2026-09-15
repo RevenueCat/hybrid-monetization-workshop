@@ -7,13 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F00000000000000000000003 /* RevenueCat in Frameworks */ = {isa = PBXBuildFile; productRef = F00000000000000000000004; };
 		076918724BB55EC97500E4A8 /* recipe.json in Resources */ = {isa = PBXBuildFile; fileRef = 8590CB2EBDE651C3E864E808 /* recipe.json */; };
 		08623D5E3A678B4888AB86DA /* KitchenTableUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24C55B0D193BD74D4C016AFB /* KitchenTableUITests.swift */; };
 		08AD67BBF7B168F09C7EA9B5 /* CookingScreenAwake.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7371CAA0F0434197B5C4AD8 /* CookingScreenAwake.swift */; };
 		19F6E3090E21C9E711B79115 /* CookingSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EA45063B3D67FE28316BCD2 /* CookingSession.swift */; };
 		4911D93198907E66C426FCCB /* Appearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADED03EEFC3ACE0364CDC041 /* Appearance.swift */; };
 		52012C9151CF319021567995 /* Recipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7A0A776979F2776BBC08E61 /* Recipe.swift */; };
-		52258F795A53712F6D19098E /* PageHeading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B373B5181295B86264B29EA /* PageHeading.swift */; };
+		52258F795A53712F6D19098E /* PageHeading.swift in Sources */ = {isa = PBXBuildFile; fileRef =				0B373B5181295B86264B29EA /* PageHeading.swift */; };
 		58DE9DFB87928A15EC3C3E06 /* RecipeGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BD59FC020BAEAEE72CBBA4 /* RecipeGridView.swift */; };
 		62FC5A75715B02B862A24204 /* AppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877156293A8356B7971959E7 /* AppTheme.swift */; };
 		6A1A49FCFACBD7D28EAF5AF8 /* CookingSessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB6037648E8A20F142B6EC7A /* CookingSessionTests.swift */; };
@@ -48,6 +49,8 @@
 		F10000000000000000000008 /* RecipeBookStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20000000000000000000008 /* RecipeBookStore.swift */; };
 		F10000000000000000000009 /* LibraryPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20000000000000000000009 /* LibraryPage.swift */; };
 		F1000000000000000000000A /* ThemesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2000000000000000000000A /* ThemesView.swift */; };
+		FA1000000000000000000001 /* RevenueCatTestSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2000000000000000000001 /* RevenueCatTestSupport.swift */; };
+		FA1000000000000000000002 /* UITestSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2000000000000000000002 /* UITestSupport.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -117,6 +120,8 @@
 		F20000000000000000000008 /* RecipeBookStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeBookStore.swift; sourceTree = "<group>"; };
 		F20000000000000000000009 /* LibraryPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryPage.swift; sourceTree = "<group>"; };
 		F2000000000000000000000A /* ThemesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemesView.swift; sourceTree = "<group>"; };
+		FA2000000000000000000001 /* RevenueCatTestSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RevenueCatTestSupport.swift; sourceTree = "<group>"; };
+		FA2000000000000000000002 /* UITestSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITestSupport.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -138,6 +143,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F00000000000000000000003 /* RevenueCat in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -282,6 +288,7 @@
 				F30000000000000000000002 /* DesignSystem */,
 				F30000000000000000000004 /* Domain */,
 				F30000000000000000000007 /* Features */,
+				FA2000000000000000000001 /* RevenueCatTestSupport.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -298,6 +305,7 @@
 			isa = PBXGroup;
 			children = (
 				24C55B0D193BD74D4C016AFB /* KitchenTableUITests.swift */,
+				FA2000000000000000000002 /* UITestSupport.swift */,
 			);
 			path = UITests;
 			sourceTree = "<group>";
@@ -393,6 +401,7 @@
 			);
 			name = KitchenTable;
 			packageProductDependencies = (
+				F00000000000000000000004 /* RevenueCat */,
 			);
 			productName = KitchenTable;
 			productReference = 79CEF5F5D8BB4CFF0135F0EB /* KitchenTable.app */;
@@ -417,6 +426,7 @@
 			);
 			mainGroup = E96857C58F716104CAEAD648;
 			packageReferences = (
+				F00000000000000000000005 /* purchases-ios */,
 			);
 			productRefGroup = FE0A091FDBFB3E9C31B7A1BD /* Products */;
 			projectDirPath = "";
@@ -485,6 +495,7 @@
 				62FC5A75715B02B862A24204 /* AppTheme.swift in Sources */,
 				B00000000000000000000002 /* Walkthrough.swift in Sources */,
 				4911D93198907E66C426FCCB /* Appearance.swift in Sources */,
+				FA1000000000000000000001 /* RevenueCatTestSupport.swift in Sources */,
 				7689E8A028FD06677B13B9B0 /* RecipeEditing.swift in Sources */,
 				C77878C85CD0B2D47C204512 /* SettingsView.swift in Sources */,
 				A10000000000000000000006 /* ThemePreview.swift in Sources */,
@@ -505,6 +516,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				08623D5E3A678B4888AB86DA /* KitchenTableUITests.swift in Sources */,
+				FA1000000000000000000002 /* UITestSupport.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -587,6 +599,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Info.plist;
+				WORKSHOP_REVENUECAT_KEY = "$(REVENUECAT_TEST_API_KEY)";
 				INFOPLIST_KEY_CFBundleDisplayName = "Kitchen Table";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -643,6 +656,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Info.plist;
+				WORKSHOP_REVENUECAT_KEY = "$(REVENUECAT_API_KEY)";
 				INFOPLIST_KEY_CFBundleDisplayName = "Kitchen Table";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -716,9 +730,11 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		F00000000000000000000005 /* purchases-ios */ = {isa = XCRemoteSwiftPackageReference; repositoryURL = "https://github.com/RevenueCat/purchases-ios"; requirement = {kind = exactVersion; version = 5.89.0; }; };
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		F00000000000000000000004 /* RevenueCat */ = {isa = XCSwiftPackageProductDependency; package = F00000000000000000000005; productName = RevenueCat; };
 /* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = F6F4DA8D93E88A08220E03B7 /* Project object */;

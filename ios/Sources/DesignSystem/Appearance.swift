@@ -21,7 +21,13 @@ enum AppearanceMode: String, CaseIterable, Identifiable {
 
 @MainActor
 final class AppearanceStore: ObservableObject {
-    @Published var theme: AppTheme { didSet { defaults.set(theme.rawValue, forKey: "theme"); syncAppIcon() } }
+    /// Availability is supplied by the caller; the baseline allows every theme.
+    @Published var availableThemes: Set<AppTheme> { didSet { syncAppIcon() } }
+    @Published private(set) var preferredTheme: AppTheme
+    var theme: AppTheme {
+        get { availableThemes.contains(preferredTheme) ? preferredTheme : .original }
+        set { preferredTheme = newValue; defaults.set(newValue.rawValue, forKey: "theme"); syncAppIcon() }
+    }
     @Published private(set) var iconError: String?
     @Published private(set) var isChangingIcon = false
     private let iconClient: AppIconClient
@@ -33,12 +39,14 @@ final class AppearanceStore: ObservableObject {
     @Published var keepScreenAwake: Bool { didSet { defaults.set(keepScreenAwake, forKey: "keepScreenAwake") } }
     var screenOnActionTitle: String { keepScreenAwake ? "Allow auto-lock" : "Keep screen on" }
     private let defaults: UserDefaults
-    init(defaults: UserDefaults = .standard, iconClient: AppIconClient = UIApplication.shared) {
+    init(defaults: UserDefaults = .standard, iconClient: AppIconClient = UIApplication.shared,
+         availableThemes: Set<AppTheme> = Set(AppTheme.allCases)) {
+        self.availableThemes = availableThemes
         self.defaults = defaults
         self.iconClient = iconClient
         keepScreenAwake = defaults.bool(forKey: "keepScreenAwake")
         density = GridDensity(rawValue: defaults.string(forKey: "density") ?? "") ?? .compact
-        theme = AppTheme(rawValue: defaults.string(forKey: "theme") ?? "") ?? .original
+        preferredTheme = AppTheme(rawValue: defaults.string(forKey: "theme") ?? "") ?? .original
         mode = AppearanceMode(rawValue: defaults.string(forKey: "mode") ?? "") ?? .system
     }
 

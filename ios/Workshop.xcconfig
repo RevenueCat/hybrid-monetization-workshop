@@ -1,4 +1,9 @@
 // Safe simulator placeholders. Override account configuration locally.
 WORKSHOP_BUNDLE_ID = com.example.kitchentable.workshop
 DEVELOPMENT_TEAM =
+
+// Workshop-only public Test Store SDK key. Never use this value for Release.
+REVENUECAT_TEST_API_KEY = test_EfhuPXsstLtwKfbNvagdmVvKrCJ
+REVENUECAT_API_KEY =
+
 #include? "Workshop.local.xcconfig"

@@ -970,8 +970,56 @@ final class CookingSessionTests: XCTestCase {
             preferences.density = .comfortable
             let restored = AppearanceStore(defaults: defaults)
             XCTAssertEqual(restored.theme, theme)
+            XCTAssertEqual(restored.preferredTheme, theme)
             XCTAssertEqual(restored.mode, .dark)
             XCTAssertEqual(restored.density, .comfortable)
+        }
+    }
+
+    @MainActor
+    func testUnavailableThemePreservesPreferenceAndRestoresWhenAvailable() async {
+        let suite = "theme-availability-" + UUID().uuidString
+        let defaults = UserDefaults(suiteName: suite)!
+        defer { defaults.removePersistentDomain(forName: suite) }
+        let client = TestAppIconClient()
+        let store = AppearanceStore(defaults: defaults, iconClient: client)
+        store.theme = .ferran
+        store.setIconsActive(true)
+        await settleIcon(store)
+        store.availableThemes = [.original, .manual]
+        await settleIcon(store)
+        XCTAssertEqual(store.theme, .original)
+        XCTAssertEqual(store.preferredTheme, .ferran)
+        XCTAssertEqual(defaults.string(forKey: "theme"), AppTheme.ferran.rawValue)
+        XCTAssertNil(client.alternateIconName)
+        let restored = AppearanceStore(defaults: defaults, availableThemes: [.original])
+        XCTAssertEqual(restored.theme, .original)
+        XCTAssertEqual(restored.preferredTheme, .ferran)
+        store.availableThemes.insert(.ferran)
+        await settleIcon(store)
+        XCTAssertEqual(store.theme, .ferran)
+        XCTAssertEqual(client.alternateIconName, "AppIcon-studio")
+        store.availableThemes = [.original, .manual]
+        store.theme = .manual
+        await settleIcon(store)
+        XCTAssertEqual(store.theme, .manual)
+        XCTAssertEqual(store.preferredTheme, .manual)
+        XCTAssertEqual(AppearanceStore(defaults: defaults).theme, .manual)
+    }
+
+    func testRevenueCatTestCustomerRequiresDebugTestStoreAndExplicitUITestArguments() {
+        let arguments = ["--ui-testing", "--revenuecat-test-user", "workshop-example"]
+        #if DEBUG
+        XCTAssertEqual(RevenueCatTestSupport.appUserID(apiKey: "test_placeholder", arguments: arguments), "workshop-example")
+        #else
+        XCTAssertNil(RevenueCatTestSupport.appUserID(apiKey: "test_placeholder", arguments: arguments))
+        #endif
+        for key in ["appl_placeholder", "", "$(UNRESOLVED)"] {
+            XCTAssertNil(RevenueCatTestSupport.appUserID(apiKey: key, arguments: arguments))
+        }
+        for args in [["--revenuecat-test-user", "customer"], ["--ui-testing", "--revenuecat-test-user"],
+                     ["--ui-testing", "--revenuecat-test-user", ""], ["--ui-testing", "--revenuecat-test-user", "--reset-session"]] {
+            XCTAssertNil(RevenueCatTestSupport.appUserID(apiKey: "test_placeholder", arguments: args))
         }
     }
 

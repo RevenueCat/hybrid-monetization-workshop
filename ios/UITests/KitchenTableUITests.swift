@@ -2,15 +2,8 @@ import XCTest
 
 final class KitchenTableUITests: XCTestCase {
     @MainActor
-    private func expectValue(_ expected: String, of element: XCUIElement, file: StaticString = #filePath, line: UInt = #line) {
-        let settled = XCTNSPredicateExpectation(predicate: NSPredicate(format: "value == %@", expected), object: element)
-        XCTAssertEqual(XCTWaiter.wait(for: [settled], timeout: 4), .completed, file: file, line: line)
-    }
-
-    @MainActor
     private func capture(_ name: String, app: XCUIApplication) {
-        // Allow sheet and appearance transitions to settle before visual review.
-        Thread.sleep(forTimeInterval: 0.8)
+        // Call after the test's expected UI state; XCTest synchronizes the screenshot.
         let attachment = XCTAttachment(screenshot: app.screenshot())
         attachment.name = name; attachment.lifetime = .keepAlways
         add(attachment)
@@ -31,10 +24,10 @@ final class KitchenTableUITests: XCTestCase {
         openRecipe(app)
         let button = app.buttons["grid.keepScreenOn"]
         XCTAssertTrue(button.waitForExistence(timeout: 5))
-        XCTAssertEqual(button.label, "Keep screen on")
+        expectLabel("Keep screen on", of: button)
         button.tap()
-        XCTAssertEqual(button.label, "Allow auto-lock")
-        XCTAssertEqual(button.value as? String, "On")
+        expectLabel("Allow auto-lock", of: button)
+        expectValue("On", of: button)
         let feedback = app.staticTexts["Screen will stay on"]
         XCTAssertTrue(feedback.waitForExistence(timeout: 2))
         capture("screen-on-notification", app: app)
@@ -43,10 +36,10 @@ final class KitchenTableUITests: XCTestCase {
         app.terminate()
         app.launchArguments = ["--ui-testing", "--skip-walkthrough"]
         app.launch(); openRecipe(app)
-        XCTAssertEqual(button.label, "Allow auto-lock")
+        expectLabel("Allow auto-lock", of: button)
         button.tap()
-        XCTAssertEqual(button.label, "Keep screen on")
-        XCTAssertEqual(button.value as? String, "Off")
+        expectLabel("Keep screen on", of: button)
+        expectValue("Off", of: button)
         XCTAssertTrue(app.staticTexts["Automatic locking restored"].waitForExistence(timeout: 2))
     }
 
@@ -686,12 +679,17 @@ final class KitchenTableUITests: XCTestCase {
         XCTAssertTrue(nameError.waitForNonExistence(timeout: 3))
         let duration = app.switches["edit.duration"]
         XCTAssertTrue(duration.exists)
-        XCTAssertEqual(duration.value as? String, "0")
-        XCTAssertFalse(app.textFields["edit.min"].exists)
+        // The bundled Preheat step already has a duration. Exercise hiding it
+        // before testing validation, rather than assuming the fixture has none.
+        expectValue("1", of: duration)
+        duration.tap()
+        XCTAssertTrue(app.textFields["edit.min"].waitForNonExistence(timeout: 3))
         duration.tap()
         let minimum = app.textFields["edit.min"]
         let maximum = app.textFields["edit.max"]
-        minimum.tap(); minimum.typeText("20")
+        minimum.tap()
+        let existingMinimum = minimum.value as? String ?? ""
+        minimum.typeText(String(repeating: XCUIKeyboardKey.delete.rawValue, count: existingMinimum.count) + "20")
         maximum.tap(); maximum.typeText("10")
         app.buttons["edit.save"].tap()
         let rangeError = app.descendants(matching: .any)["edit.max.error"].firstMatch
@@ -701,25 +699,25 @@ final class KitchenTableUITests: XCTestCase {
         maximum.tap(); maximum.typeText(String(repeating: XCUIKeyboardKey.delete.rawValue, count: 2) + "30")
         XCTAssertTrue(rangeError.waitForNonExistence(timeout: 3))
         duration.tap()
-        XCTAssertFalse(minimum.exists)
-        XCTAssertFalse(app.switches["edit.approximate"].exists)
+        XCTAssertTrue(minimum.waitForNonExistence(timeout: 3))
+        XCTAssertTrue(app.switches["edit.approximate"].waitForNonExistence(timeout: 3))
         duration.tap()
-        XCTAssertEqual(minimum.value as? String, "20")
-        XCTAssertEqual(maximum.value as? String, "30")
+        expectValue("20", of: minimum)
+        expectValue("30", of: maximum)
         app.buttons["edit.save"].tap()
         XCTAssertTrue(app.buttons["details.back"].waitForExistence(timeout: 4))
         app.buttons["details.back"].tap()
         XCTAssertTrue(app.buttons["cell.preheat"].label.contains("20–30 min"))
         app.buttons["cell.preheat"].press(forDuration: 0.7)
         app.buttons["cell.edit"].tap()
-        XCTAssertEqual(duration.value as? String, "1")
+        expectValue("1", of: duration)
         duration.tap()
         app.buttons["edit.save"].tap()
         app.buttons["details.back"].tap()
         XCTAssertFalse(app.buttons["cell.preheat"].label.contains("20–30 min"))
         app.buttons["cell.preheat"].press(forDuration: 0.7)
         app.buttons["cell.edit"].tap()
-        XCTAssertEqual(duration.value as? String, "0")
+        expectValue("0", of: duration)
         capture("editor-duration-off", app: app)
         duration.tap()
         app.buttons["edit.save"].tap()
@@ -1012,14 +1010,16 @@ extension KitchenTableUITests {
         remove.tap()
         let undo = app.buttons["book.removal.undo"]
         XCTAssertTrue(undo.waitForExistence(timeout: 2))
-        XCTAssertEqual(undo.label, "Import discarded. Undo")
+        expectLabel("Import discarded. Undo", of: undo)
         XCTAssertFalse(app.alerts.firstMatch.exists)
         XCTAssertFalse(app.staticTexts["discardRecipe.title"].exists)
-        XCTAssertFalse(first.exists)
+        expect(first, matching: NSPredicate(format: "exists == false"), timeout: 3)
         undo.tap()
         XCTAssertTrue(first.waitForExistence(timeout: 2))
-        XCTAssertEqual(first.frame.minY, originalY, accuracy: 1)
-        XCTAssertEqual(first.label, "Import recipe")
+        expect(first, matching: NSPredicate { _, _ in
+            abs(first.frame.minY - originalY) <= 1
+        })
+        expectLabel("Import recipe", of: first)
         remove.tap()
         XCTAssertTrue(undo.waitForExistence(timeout: 2))
         let image = XCTAttachment(screenshot: app.screenshot())
@@ -1028,7 +1028,7 @@ extension KitchenTableUITests {
         app.launchArguments = ["--ui-testing", "--skip-walkthrough"]
         app.launch()
         XCTAssertTrue(app.buttons["incoming.action.Dinner inspiration"].waitForExistence(timeout: 8))
-        XCTAssertFalse(first.exists)
+        expect(first, matching: NSPredicate(format: "exists == false"), timeout: 3)
     }
 
 }
@@ -1043,8 +1043,8 @@ extension KitchenTableUITests {
         let add = app.buttons["book.addRecipe"]
         XCTAssertTrue(add.waitForExistence(timeout: 8))
         XCTAssertEqual(add.label, "Import recipe")
-        XCTAssertGreaterThan(add.frame.midX, app.frame.width * 0.75)
-        XCTAssertGreaterThan(add.frame.midY, app.frame.height * 0.75)
+        XCTAssertGreaterThan(add.frame.midX, app.frame.minX + app.frame.width * 0.75, "Button: \(add.frame), app: \(app.frame)")
+        XCTAssertGreaterThan(add.frame.midY, app.frame.minY + app.frame.height * 0.75, "Button: \(add.frame), app: \(app.frame)")
         XCTAssertGreaterThanOrEqual(add.frame.width, 44)
         let floatingButton = XCTAttachment(screenshot: app.screenshot())
         floatingButton.name = "floating-import-button"; floatingButton.lifetime = .keepAlways; self.add(floatingButton)
@@ -1062,28 +1062,28 @@ extension KitchenTableUITests {
         XCTAssertEqual(paste.frame.midY, field.frame.midY, accuracy: 1)
         let emptySheet = XCTAttachment(screenshot: app.screenshot())
         emptySheet.name = "import-link-placeholder"; emptySheet.lifetime = .keepAlways; self.add(emptySheet)
-        XCTAssertFalse(save.isEnabled)
+        expect(save, matching: NSPredicate(format: "exists == true AND enabled == false"))
         field.tap(); field.typeText("not a link")
-        XCTAssertFalse(save.isEnabled)
+        expect(save, matching: NSPredicate(format: "exists == true AND enabled == false"))
         app.buttons["addRecipe.cancel"].tap()
         XCTAssertFalse(app.buttons["incoming.action.example.com"].exists)
         add.tap(); field.tap(); field.typeText("https://example.com/manual")
-        XCTAssertTrue(save.isEnabled)
+        expectEnabled(save)
         let sheet = XCTAttachment(screenshot: app.screenshot())
         sheet.name = "add-from-link"; sheet.lifetime = .keepAlways; self.add(sheet)
         save.tap()
         // Manual confirmation starts processing without a second tap on the row.
         let imported = app.buttons["incoming.action.example.com"]
         XCTAssertTrue(imported.waitForExistence(timeout: 8))
-        XCTAssertEqual(imported.label, "Start cooking")
-        XCTAssertTrue(app.staticTexts["3 recipes"].exists)
+        expectLabel("Start cooking", of: imported)
+        XCTAssertTrue(app.staticTexts["3 recipes"].waitForExistence(timeout: 3))
         XCTAssertLessThan(imported.frame.minY, app.buttons["book.open.baba-ganoush"].frame.minY)
         app.terminate()
         app.launchArguments = ["--ui-testing", "--skip-walkthrough"]
         app.launch()
         let recipe = app.buttons.matching(NSPredicate(format: "label CONTAINS %@", "Pickled Onion")).firstMatch
         XCTAssertTrue(recipe.waitForExistence(timeout: 8))
-        XCTAssertTrue(app.staticTexts["3 recipes"].exists)
+        XCTAssertTrue(app.staticTexts["3 recipes"].waitForExistence(timeout: 3))
         recipe.tap()
         XCTAssertTrue(app.scrollViews["recipe.grid"].waitForExistence(timeout: 5))
     }

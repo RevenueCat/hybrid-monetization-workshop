@@ -60,7 +60,7 @@ struct Recipe: Codable {
     }
     static func decode(_ data: Data) throws -> Recipe {
         // Codable enforces types; this rejects unknown properties and explicit nulls
-        // instead of silently accepting a misspelled field or a legacy review document.
+        // instead of silently accepting malformed recipe data.
         try RecipeValidator.validateShape(JSONSerialization.jsonObject(with: data))
         let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase

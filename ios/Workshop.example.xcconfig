@@ -1,3 +1,15 @@
 // Safe simulator placeholders. Override account configuration locally.
 WORKSHOP_BUNDLE_ID = com.example.kitchentable.workshop
 DEVELOPMENT_TEAM =
+
+// Optional local overrides. The shared public Test Store key is already configured
+// for Debug simulator builds; never place a secret API key in this file.
+REVENUECAT_API_KEY =
+REVENUECAT_TEST_API_KEY =
+
+// Optional catalog validation when this computer has project access.
+REVENUECAT_PROJECT_ID =
+REVENUECAT_TEST_APP_ID =
+PREFLIGHT_PRODUCT_IDS = kitchen_table_plus_monthly,kitchen_table_plus_yearly
+PREFLIGHT_ENTITLEMENTS = plus,premium_themes
+PREFLIGHT_OFFERINGS = plus_features
