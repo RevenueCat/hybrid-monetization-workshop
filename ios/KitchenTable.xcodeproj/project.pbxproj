@@ -15,6 +15,7 @@
 		FB1000000000000000000004 /* RevenueCatConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2000000000000000000004 /* RevenueCatConfiguration.swift */; };
 		FB1000000000000000000005 /* PlusPaywallPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2000000000000000000005 /* PlusPaywallPresenter.swift */; };
 		FB1000000000000000000006 /* PlanSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2000000000000000000006 /* PlanSection.swift */; };
+		F50000000000000000000001 /* RevenueCatAdMob in Frameworks */ = {isa = PBXBuildFile; productRef = F50000000000000000000002; };
 		076918724BB55EC97500E4A8 /* recipe.json in Resources */ = {isa = PBXBuildFile; fileRef = 8590CB2EBDE651C3E864E808 /* recipe.json */; };
 		08623D5E3A678B4888AB86DA /* KitchenTableUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24C55B0D193BD74D4C016AFB /* KitchenTableUITests.swift */; };
 		08AD67BBF7B168F09C7EA9B5 /* CookingScreenAwake.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7371CAA0F0434197B5C4AD8 /* CookingScreenAwake.swift */; };
@@ -158,6 +159,7 @@
 			files = (
 				F00000000000000000000003 /* RevenueCat in Frameworks */,
 				F40000000000000000000001 /* RevenueCatUI in Frameworks */,
+				F50000000000000000000001 /* RevenueCatAdMob in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -455,6 +457,7 @@
 			packageProductDependencies = (
 				F00000000000000000000004 /* RevenueCat */,
 				F40000000000000000000002 /* RevenueCatUI */,
+				F50000000000000000000002 /* RevenueCatAdMob */,
 			);
 			productName = KitchenTable;
 			productReference = 79CEF5F5D8BB4CFF0135F0EB /* KitchenTable.app */;
@@ -480,6 +483,7 @@
 			mainGroup = E96857C58F716104CAEAD648;
 			packageReferences = (
 				F00000000000000000000005 /* purchases-ios */,
+				F50000000000000000000003 /* purchases-ios-admob */,
 			);
 			productRefGroup = FE0A091FDBFB3E9C31B7A1BD /* Products */;
 			projectDirPath = "";
@@ -789,12 +793,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		F00000000000000000000005 /* purchases-ios */ = {isa = XCRemoteSwiftPackageReference; repositoryURL = "https://github.com/RevenueCat/purchases-ios"; requirement = {kind = exactVersion; version = 5.89.0; }; };
+		F00000000000000000000005 /* purchases-ios */ = {isa = XCRemoteSwiftPackageReference; repositoryURL = "https://github.com/RevenueCat/purchases-ios-spm"; requirement = {kind = exactVersion; version = 5.89.0; }; };
+		F50000000000000000000003 /* purchases-ios-admob */ = {isa = XCRemoteSwiftPackageReference; repositoryURL = "https://github.com/RevenueCat/purchases-ios-admob"; requirement = {kind = exactVersion; version = 5.89.0; }; };
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
 		F00000000000000000000004 /* RevenueCat */ = {isa = XCSwiftPackageProductDependency; package = F00000000000000000000005; productName = RevenueCat; };
 		F40000000000000000000002 /* RevenueCatUI */ = {isa = XCSwiftPackageProductDependency; package = F00000000000000000000005; productName = RevenueCatUI; };
+		F50000000000000000000002 /* RevenueCatAdMob */ = {isa = XCSwiftPackageProductDependency; package = F50000000000000000000003; productName = RevenueCatAdMob; };
 /* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = F6F4DA8D93E88A08220E03B7 /* Project object */;

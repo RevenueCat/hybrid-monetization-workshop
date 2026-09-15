@@ -6,6 +6,20 @@
 	<string>$(WORKSHOP_REVENUECAT_KEY)</string>
 	<key>RevenueCatOfferingIdentifier</key>
 	<string>$(REVENUECAT_OFFERING_ID)</string>
+	<key>RevenueCatPlusEntitlementIdentifier</key>
+	<string>$(REVENUECAT_PLUS_ENTITLEMENT_ID)</string>
+	<key>RevenueCatPremiumThemesEntitlementIdentifier</key>
+	<string>$(REVENUECAT_PREMIUM_THEMES_ENTITLEMENT_ID)</string>
+	<key>GADApplicationIdentifier</key>
+	<string>$(ADMOB_APP_ID)</string>
+	<key>AdMobInterstitialAdUnitIdentifier</key>
+	<string>$(ADMOB_INTERSTITIAL_AD_UNIT_ID)</string>
+	<key>AdMobBannerAdUnitIdentifier</key>
+	<string>$(ADMOB_BANNER_AD_UNIT_ID)</string>
+	<key>AdMobInterstitialPlacement</key>
+	<string>$(ADMOB_INTERSTITIAL_PLACEMENT)</string>
+	<key>AdMobBannerPlacement</key>
+	<string>$(ADMOB_BANNER_PLACEMENT)</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>SpecialElite-Regular.ttf</string>

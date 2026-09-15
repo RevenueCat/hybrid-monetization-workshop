@@ -5,6 +5,23 @@ DEVELOPMENT_TEAM =
 // Workshop-only public Test Store SDK key. Never use this value for Release.
 REVENUECAT_TEST_API_KEY = test_EfhuPXsstLtwKfbNvagdmVvKrCJ
 REVENUECAT_API_KEY =
+
+// Scenario B starts with the completed Scenario A subscription experience.
+// The exercise switches this to the ad-free offering.
 REVENUECAT_OFFERING_ID = plus_features
+REVENUECAT_PLUS_ENTITLEMENT_ID = plus
+REVENUECAT_PREMIUM_THEMES_ENTITLEMENT_ID = premium_themes
+
+// Google's iOS demo identifiers are intentionally tracked for workshop testing.
+// Replace every value before distributing a production build.
+ADMOB_APP_ID = ca-app-pub-3940256099942544~1458002511
+ADMOB_INTERSTITIAL_AD_UNIT_ID = ca-app-pub-3940256099942544/4411468910
+ADMOB_ADAPTIVE_BANNER_AD_UNIT_ID = ca-app-pub-3940256099942544/2435281174
+ADMOB_FIXED_BANNER_AD_UNIT_ID = ca-app-pub-3940256099942544/2934735716
+ADMOB_COLLAPSIBLE_BANNER_AD_UNIT_ID = ca-app-pub-3940256099942544/8388050270
+ADMOB_NATIVE_AD_UNIT_ID = ca-app-pub-3940256099942544/3986624511
+ADMOB_BANNER_AD_UNIT_ID = $(ADMOB_COLLAPSIBLE_BANNER_AD_UNIT_ID)
+ADMOB_INTERSTITIAL_PLACEMENT = recipe_action
+ADMOB_BANNER_PLACEMENT = recipe_book_banner
 
 #include? "Workshop.local.xcconfig"

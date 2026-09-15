@@ -113,11 +113,12 @@ Suggested steps:
 1. **Choose the ad-supported value.** Decide which experiences free users can access in exchange for seeing ads and what remains a subscriber benefit.
 2. **Define the access rules.** Use active entitlements to decide who sees ads, without coupling the logic to a specific subscription product.
 3. **Set up the RevenueCat resources.** Add or adapt the offering, entitlements, and ad placements for your model. (Only when not using the predefined RevenueCat project.)
-4. **Configure test ads.** Add Google Mobile Ads, the RevenueCat AdMob adapter, and test-only app and ad-unit identifiers. (Only when not using the predefined RevenueCat project.)
-5. **Manage ad readiness.** Centralize the state of ad formats that load asynchronously. (When using interstitials, preload one before it is needed and prepare the next one after each result.)
-6. **Place ads thoughtfully.** Show interstitials at natural transitions and place banner or native ads where they do not disrupt content or controls.
-7. **Keep subscribers ad-free.** Suppress every ad format and remove empty ad space as soon as the subscription entitlement becomes active.
-8. **Verify the complete flow.** Confirm free actions continue after an ad closes or fails, subscribers see no ads, and RevenueCat receives the available ad events.
+4. **Select the ad-free offering.** Configure upgrade prompts to present `plus_ad_free` instead of the Scenario A offering.
+5. **Configure test ads.** Add Google Mobile Ads, the RevenueCat AdMob adapter, and test-only app and ad-unit identifiers. (Only when not using the predefined RevenueCat project.)
+6. **Manage ad readiness.** Centralize the state of ad formats that load asynchronously. (When using interstitials, preload one before it is needed and prepare the next one after each result.)
+7. **Place ads thoughtfully.** Show interstitials at natural transitions and place banner or native ads where they do not disrupt content or controls.
+8. **Keep subscribers ad-free.** Suppress every ad format and remove empty ad space as soon as the subscription entitlement becomes active.
+9. **Verify the complete flow.** Confirm free actions continue after an ad closes or fails, subscribers see no ads, and RevenueCat receives the available ad events.
 
 Scenario B reuses the Scenario A products and entitlements and adds an offering tailored to the ad-free upgrade:
 
