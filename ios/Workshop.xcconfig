@@ -11,17 +11,19 @@ REVENUECAT_OFFERING_ID = plus_ad_free
 REVENUECAT_PLUS_ENTITLEMENT_ID = plus
 REVENUECAT_PREMIUM_THEMES_ENTITLEMENT_ID = premium_themes
 
-// Google's iOS demo identifiers are intentionally tracked for workshop testing.
-// Replace every value before distributing a production build.
-ADMOB_APP_ID = ca-app-pub-3940256099942544~1458002511
+// The preconfigured app enables SSV for Scenario C. iOS simulators are
+// automatically test devices. Never use these values to generate production traffic.
+ADMOB_APP_ID = ca-app-pub-8714904180834987~6755567849
 ADMOB_INTERSTITIAL_AD_UNIT_ID = ca-app-pub-3940256099942544/4411468910
 ADMOB_ADAPTIVE_BANNER_AD_UNIT_ID = ca-app-pub-3940256099942544/2435281174
 ADMOB_FIXED_BANNER_AD_UNIT_ID = ca-app-pub-3940256099942544/2934735716
 ADMOB_COLLAPSIBLE_BANNER_AD_UNIT_ID = ca-app-pub-3940256099942544/8388050270
 ADMOB_NATIVE_AD_UNIT_ID = ca-app-pub-3940256099942544/3986624511
 ADMOB_BANNER_AD_UNIT_ID = $(ADMOB_COLLAPSIBLE_BANNER_AD_UNIT_ID)
+ADMOB_REWARDED_AD_UNIT_ID = ca-app-pub-8714904180834987/2209818177
 ADMOB_INTERSTITIAL_PLACEMENT = recipe_action
 ADMOB_BANNER_PLACEMENT = recipe_book_banner
+ADMOB_REWARDED_PLACEMENT = premium_theme_trial
 // Comma-separated Google test-device IDs. Keep participant-specific values in
 // Workshop.local.xcconfig; Debug builds register them before loading any ad.
 ADMOB_TEST_DEVICE_IDENTIFIERS =

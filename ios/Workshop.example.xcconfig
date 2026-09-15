@@ -14,19 +14,24 @@ PREFLIGHT_PRODUCT_IDS = kitchen_table_plus_monthly,kitchen_table_plus_yearly
 PREFLIGHT_ENTITLEMENTS = plus,premium_themes
 PREFLIGHT_OFFERINGS = plus_features,plus_ad_free
 
-// Scenario B presents the ad-free offering. Use only test ads during workshop development.
+// Optional Scenario B and C overrides. The interstitial and banner defaults are
+// Google's demos. The rewarded unit is preconfigured so RevenueCat can verify
+// its SSV callback; iOS simulators request test ads automatically.
 REVENUECAT_OFFERING_ID = plus_ad_free
 REVENUECAT_PLUS_ENTITLEMENT_ID = plus
 REVENUECAT_PREMIUM_THEMES_ENTITLEMENT_ID = premium_themes
-ADMOB_APP_ID = ca-app-pub-3940256099942544~1458002511
+ADMOB_APP_ID = ca-app-pub-8714904180834987~6755567849
 ADMOB_INTERSTITIAL_AD_UNIT_ID = ca-app-pub-3940256099942544/4411468910
 ADMOB_ADAPTIVE_BANNER_AD_UNIT_ID = ca-app-pub-3940256099942544/2435281174
 ADMOB_FIXED_BANNER_AD_UNIT_ID = ca-app-pub-3940256099942544/2934735716
 ADMOB_COLLAPSIBLE_BANNER_AD_UNIT_ID = ca-app-pub-3940256099942544/8388050270
 ADMOB_NATIVE_AD_UNIT_ID = ca-app-pub-3940256099942544/3986624511
 ADMOB_BANNER_AD_UNIT_ID = $(ADMOB_COLLAPSIBLE_BANNER_AD_UNIT_ID)
+ADMOB_REWARDED_AD_UNIT_ID = ca-app-pub-8714904180834987/2209818177
 ADMOB_INTERSTITIAL_PLACEMENT = recipe_action
 ADMOB_BANNER_PLACEMENT = recipe_book_banner
+ADMOB_REWARDED_PLACEMENT = premium_theme_trial
+
 // Optional, comma-separated IDs printed by Google Mobile Ads after an ad request.
 // Debug builds register these before loading ads; do not commit participant IDs.
 ADMOB_TEST_DEVICE_IDENTIFIERS =
