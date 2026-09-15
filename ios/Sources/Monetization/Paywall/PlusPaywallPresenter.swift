@@ -3,9 +3,15 @@ import SwiftUI
 
 struct PlusPaywallPresenter: ViewModifier {
     @ObservedObject var plus: PlusAccessStore
+    @ObservedObject var themeRewards: ThemeRewardStore
+    @ObservedObject var appearance: AppearanceStore
 
     func body(content: Content) -> some View {
         content
+            .sheet(item: $plus.requestedPremiumTheme, onDismiss: plus.themeUnlockSheetDidDismiss) { theme in
+                ThemeUnlockSheet(theme: theme, plus: plus, themeRewards: themeRewards)
+                    .environmentObject(appearance)
+            }
             .sheet(isPresented: $plus.isPaywallPresented) {
                 if let offering = plus.offering {
                     PaywallView(offering: offering, displayCloseButton: true)
@@ -26,7 +32,11 @@ struct PlusPaywallPresenter: ViewModifier {
 }
 
 extension View {
-    func plusPaywallPresenter(_ plus: PlusAccessStore) -> some View {
-        modifier(PlusPaywallPresenter(plus: plus))
+    func plusPaywallPresenter(
+        _ plus: PlusAccessStore,
+        themeRewards: ThemeRewardStore,
+        appearance: AppearanceStore
+    ) -> some View {
+        modifier(PlusPaywallPresenter(plus: plus, themeRewards: themeRewards, appearance: appearance))
     }
 }

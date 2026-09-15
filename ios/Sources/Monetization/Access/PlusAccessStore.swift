@@ -21,9 +21,11 @@ final class PlusAccessStore: ObservableObject {
 
     @Published private(set) var phase: PlusAccessPhase = .loading
     @Published private(set) var hasPremiumThemes = false
+    @Published private(set) var premiumThemesExpirationDate: Date?
     @Published private(set) var offering: Offering?
     @Published private(set) var isRestoring = false
     @Published var isPaywallPresented = false
+    @Published var requestedPremiumTheme: AppTheme?
     @Published var alertMessage: String?
 
     var hasPlus: Bool {
@@ -43,6 +45,8 @@ final class PlusAccessStore: ObservableObject {
     private enum Requirement { case plus, premiumThemes }
     private var pendingAction: (requirement: Requirement, action: () -> Void)?
     private let testingBypass: Bool
+    private var presentPaywallAfterThemeUnlock = false
+    private var expirationTask: Task<Void, Never>?
 
     init(
         appearance: AppearanceStore,
@@ -70,7 +74,7 @@ final class PlusAccessStore: ObservableObject {
 
         await loadOffering()
         do {
-            update(with: try await client.customerInfo())
+            update(with: try await client.customerInfo(forceRefresh: false))
         } catch {
             setPhase(.unavailable)
             alertMessage = "Kitchen Table Plus couldn’t be checked. Please try again."
@@ -87,6 +91,40 @@ final class PlusAccessStore: ObservableObject {
 
     func requirePremiumThemeAccess(perform action: @escaping () -> Void) {
         require(.premiumThemes, unavailableMessage: "Premium themes aren’t available in this build.", action: action)
+    }
+
+    func requestPremiumTheme(_ theme: AppTheme) {
+        if theme == .original || hasPremiumThemes {
+            appearance.theme = theme
+            return
+        }
+        guard client.isConfigured else {
+            alertMessage = "Premium themes aren’t available in this build."
+            return
+        }
+        requestedPremiumTheme = theme
+    }
+
+    func choosePlusForRequestedTheme() {
+        guard let theme = requestedPremiumTheme else { return }
+        pendingAction = (.premiumThemes, { [weak appearance] in appearance?.theme = theme })
+        presentPaywallAfterThemeUnlock = true
+        requestedPremiumTheme = nil
+    }
+
+    func themeUnlockSheetDidDismiss() {
+        guard presentPaywallAfterThemeUnlock else { return }
+        presentPaywallAfterThemeUnlock = false
+        presentPreparedPaywall()
+    }
+
+    func completeVerifiedThemeReward() async {
+        await refreshCustomerInfo(force: true)
+        guard hasPremiumThemes else {
+            alertMessage = "The theme reward couldn’t be confirmed. Please try again."
+            return
+        }
+        applyRequestedPremiumTheme()
     }
 
     func presentPaywall() {
@@ -115,6 +153,15 @@ final class PlusAccessStore: ObservableObject {
         update(with: customerInfo)
     }
 
+    func refreshCustomerInfo(force: Bool = false) async {
+        guard !testingBypass, client.isConfigured else { return }
+        do {
+            update(with: try await client.customerInfo(forceRefresh: force))
+        } catch {
+            alertMessage = "Kitchen Table Plus couldn’t be checked. Please try again."
+        }
+    }
+
     func reportCustomerCenterError() {
         alertMessage = "Subscription details couldn’t be updated. Please try again."
     }
@@ -134,9 +181,18 @@ final class PlusAccessStore: ObservableObject {
     }
 
     private func update(with customerInfo: CustomerInfo) {
+        let previouslyHadPremiumThemes = hasPremiumThemes
         let entitlement = customerInfo.entitlements.active[Self.entitlementID]
-        hasPremiumThemes = customerInfo.entitlements.active[Self.premiumThemesEntitlementID] != nil
+        let themesEntitlement = customerInfo.entitlements.active[Self.premiumThemesEntitlementID]
+        hasPremiumThemes = themesEntitlement != nil
+        premiumThemesExpirationDate = entitlement == nil ? themesEntitlement?.expirationDate : nil
         setPhase(.available(hasPlus: entitlement != nil, plan: entitlement.map(PlusPlan.init)))
+        scheduleExpirationRefresh()
+        if !previouslyHadPremiumThemes, hasPremiumThemes {
+            applyRequestedPremiumTheme()
+        } else if previouslyHadPremiumThemes, !hasPremiumThemes, entitlement == nil {
+            alertMessage = "Your theme preview has ended. Original is active again."
+        }
     }
 
     private func require(
@@ -153,6 +209,10 @@ final class PlusAccessStore: ObservableObject {
             return
         }
         pendingAction = (requirement, action)
+        presentPreparedPaywall()
+    }
+
+    private func presentPreparedPaywall() {
         if offering != nil {
             isPaywallPresented = true
         } else {
@@ -198,5 +258,21 @@ final class PlusAccessStore: ObservableObject {
         if appearance.availableThemes != themes {
             appearance.availableThemes = themes
         }
+    }
+
+    private func scheduleExpirationRefresh() {
+        expirationTask?.cancel()
+        guard let expiration = premiumThemesExpirationDate, expiration > Date() else { return }
+        expirationTask = Task { [weak self] in
+            try? await Task.sleep(for: .seconds(expiration.timeIntervalSinceNow))
+            guard !Task.isCancelled else { return }
+            await self?.refreshCustomerInfo(force: true)
+        }
+    }
+
+    private func applyRequestedPremiumTheme() {
+        guard let theme = requestedPremiumTheme else { return }
+        requestedPremiumTheme = nil
+        appearance.theme = theme
     }
 }

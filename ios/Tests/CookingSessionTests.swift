@@ -1061,6 +1061,19 @@ final class CookingSessionTests: XCTestCase {
         XCTAssertTrue(AdAccessPolicy.adsEnabled(for: .available(hasPlus: false, plan: nil), disabledForTesting: false))
         XCTAssertFalse(AdAccessPolicy.adsEnabled(for: .available(hasPlus: true, plan: nil), disabledForTesting: false))
         XCTAssertFalse(AdAccessPolicy.adsEnabled(for: .available(hasPlus: false, plan: nil), disabledForTesting: true))
+
+        XCTAssertFalse(ThemeRewardAccessPolicy.isAvailable(
+            for: .loading, hasPremiumThemes: false, disabledForTesting: false
+        ))
+        XCTAssertTrue(ThemeRewardAccessPolicy.isAvailable(
+            for: .available(hasPlus: false, plan: nil), hasPremiumThemes: false, disabledForTesting: false
+        ))
+        XCTAssertFalse(ThemeRewardAccessPolicy.isAvailable(
+            for: .available(hasPlus: true, plan: nil), hasPremiumThemes: false, disabledForTesting: false
+        ))
+        XCTAssertFalse(ThemeRewardAccessPolicy.isAvailable(
+            for: .available(hasPlus: false, plan: nil), hasPremiumThemes: true, disabledForTesting: false
+        ))
     }
 
     func testScreenAwakeOnlyWhileEnabledAndActivelyCooking() {
@@ -1263,7 +1276,7 @@ private struct UnconfiguredPlusAccessClient: PlusAccessClient {
         AsyncStream { $0.finish() }
     }
 
-    func customerInfo() async throws -> CustomerInfo { throw StubError.unavailable }
+    func customerInfo(forceRefresh: Bool) async throws -> CustomerInfo { throw StubError.unavailable }
     func offerings() async throws -> Offerings { throw StubError.unavailable }
     func restorePurchases() async throws -> CustomerInfo { throw StubError.unavailable }
 }

@@ -6,6 +6,23 @@ struct ThemesView: View {
 
     var body: some View {
         LibraryPage(title: "Themes") {
+            if let expiration = plus.premiumThemesExpirationDate {
+                ThemeAccessCountdown(
+                    expiration: expiration,
+                    prefix: "Theme preview active",
+                    identifier: "themes.reward.active"
+                )
+                .padding(14)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .background(
+                    Color(uiColor: appearance.theme.surface),
+                    in: RoundedRectangle(cornerRadius: appearance.theme.cornerRadius)
+                )
+                .overlay(
+                    RoundedRectangle(cornerRadius: appearance.theme.cornerRadius)
+                        .stroke(Color(uiColor: appearance.theme.line), lineWidth: 1)
+                )
+            }
             if let error = appearance.iconError {
                 VStack(alignment: .leading, spacing: 12) {
                     Text(error).themeFont(appearance.theme, style: .subheadline)
@@ -19,7 +36,7 @@ struct ThemesView: View {
                     if theme == .original {
                         appearance.theme = theme
                     } else {
-                        plus.requirePremiumThemeAccess { appearance.theme = theme }
+                        plus.requestPremiumTheme(theme)
                     }
                 } label: {
                     ThemePreview(theme: theme, isSelected: appearance.theme == theme)

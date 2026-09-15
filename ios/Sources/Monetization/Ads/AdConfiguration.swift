@@ -3,8 +3,10 @@ import Foundation
 struct AdConfiguration {
     let interstitialAdUnitID: String
     let bannerAdUnitID: String
+    let rewardedAdUnitID: String
     let interstitialPlacement: String
     let bannerPlacement: String
+    let rewardedPlacement: String
     let testDeviceIdentifiers: [String]
 
     static func bundled(_ bundle: Bundle = .main) -> AdConfiguration? {
@@ -16,8 +18,10 @@ struct AdConfiguration {
 
         guard let interstitialAdUnitID = value("AdMobInterstitialAdUnitIdentifier"),
               let bannerAdUnitID = value("AdMobBannerAdUnitIdentifier"),
+              let rewardedAdUnitID = value("AdMobRewardedAdUnitIdentifier"),
               let interstitialPlacement = value("AdMobInterstitialPlacement"),
-              let bannerPlacement = value("AdMobBannerPlacement") else { return nil }
+              let bannerPlacement = value("AdMobBannerPlacement"),
+              let rewardedPlacement = value("AdMobRewardedPlacement") else { return nil }
         let testDeviceIdentifiers = value("AdMobTestDeviceIdentifiers")?
             .split(separator: ",")
             .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
@@ -25,8 +29,10 @@ struct AdConfiguration {
         return AdConfiguration(
             interstitialAdUnitID: interstitialAdUnitID,
             bannerAdUnitID: bannerAdUnitID,
+            rewardedAdUnitID: rewardedAdUnitID,
             interstitialPlacement: interstitialPlacement,
             bannerPlacement: bannerPlacement,
+            rewardedPlacement: rewardedPlacement,
             testDeviceIdentifiers: testDeviceIdentifiers
         )
     }

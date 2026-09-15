@@ -63,10 +63,18 @@ struct PlanSection: View {
             Text("Free")
                 .themeFont(appearance.theme, style: .headline)
                 .accessibilityIdentifier("settings.plan.name")
-            Text("Browse, import, and cook with ads. Original theme included.")
-                .themeFont(appearance.theme, style: .subheadline)
-                .foregroundStyle(Color(uiColor: appearance.theme.muted))
-                .accessibilityIdentifier("settings.plan.detail")
+            if let expiration = plus.premiumThemesExpirationDate {
+                ThemeAccessCountdown(
+                    expiration: expiration,
+                    prefix: "Premium themes active",
+                    identifier: "settings.plan.detail"
+                )
+            } else {
+                Text("Browse, import, and cook with ads. Original theme included.")
+                    .themeFont(appearance.theme, style: .subheadline)
+                    .foregroundStyle(Color(uiColor: appearance.theme.muted))
+                    .accessibilityIdentifier("settings.plan.detail")
+            }
         }
     }
 

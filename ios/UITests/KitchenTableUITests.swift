@@ -72,6 +72,42 @@ final class KitchenTableUITests: XCTestCase {
     }
 
     @MainActor
+    func testLockedThemeOffersRewardOrPlusAndCanBeDismissed() {
+        continueAfterFailure = false
+        let customer = RevenueCatTestCustomer()
+        let app = XCUIApplication()
+        app.launchArguments = customer.launchArguments + ["--skip-walkthrough", "--reset-session", "--disable-ads"]
+        app.launch()
+
+        XCTAssertTrue(app.buttons["book.menu"].waitForExistence(timeout: 10))
+        app.buttons["book.menu"].tap()
+        app.buttons["Themes"].tap()
+        let studio = app.buttons["theme.ferran"]
+        XCTAssertTrue(studio.waitForExistence(timeout: 5))
+        studio.tap()
+
+        XCTAssertTrue(app.staticTexts["Try every theme"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.buttons["themes.reward.watch"].exists)
+        XCTAssertFalse(app.buttons["themes.reward.watch"].isEnabled)
+        XCTAssertTrue(app.buttons["themes.reward.upgrade"].exists)
+        capture("theme-reward-choice", app: app)
+
+        app.buttons["themes.unlock.close"].tap()
+        XCTAssertTrue(studio.waitForExistence(timeout: 5))
+        XCTAssertFalse(studio.isSelected)
+        XCTAssertTrue(app.buttons["theme.original"].isSelected)
+
+        studio.tap()
+        XCTAssertTrue(app.buttons["themes.reward.upgrade"].waitForExistence(timeout: 5))
+        app.buttons["themes.reward.upgrade"].tap()
+        XCTAssertTrue(app.staticTexts["Kitchen Table Plus"].waitForExistence(timeout: 10))
+        XCTAssertTrue(app.staticTexts["Cook without ads"].exists)
+        app.buttons["Close"].tap()
+        XCTAssertTrue(studio.waitForExistence(timeout: 5))
+        XCTAssertFalse(studio.isSelected)
+    }
+
+    @MainActor
     func testPlanPurchaseRestoreAndManagement() {
         continueAfterFailure = false
         let customer = RevenueCatTestCustomer()
