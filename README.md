@@ -35,6 +35,20 @@ Choose the base branch for the exercise you are doing when one is available. Fin
 | Scenario D start | Not available | No prepared base for the in-app currency exercise yet |
 | Scenario D example | Not available | No final rewarded-currency solution yet |
 
+## Code map
+
+The app is organized by responsibility so a workshop exercise has a small, obvious working set:
+
+| Area | Location | Change it when… |
+| --- | --- | --- |
+| App composition | `ios/Sources/App` | configuring services or assembling shared state |
+| Design system | `ios/Sources/DesignSystem` | changing reusable visual language or controls |
+| Domain model | `ios/Sources/Domain` | changing recipe validation, graph construction, or cooking rules |
+| Feature UI and state | `ios/Sources/Features` | changing a user-facing flow such as Recipe Book, Settings, or Themes |
+| Monetization | `ios/Sources/Monetization` | implementing access, paywalls, ads, or rewards on scenario branches |
+
+Most scenario exercises stay inside `Monetization` and the feature that presents the result, so the code map above is a useful starting point when following the workshop steps.
+
 ## RevenueCat workshop configuration
 
 Debug simulator builds use the public SDK key for the predefined workshop Test Store app. Participants can build, make test purchases, restore, and check entitlements without local configuration. Attendees with View Only dashboard access can also browse the project, catalog, and paywalls.

@@ -987,63 +987,28 @@ final class CookingSessionTests: XCTestCase {
     }
 
     @MainActor
-    func testJournalRecordsOnlyExplicitFinishesAndPersists() throws {
+    func testFinishResetsOnlyCompleteTableAndPersists() throws {
         let graph = try graph()
         let directory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
         defer { try? FileManager.default.removeItem(at: directory) }
         let url = directory.appendingPathComponent("session.json")
         let store = SessionStore(graph: graph, fileURL: url)
-        XCTAssertFalse(store.finish(), "An unfinished table must not count")
+        XCTAssertFalse(store.finish(), "An unfinished table must not reset")
         store.toggle("serve")
         XCTAssertTrue(store.isComplete)
-        XCTAssertEqual(store.session.statistics?.dishesCompleted ?? 0, 0)
         store.undo(); store.toggle("serve"); store.cancelCelebration()
-        XCTAssertEqual(store.session.statistics?.dishesCompleted ?? 0, 0)
         let restored = SessionStore(graph: graph, fileURL: url)
         XCTAssertTrue(restored.isComplete, "Stay and relaunch preserve the unfinalized table")
         XCTAssertTrue(restored.finish())
-        XCTAssertEqual(restored.session.statistics?.dishesCompleted, 1)
-        XCTAssertNotNil(restored.session.statistics?.lastCompleted)
-        XCTAssertEqual(restored.session.statistics?.journalEntries.count, 1)
-        XCTAssertEqual(restored.session.statistics?.journalEntries.first?.dishName, "Baba Ganoush")
         XCTAssertTrue(restored.session.history.isEmpty)
         XCTAssertTrue(restored.session.progress.states.values.allSatisfy { $0 == .pending })
-        XCTAssertFalse(restored.finish(), "A repeated action must not count again")
-        XCTAssertEqual(SessionStore(graph: graph, fileURL: url).session.statistics?.dishesCompleted, 1)
+        XCTAssertFalse(restored.finish(), "A repeated action must not reset again")
+        XCTAssertTrue(SessionStore(graph: graph, fileURL: url).session.isUntouched)
         restored.toggle("serve"); restored.reset()
-        XCTAssertEqual(restored.session.statistics?.dishesCompleted, 1, "Plain reset discards the run without counting it")
+        XCTAssertTrue(restored.session.isUntouched)
+        XCTAssertFalse(restored.finish())
         restored.toggle("serve"); XCTAssertTrue(restored.finish())
-        XCTAssertEqual(restored.session.statistics?.dishesCompleted, 2)
-        XCTAssertEqual(restored.session.statistics?.journalEntries.count, 2)
-    }
-
-
-
-    @MainActor
-    func testJournalCombinesRecipesMostRecentFirst() throws {
-        let graph = try graph()
-        let bananaRecipe = try Recipe.bundled(id: "banana-muffins")
-        let bananaGraph = try RecipeGraph(recipe: bananaRecipe)
-        let directory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
-        defer { try? FileManager.default.removeItem(at: directory) }
-        try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
-        let olderURL = directory.appendingPathComponent("older.json")
-        let newerURL = directory.appendingPathComponent("newer.json")
-        var older = CookingSession(graph: graph)
-        older.statistics = CookingStatistics(dishesCompleted: 4, journalEntries: [
-            CookingJournalEntry(recipeID: graph.recipe.id, dishName: "Older dish", completedAt: Date(timeIntervalSince1970: 100))
-        ])
-        var newer = CookingSession(graph: bananaGraph)
-        newer.statistics = CookingStatistics(dishesCompleted: 1, journalEntries: [
-            CookingJournalEntry(recipeID: bananaGraph.recipe.id, dishName: "Newer dish", completedAt: Date(timeIntervalSince1970: 200))
-        ])
-        try JSONEncoder().encode(older).write(to: olderURL)
-        try JSONEncoder().encode(newer).write(to: newerURL)
-        let library = RecipeLibrary(stores: [SessionStore(graph: graph, fileURL: olderURL),
-                                             SessionStore(graph: bananaGraph, fileURL: newerURL)])
-        XCTAssertEqual(library.journalEntries.map(\.dishName), ["Newer dish", "Older dish"])
-        XCTAssertEqual(library.dishesCooked, 5, "Recorded runs contribute to the total")
-        XCTAssertEqual(library.uniqueDishesCooked, 2)
+        XCTAssertTrue(restored.session.isUntouched)
     }
 
 
@@ -1061,11 +1026,10 @@ final class CookingSessionTests: XCTestCase {
         XCTAssertFalse(store.finish())
         XCTAssertTrue(store.isComplete)
         XCTAssertFalse(store.session.history.isEmpty)
-        XCTAssertEqual(store.session.statistics?.dishesCompleted ?? 0, 0)
         XCTAssertNotNil(store.errorMessage)
         try FileManager.default.removeItem(at: url)
         XCTAssertTrue(store.finish())
-        XCTAssertEqual(SessionStore(graph: graph, fileURL: url).session.statistics?.dishesCompleted, 1)
+        XCTAssertTrue(SessionStore(graph: graph, fileURL: url).session.isUntouched)
     }
 
 
@@ -1274,7 +1238,6 @@ final class WalkthroughTests: XCTestCase {
         tour.tap("serve-spread")
         XCTAssertTrue(tour.practice.isComplete)
         XCTAssertTrue(tour.hasCompleted)
-        XCTAssertEqual(tour.practice.session.statistics?.dishesCompleted ?? 0, 0)
     }
     func testCheckpointRestoresLessonAndEditsButNotPartialIngredientProgress() throws {
         let preferences = defaults()
@@ -1551,9 +1514,6 @@ extension IncomingRecipeTests {
         let graph = try RecipeGraph(recipe: recipe)
         let url = directory.appendingPathComponent("session.json")
         var session = CookingSession(graph: graph)
-        session.statistics = CookingStatistics(dishesCompleted: 4, journalEntries: [
-            CookingJournalEntry(recipeID: recipe.id, dishName: recipe.title, completedAt: Date())
-        ])
         session.toggle(graph.order[0], graph: graph)
         try JSONEncoder().encode(session).write(to: url)
         let store = SessionStore(graph: graph, fileURL: url)
@@ -1564,13 +1524,9 @@ extension IncomingRecipeTests {
         XCTAssertTrue(library.setRemoved(recipe.id, removed: true))
         XCTAssertTrue(library.stores.isEmpty)
         XCTAssertTrue(store.recipeRemoved)
-        XCTAssertEqual(library.dishesCooked, 4)
-        XCTAssertEqual(library.uniqueDishesCooked, 1)
-        XCTAssertEqual(library.journalEntries.count, 1)
         let restoredStore = SessionStore(graph: graph, fileURL: url)
         let restored = RecipeLibrary(stores: [restoredStore], directory: directory)
         XCTAssertTrue(restored.stores.isEmpty)
-        XCTAssertEqual(restored.dishesCooked, 4)
         XCTAssertTrue(restored.setRemoved(recipe.id, removed: false))
         XCTAssertEqual(restored.stores.count, 1)
         XCTAssertEqual(restoredStore.session.progress.states, session.progress.states)

@@ -42,7 +42,7 @@ final class WalkthroughStore: ObservableObject {
         return try! RecipeGraph(recipe: recipe, displayOrder: ["garlic", "olive-oil", "bread", "peel", "cook", "serve", "toast", "serve-spread"])
     }()
     private static func makePractice() -> SessionStore {
-        // No session, edits, or dish statistics are written by this sample store.
+        // No session or edits are written by this sample store.
         let store = SessionStore(graph: graph, fileURL: URL(fileURLWithPath: "/walkthrough-memory-only"), persists: false)
         store.onPrepareTimerAlert = { CookingTimerNotifications.shared.prepareForegroundAlert() }
         store.onTimerAlert = { CookingTimerNotifications.shared.foregroundAlert() }

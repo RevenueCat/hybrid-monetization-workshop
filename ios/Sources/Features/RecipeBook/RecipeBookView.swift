@@ -1,139 +1,4 @@
 import SwiftUI
-import Combine
-
-/// Each recipe owns progress, edits, Undo, and its cooking journal entries.
-@MainActor
-final class RecipeLibrary: ObservableObject {
-    // Keep removed sessions for Journal history and lossless Undo. Only the book filters them.
-    @Published private var allStores: [SessionStore]
-    @Published private(set) var removedIDs: Set<String> = []
-    @Published var errorMessage: String?
-    private var removalStorageReadable = true
-    @Published private var recipeOrder: [String] = []
-    private var orderStorageReadable = true
-    private var orderedStores: [SessionStore] {
-        let unsorted = allStores.filter { !recipeOrder.contains($0.graph.recipe.id) }
-        return unsorted + recipeOrder.compactMap { id in allStores.first { $0.graph.recipe.id == id } }
-    }
-    var stores: [SessionStore] { orderedStores.filter { !removedIDs.contains($0.graph.recipe.id) } }
-
-    func moveRecipes(from source: IndexSet, to destination: Int) {
-        guard orderStorageReadable else { return }
-        var visible = stores.map { $0.graph.recipe.id }
-        guard source.allSatisfy({ visible.indices.contains($0) }), (0...visible.count).contains(destination) else { return }
-        visible.move(fromOffsets: source, toOffset: destination)
-        var iterator = visible.makeIterator()
-        let updated = orderedStores.map { store in
-            let id = store.graph.recipe.id
-            return removedIDs.contains(id) ? id : iterator.next()!
-        }
-        do {
-            if let directory {
-                try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
-                try JSONEncoder().encode(updated).write(to: directory.appendingPathComponent("recipe-order.json"), options: .atomic)
-            }
-            recipeOrder = updated
-            errorMessage = nil
-        } catch { errorMessage = "Couldn’t save recipe order. \(error.localizedDescription)" }
-    }
-    let incoming: IncomingRecipeStore?
-    private let directory: URL?
-    private var observations: Set<AnyCancellable> = []
-
-    init(stores: [SessionStore], incoming: IncomingRecipeStore? = nil, directory: URL? = nil) {
-        self.allStores = stores
-        self.incoming = incoming
-        self.directory = directory
-        if let url = directory?.appendingPathComponent("removed-recipes.json"), FileManager.default.fileExists(atPath: url.path) {
-            do { removedIDs = try JSONDecoder().decode(Set<String>.self, from: Data(contentsOf: url)) }
-            catch { removalStorageReadable = false; errorMessage = "Couldn’t read removed recipes. \(error.localizedDescription)" }
-        }
-        if let url = directory?.appendingPathComponent("recipe-order.json"), FileManager.default.fileExists(atPath: url.path) {
-            do {
-                let saved = try JSONDecoder().decode([String].self, from: Data(contentsOf: url))
-                var seen = Set<String>()
-                recipeOrder = saved.filter { seen.insert($0).inserted }
-            } catch { orderStorageReadable = false; errorMessage = "Couldn’t read recipe order. \(error.localizedDescription)" }
-        }
-        for store in stores { store.setRecipeRemoved(removedIDs.contains(store.graph.recipe.id)) }
-        incoming?.currentRecipeTitles = { [weak self] in
-            self?.stores.map { $0.graph.recipe.title } ?? []
-        }
-        incoming?.onChange = { [weak self] in
-            self?.restoreImports()
-        }
-        incoming?.objectWillChange.sink { [weak self] _ in self?.objectWillChange.send() }.store(in: &observations)
-        for store in stores {
-            store.objectWillChange.sink { [weak self] _ in self?.objectWillChange.send() }
-                .store(in: &observations)
-        }
-        restoreImports()
-    }
-    private func restoreImports() {
-        guard let incoming, let directory else { return }
-        for item in incoming.items where item.status == .complete && !allStores.contains(where: { $0.graph.recipe.id == item.recipeID }) {
-            do {
-                guard let data = item.preparedRecipe else { throw RecipeError.invalid("The prepared recipe is missing.") }
-                let storedRecipe = try JSONDecoder().decode(Recipe.self, from: data)
-                // Imports created before template metadata existed were all
-                // Banana Muffins; newer imports retain their originating recipe.
-                let templateID = item.mockTemplateID ?? "banana-muffins"
-                let template = try Recipe.bundled(id: templateID)
-                let recipe = Recipe(schemaVersion: storedRecipe.schemaVersion, id: storedRecipe.id,
-                                    title: storedRecipe.title, yield: storedRecipe.yield,
-                                    photo: storedRecipe.photo, sourceUrl: storedRecipe.sourceUrl,
-                                    ingredients: storedRecipe.ingredients, steps: storedRecipe.steps)
-                let templateOrder = try RecipeGraph(recipe: template).order
-                let graph = try RecipeGraph(recipe: recipe, displayOrder: templateOrder)
-                let layout = try RecipeTableLayout.generated(for: graph)
-                let store = SessionStore(graph: graph, fileURL: directory.appendingPathComponent("\(recipe.id)-session.json"), layout: layout)
-                store.onPrepareTimerAlert = { CookingTimerNotifications.shared.prepareForegroundAlert() }
-                store.onTimerAlert = { CookingTimerNotifications.shared.foregroundAlert() }
-                store.objectWillChange.sink { [weak self] _ in self?.objectWillChange.send() }.store(in: &observations)
-                store.setRecipeRemoved(removedIDs.contains(recipe.id))
-                allStores.insert(store, at: 0)
-            } catch { incoming.errorMessage = "Couldn’t open a prepared recipe. \(error.localizedDescription)" }
-        }
-    }
-    @discardableResult
-    func setRemoved(_ id: String, removed: Bool) -> Bool {
-        guard removalStorageReadable, let store = allStores.first(where: { $0.graph.recipe.id == id }) else { return false }
-        var updated = removedIDs
-        if removed { updated.insert(id) } else { updated.remove(id) }
-        do {
-            if let directory {
-                try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
-                try JSONEncoder().encode(updated).write(to: directory.appendingPathComponent("removed-recipes.json"), options: .atomic)
-            }
-            removedIDs = updated
-            store.setRecipeRemoved(removed)
-            errorMessage = nil
-            return true
-        } catch { errorMessage = "Couldn’t update your recipe book. \(error.localizedDescription)"; return false }
-    }
-    func store(for id: String) -> SessionStore? { stores.first { $0.graph.recipe.id == id } }
-    var dishesCooked: Int {
-        allStores.reduce(0) { total, store in
-            let statistics = store.session.statistics
-            return total + max(statistics?.dishesCompleted ?? 0, statistics?.journalEntries.count ?? 0)
-        }
-    }
-    var uniqueDishesCooked: Int {
-        let recordedRecipeIDs = allStores.compactMap { store -> String? in
-            guard let statistics = store.session.statistics,
-                  statistics.dishesCompleted > 0 || !statistics.journalEntries.isEmpty else { return nil }
-            return store.graph.recipe.id
-        }
-        return Set(recordedRecipeIDs + journalEntries.map(\.recipeID)).count
-    }
-    var journalEntries: [CookingJournalEntry] {
-        allStores.flatMap { $0.session.statistics?.journalEntries ?? [] }
-            .sorted {
-                if $0.completedAt != $1.completedAt { return $0.completedAt > $1.completedAt }
-                return $0.id > $1.id
-            }
-    }
-}
 
 struct RecipeBookView: View {
     @EnvironmentObject private var appearance: AppearanceStore
@@ -330,7 +195,6 @@ struct RecipeBookView: View {
             .navigationDestination(for: String.self) { destination in
                 if destination == "settings" { SettingsView() }
                 else if destination == "themes" { ThemesView() }
-                else if destination == "journal" { JournalView(library: library) }
                 else if let store = library.store(for: destination) {
                     CookingView(store: store).id(destination).toolbar(.hidden, for: .navigationBar)
                 }
@@ -372,7 +236,6 @@ struct RecipeBookView: View {
         Menu {
             Button("Edit recipes", systemImage: "trash") { editingRecipes = true }
             Button("Walkthrough", systemImage: "hand.tap", action: openWalkthrough)
-            Button("Journal", systemImage: "book.closed") { path.append("journal") }
             Button("Themes", systemImage: "paintpalette") { path.append("themes") }
             Button("Settings", systemImage: "gearshape") { path.append("settings") }
         } label: {

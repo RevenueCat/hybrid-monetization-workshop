@@ -38,6 +38,16 @@
 		E90000000000000000000005 /* Sources/IncomingRecipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90000000000000000000001 /* Sources/IncomingRecipe.swift */; };
 		E90000000000000000000006 /* Sources/IncomingRecipeStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90000000000000000000002 /* Sources/IncomingRecipeStore.swift */; };
 		E90000000000000000000007 /* Sources/IncomingRecipeSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90000000000000000000003 /* Sources/IncomingRecipeSection.swift */; };
+		F10000000000000000000001 /* AppBootstrap.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20000000000000000000001 /* AppBootstrap.swift */; };
+		F10000000000000000000002 /* CookingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20000000000000000000002 /* CookingView.swift */; };
+		F10000000000000000000003 /* CookingTimerNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20000000000000000000003 /* CookingTimerNotifications.swift */; };
+		F10000000000000000000004 /* RecipeValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20000000000000000000004 /* RecipeValidator.swift */; };
+		F10000000000000000000005 /* RecipeCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20000000000000000000005 /* RecipeCatalog.swift */; };
+		F10000000000000000000006 /* RecipeGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20000000000000000000006 /* RecipeGraph.swift */; };
+		F10000000000000000000007 /* RecipeGraphBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20000000000000000000007 /* RecipeGraphBuilder.swift */; };
+		F10000000000000000000008 /* RecipeBookStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20000000000000000000008 /* RecipeBookStore.swift */; };
+		F10000000000000000000009 /* LibraryPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20000000000000000000009 /* LibraryPage.swift */; };
+		F1000000000000000000000A /* ThemesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2000000000000000000000A /* ThemesView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -92,11 +102,21 @@
 		D10000000000000000000001 /* Resources/Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Resources/Assets.xcassets; sourceTree = "<group>"; };
 		E7371CAA0F0434197B5C4AD8 /* CookingScreenAwake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CookingScreenAwake.swift; sourceTree = "<group>"; };
 		E7BE827DC7DB55949CD0472C /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
-		E90000000000000000000001 /* Sources/IncomingRecipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sources/IncomingRecipe.swift; sourceTree = SOURCE_ROOT; };
-		E90000000000000000000002 /* Sources/IncomingRecipeStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sources/IncomingRecipeStore.swift; sourceTree = SOURCE_ROOT; };
-		E90000000000000000000003 /* Sources/IncomingRecipeSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sources/IncomingRecipeSection.swift; sourceTree = SOURCE_ROOT; };
+		E90000000000000000000001 /* IncomingRecipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncomingRecipe.swift; sourceTree = "<group>"; };
+		E90000000000000000000002 /* IncomingRecipeStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncomingRecipeStore.swift; sourceTree = "<group>"; };
+		E90000000000000000000003 /* IncomingRecipeSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncomingRecipeSection.swift; sourceTree = "<group>"; };
 		EA707E9E6A88A4FFF2B2BDD3 /* KitchenTableApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KitchenTableApp.swift; sourceTree = "<group>"; };
 		F7A0A776979F2776BBC08E61 /* Recipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recipe.swift; sourceTree = "<group>"; };
+		F20000000000000000000001 /* AppBootstrap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppBootstrap.swift; sourceTree = "<group>"; };
+		F20000000000000000000002 /* CookingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CookingView.swift; sourceTree = "<group>"; };
+		F20000000000000000000003 /* CookingTimerNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CookingTimerNotifications.swift; sourceTree = "<group>"; };
+		F20000000000000000000004 /* RecipeValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeValidator.swift; sourceTree = "<group>"; };
+		F20000000000000000000005 /* RecipeCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeCatalog.swift; sourceTree = "<group>"; };
+		F20000000000000000000006 /* RecipeGraph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeGraph.swift; sourceTree = "<group>"; };
+		F20000000000000000000007 /* RecipeGraphBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeGraphBuilder.swift; sourceTree = "<group>"; };
+		F20000000000000000000008 /* RecipeBookStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeBookStore.swift; sourceTree = "<group>"; };
+		F20000000000000000000009 /* LibraryPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryPage.swift; sourceTree = "<group>"; };
+		F2000000000000000000000A /* ThemesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemesView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,27 +144,144 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F30000000000000000000001 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				F20000000000000000000001 /* AppBootstrap.swift */,
+				EA707E9E6A88A4FFF2B2BDD3 /* KitchenTableApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		F30000000000000000000002 /* DesignSystem */ = {
+			isa = PBXGroup;
+			children = (
+				877156293A8356B7971959E7 /* AppTheme.swift */,
+				ADED03EEFC3ACE0364CDC041 /* Appearance.swift */,
+				F30000000000000000000003 /* Controls */,
+				F20000000000000000000009 /* LibraryPage.swift */,
+				0B373B5181295B86264B29EA /* PageHeading.swift */,
+				A10000000000000000000003 /* ThemePreview.swift */,
+			);
+			path = DesignSystem;
+			sourceTree = "<group>";
+		};
+		F30000000000000000000003 /* Controls */ = {
+			isa = PBXGroup;
+			children = (
+				62970E5BAE7E81FCF40C171F /* ThemeControls.swift */,
+			);
+			path = Controls;
+			sourceTree = "<group>";
+		};
+		F30000000000000000000004 /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				F30000000000000000000006 /* Cooking */,
+				F30000000000000000000005 /* Recipes */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		F30000000000000000000005 /* Recipes */ = {
+			isa = PBXGroup;
+			children = (
+				F7A0A776979F2776BBC08E61 /* Recipe.swift */,
+				F20000000000000000000005 /* RecipeCatalog.swift */,
+				F20000000000000000000006 /* RecipeGraph.swift */,
+				F20000000000000000000007 /* RecipeGraphBuilder.swift */,
+				F20000000000000000000004 /* RecipeValidator.swift */,
+			);
+			path = Recipes;
+			sourceTree = "<group>";
+		};
+		F30000000000000000000006 /* Domain Cooking */ = {
+			isa = PBXGroup;
+			children = (
+				5EA45063B3D67FE28316BCD2 /* CookingSession.swift */,
+				18B6D67CC4AEC18C42FC7FDB /* RecipeEditing.swift */,
+			);
+			path = Cooking;
+			sourceTree = "<group>";
+		};
+		F30000000000000000000007 /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				F30000000000000000000008 /* Cooking */,
+				F3000000000000000000000A /* RecipeBook */,
+				F3000000000000000000000B /* Settings */,
+				F3000000000000000000000C /* Themes */,
+				F3000000000000000000000E /* Walkthrough */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		F30000000000000000000008 /* Feature Cooking */ = {
+			isa = PBXGroup;
+			children = (
+				E7371CAA0F0434197B5C4AD8 /* CookingScreenAwake.swift */,
+				F20000000000000000000003 /* CookingTimerNotifications.swift */,
+				F20000000000000000000002 /* CookingView.swift */,
+				3BB50249C901D050C021D87F /* HoldUndoButton.swift */,
+				F30000000000000000000009 /* Internal */,
+				8ADF74E7F8BC8204E472CB7E /* RecipeSheets.swift */,
+			);
+			path = Cooking;
+			sourceTree = "<group>";
+		};
+		F30000000000000000000009 /* Internal */ = {
+			isa = PBXGroup;
+			children = (
+				8F2452A5D1B323175FF4F712 /* GridLayout.swift */,
+				C7BD59FC020BAEAEE72CBBA4 /* RecipeGridView.swift */,
+				8F2452A5D1B323175FF4F713 /* RecipeTableLayout.swift */,
+			);
+			path = Internal;
+			sourceTree = "<group>";
+		};
+		F3000000000000000000000A /* RecipeBook */ = {
+			isa = PBXGroup;
+			children = (
+				E90000000000000000000001 /* IncomingRecipe.swift */,
+				E90000000000000000000003 /* IncomingRecipeSection.swift */,
+				E90000000000000000000002 /* IncomingRecipeStore.swift */,
+				A2B34C56D78E90F123456701 /* RecipeBookView.swift */,
+				F20000000000000000000008 /* RecipeBookStore.swift */,
+			);
+			path = RecipeBook;
+			sourceTree = "<group>";
+		};
+		F3000000000000000000000B /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				E7BE827DC7DB55949CD0472C /* SettingsView.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		F3000000000000000000000C /* Themes */ = {
+			isa = PBXGroup;
+			children = (
+				F2000000000000000000000A /* ThemesView.swift */,
+			);
+			path = Themes;
+			sourceTree = "<group>";
+		};
+		F3000000000000000000000E /* Walkthrough */ = {
+			isa = PBXGroup;
+			children = (
+				B00000000000000000000001 /* Walkthrough.swift */,
+			);
+			path = Walkthrough;
+			sourceTree = "<group>";
+		};
 		2EB56BE3C2D93CDAB0C52E67 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				0B373B5181295B86264B29EA /* PageHeading.swift */,
-				62970E5BAE7E81FCF40C171F /* ThemeControls.swift */,
-				E7371CAA0F0434197B5C4AD8 /* CookingScreenAwake.swift */,
-				877156293A8356B7971959E7 /* AppTheme.swift */,
-				B00000000000000000000001 /* Walkthrough.swift */,
-				ADED03EEFC3ACE0364CDC041 /* Appearance.swift */,
-				18B6D67CC4AEC18C42FC7FDB /* RecipeEditing.swift */,
-				E7BE827DC7DB55949CD0472C /* SettingsView.swift */,
-				A10000000000000000000003 /* ThemePreview.swift */,
-				8ADF74E7F8BC8204E472CB7E /* RecipeSheets.swift */,
-				A2B34C56D78E90F123456701 /* RecipeBookView.swift */,
-				5EA45063B3D67FE28316BCD2 /* CookingSession.swift */,
-				8F2452A5D1B323175FF4F712 /* GridLayout.swift */,
-				8F2452A5D1B323175FF4F713 /* RecipeTableLayout.swift */,
-				3BB50249C901D050C021D87F /* HoldUndoButton.swift */,
-				EA707E9E6A88A4FFF2B2BDD3 /* KitchenTableApp.swift */,
-				F7A0A776979F2776BBC08E61 /* Recipe.swift */,
-				C7BD59FC020BAEAEE72CBBA4 /* RecipeGridView.swift */,
+				F30000000000000000000001 /* App */,
+				F30000000000000000000002 /* DesignSystem */,
+				F30000000000000000000004 /* Domain */,
+				F30000000000000000000007 /* Features */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -176,9 +313,6 @@
 		E96857C58F716104CAEAD648 = {
 			isa = PBXGroup;
 			children = (
-				E90000000000000000000001 /* Sources/IncomingRecipe.swift */,
-				E90000000000000000000002 /* Sources/IncomingRecipeStore.swift */,
-				E90000000000000000000003 /* Sources/IncomingRecipeSection.swift */,
 				A10000000000000000000010 /* Info.plist */,
 				A10000000000000000000008 /* Workshop.xcconfig */,
 				C10000000000000000000001 /* Resources/Fonts/SpecialElite-Regular.ttf */,
@@ -332,6 +466,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F10000000000000000000001 /* AppBootstrap.swift in Sources */,
+				F10000000000000000000002 /* CookingView.swift in Sources */,
+				F10000000000000000000003 /* CookingTimerNotifications.swift in Sources */,
+				F10000000000000000000004 /* RecipeValidator.swift in Sources */,
+				F10000000000000000000005 /* RecipeCatalog.swift in Sources */,
+				F10000000000000000000006 /* RecipeGraph.swift in Sources */,
+				F10000000000000000000007 /* RecipeGraphBuilder.swift in Sources */,
+				F10000000000000000000008 /* RecipeBookStore.swift in Sources */,
+				F10000000000000000000009 /* LibraryPage.swift in Sources */,
+				F1000000000000000000000A /* ThemesView.swift in Sources */,
 				E90000000000000000000005 /* Sources/IncomingRecipe.swift in Sources */,
 				E90000000000000000000006 /* Sources/IncomingRecipeStore.swift in Sources */,
 				E90000000000000000000007 /* Sources/IncomingRecipeSection.swift in Sources */,

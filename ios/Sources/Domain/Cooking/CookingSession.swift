@@ -46,37 +46,6 @@ struct TimerPresentation: Equatable {
     var needsAttention: Bool
 }
 
-struct CookingJournalEntry: Codable, Equatable, Identifiable {
-    var id: String
-    var recipeID: String
-    var dishName: String
-    var completedAt: Date
-
-    init(id: String = UUID().uuidString, recipeID: String, dishName: String, completedAt: Date) {
-        self.id = id
-        self.recipeID = recipeID
-        self.dishName = dishName
-        self.completedAt = completedAt
-    }
-
-
-}
-
-struct CookingStatistics: Codable {
-    var dishesCompleted = 0
-    var lastCompleted: Date?
-    var journalEntries: [CookingJournalEntry] = []
-
-    init(dishesCompleted: Int = 0, lastCompleted: Date? = nil,
-         journalEntries: [CookingJournalEntry] = []) {
-        self.dishesCompleted = dishesCompleted
-        self.lastCompleted = lastCompleted
-        self.journalEntries = journalEntries
-    }
-
-
-}
-
 struct CookingSession: Codable {
     var version = 1
     var recipeID: String
@@ -85,7 +54,6 @@ struct CookingSession: Codable {
     var density: GridDensity = .compact
     var scrollX: Double = 0
     var scrollY: Double = 0
-    var statistics: CookingStatistics?
 
     var isUntouched: Bool {
         progress.timers.isEmpty && progress.states.values.allSatisfy { $0 == .pending }
@@ -202,7 +170,6 @@ struct CookingSession: Codable {
     }
 
     mutating func reset(graph: RecipeGraph) {
-        statistics = statistics ?? CookingStatistics()
         history.removeAll()
         progress = CookingSession(graph: graph).progress
     }
@@ -505,19 +472,11 @@ final class SessionStore: ObservableObject {
         updateAttention(); syncClock(); save(); focusRequest += 1
     }
     func reset() { cancelCelebration(); session.reset(graph: graph); updateAttention(); syncClock(); save(); focusRequest += 1 }
-    /// Commit the meal and fresh progress together; plain reset/Undo never count a dish.
+    /// Commit fresh progress only after the completed table is saved successfully.
     @discardableResult
     func finish() -> Bool {
         guard isComplete else { return false }
         var finished = session
-        var stats = finished.statistics ?? CookingStatistics()
-        let completedAt = Date()
-        stats.dishesCompleted += 1
-        stats.lastCompleted = completedAt
-        stats.journalEntries.append(CookingJournalEntry(recipeID: graph.recipe.id,
-                                                       dishName: graph.recipe.title,
-                                                       completedAt: completedAt))
-        finished.statistics = stats
         finished.reset(graph: graph)
         do {
             try persist(finished)

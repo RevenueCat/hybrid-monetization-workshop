@@ -255,10 +255,7 @@ final class KitchenTableUITests: XCTestCase {
         XCTAssertFalse(app.staticTexts["recipe.finished"].exists)
         grid.swipeDown()
         app.buttons["navigation.recipes"].tap()
-        app.buttons["book.menu"].tap(); app.buttons["Journal"].tap()
-        XCTAssertEqual(app.staticTexts["journal.entry.0.name"].label, "Baba Ganoush")
-        XCTAssertEqual(app.staticTexts["journal.entry.1.name"].label, "Baba Ganoush",
-                       "Finish and Cook again each add one journal entry")
+        XCTAssertTrue(app.buttons["book.open.baba-ganoush"].label.contains("Start cooking"))
     }
 
     @MainActor
@@ -321,30 +318,7 @@ final class KitchenTableUITests: XCTestCase {
     }
 
     @MainActor
-    func testJournalShowsFinishedDishAndDate() throws {
-        continueAfterFailure = false
-        let app = XCUIApplication()
-        app.launchArguments = ["--ui-testing", "--skip-walkthrough", "--reset-session"]
-        app.launch()
-        app.buttons["book.menu"].tap(); app.buttons["Journal"].tap()
-        XCTAssertTrue(app.staticTexts["journal.empty"].waitForExistence(timeout: 4))
-        XCTAssertEqual(app.staticTexts["journal.recipes"].label, "2")
-        XCTAssertEqual(app.staticTexts["journal.dishes"].label, "0")
-        XCTAssertEqual(app.staticTexts["journal.unique"].label, "0")
-        app.buttons["page.back"].tap(); openRecipe(app)
-        for _ in 0..<4 { app.scrollViews["recipe.grid"].swipeLeft() }
-        app.buttons["cell.serve"].tap()
-        XCTAssertTrue(app.buttons["recipe.finish"].waitForExistence(timeout: 5))
-        app.buttons["recipe.finish"].tap()
-        app.buttons["book.menu"].tap(); app.buttons["Journal"].tap()
-        XCTAssertEqual(app.staticTexts["journal.entry.0.name"].label, "Baba Ganoush")
-        XCTAssertFalse(app.staticTexts["journal.entry.0.date"].label.isEmpty)
-        XCTAssertEqual(app.staticTexts["journal.dishes"].label, "1")
-        XCTAssertEqual(app.staticTexts["journal.unique"].label, "1")
-    }
-
-    @MainActor
-    func testMenuPagesThemesDensityAndJournal() throws {
+    func testMenuPagesThemesAndDensity() throws {
         continueAfterFailure = false
         let app = XCUIApplication()
         app.launchArguments = ["--ui-testing", "--skip-walkthrough", "--reset-session"]
@@ -387,10 +361,6 @@ final class KitchenTableUITests: XCTestCase {
         capture("settings-classic-light", app: app)
         appearance.buttons["Dark"].tap()
         app.buttons["page.back"].tap()
-        page("Journal")
-        XCTAssertTrue(app.staticTexts["journal.empty"].exists)
-        capture("journal-empty", app: app)
-        app.buttons["page.back"].tap()
         openRecipe(app)
         XCTAssertFalse(app.buttons["book.menu"].exists)
         let comfortableWidth = app.buttons["cell.garlic"].frame.width
@@ -402,13 +372,6 @@ final class KitchenTableUITests: XCTestCase {
         capture("editor-inline-actions", app: app)
         app.buttons["edit.cancel"].tap()
         app.buttons["details.back"].tap()
-        for _ in 0..<4 { app.scrollViews["recipe.grid"].swipeLeft() }
-        app.buttons["cell.serve"].tap()
-        XCTAssertTrue(app.buttons["recipe.finish"].waitForExistence(timeout: 5))
-        app.buttons["recipe.finish"].tap()
-        page("Journal")
-        XCTAssertEqual(app.staticTexts["journal.entry.0.name"].label, "Baba Ganoush")
-        capture("journal-completed", app: app)
         app.terminate(); app.launchArguments = ["--ui-testing", "--skip-walkthrough"]; app.launch()
         page("Settings")
         XCTAssertTrue(appearance.buttons["Dark"].isSelected)
@@ -642,7 +605,7 @@ final class KitchenTableUITests: XCTestCase {
     }
 
     @MainActor
-    func testStayThenFinishCountsOnlyOnFinish() throws {
+    func testStayThenFinishResetsOnlyOnFinish() throws {
         continueAfterFailure = false
         let app = XCUIApplication()
         app.launchArguments = ["--ui-testing", "--skip-walkthrough", "--reset-session"]
@@ -657,18 +620,13 @@ final class KitchenTableUITests: XCTestCase {
         grid.swipeDown()
         app.buttons["navigation.recipes"].tap()
         XCTAssertTrue(app.buttons["book.open.baba-ganoush"].label.contains("Ready to finish"))
-        app.buttons["book.menu"].tap(); app.buttons["Journal"].tap()
-        XCTAssertTrue(app.staticTexts["journal.empty"].exists)
-        app.buttons["page.back"].tap()
         app.terminate(); app.launchArguments = ["--ui-testing", "--skip-walkthrough"]; app.launch(); openRecipe(app)
         XCTAssertTrue(app.buttons["grid.finish"].waitForExistence(timeout: 3))
         XCTAssertFalse(app.staticTexts["recipe.finished"].exists)
         app.buttons["grid.finish"].tap()
         XCTAssertTrue(app.buttons["book.open.baba-ganoush"].waitForExistence(timeout: 4))
         XCTAssertTrue(app.buttons["book.open.baba-ganoush"].label.contains("Start cooking"))
-        app.buttons["book.menu"].tap(); app.buttons["Journal"].tap()
-        XCTAssertEqual(app.staticTexts["journal.entry.0.name"].label, "Baba Ganoush")
-        app.buttons["page.back"].tap(); openRecipe(app)
+        openRecipe(app)
         XCTAssertFalse(app.buttons["grid.finish"].exists)
         XCTAssertFalse(app.buttons["progress.undo"].exists)
     }
