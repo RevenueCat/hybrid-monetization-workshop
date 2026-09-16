@@ -7,20 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D40000000000000000000001 /* RevenueCat in Frameworks */ = {isa = PBXBuildFile; productRef = D40000000000000000000002 /* RevenueCat */; };
-		D50000000000000000000001 /* RevenueCatAdMob in Frameworks */ = {isa = PBXBuildFile; productRef = D50000000000000000000002 /* RevenueCatAdMob */; };
-		D41000000000000000000001 /* RevenueCatConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42000000000000000000001 /* RevenueCatConfiguration.swift */; };
-		D41000000000000000000002 /* RevenueCatTestSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42000000000000000000002 /* RevenueCatTestSupport.swift */; };
-		D41000000000000000000003 /* SpoonConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42000000000000000000003 /* SpoonConfiguration.swift */; };
-		D41000000000000000000004 /* SpoonClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42000000000000000000004 /* SpoonClient.swift */; };
-		D41000000000000000000005 /* SpoonSpendingClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42000000000000000000005 /* SpoonSpendingClient.swift */; };
-		D41000000000000000000006 /* SpoonStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42000000000000000000006 /* SpoonStore.swift */; };
-		D41000000000000000000007 /* SpoonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42000000000000000000007 /* SpoonsView.swift */; };
-		D51000000000000000000001 /* SpoonRewardConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = D52000000000000000000001 /* SpoonRewardConfiguration.swift */; };
-		D51000000000000000000002 /* DailyRewardClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D52000000000000000000002 /* DailyRewardClient.swift */; };
-		D51000000000000000000003 /* ViewControllerLocator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D52000000000000000000003 /* ViewControllerLocator.swift */; };
-		D51000000000000000000004 /* SpoonRewardStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D52000000000000000000004 /* SpoonRewardStore.swift */; };
-		D51000000000000000000005 /* ImportShortfallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D52000000000000000000005 /* ImportShortfallView.swift */; };
 		076918724BB55EC97500E4A8 /* recipe.json in Resources */ = {isa = PBXBuildFile; fileRef = 8590CB2EBDE651C3E864E808 /* recipe.json */; };
 		08623D5E3A678B4888AB86DA /* KitchenTableUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24C55B0D193BD74D4C016AFB /* KitchenTableUITests.swift */; };
 		08AD67BBF7B168F09C7EA9B5 /* CookingScreenAwake.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7371CAA0F0434197B5C4AD8 /* CookingScreenAwake.swift */; };
@@ -40,18 +26,32 @@
 		B00000000000000000000002 /* Walkthrough.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000001 /* Walkthrough.swift */; };
 		B10000000000000000000002 /* banana-muffins in Resources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000001 /* banana-muffins */; };
 		B20000000000000000000002 /* pickled-onion in Resources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000001 /* pickled-onion */; };
+		B28B6BA16E50B88A3857037F /* ThemeControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62970E5BAE7E81FCF40C171F /* ThemeControls.swift */; };
 		B30000000000000000000002 /* coca-de-recapte in Resources */ = {isa = PBXBuildFile; fileRef = B30000000000000000000001 /* coca-de-recapte */; };
 		B40000000000000000000002 /* coconut-chickpea-soup in Resources */ = {isa = PBXBuildFile; fileRef = B40000000000000000000001 /* coconut-chickpea-soup */; };
-		B28B6BA16E50B88A3857037F /* ThemeControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62970E5BAE7E81FCF40C171F /* ThemeControls.swift */; };
 		C10000000000000000000002 /* Resources/Fonts/SpecialElite-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C10000000000000000000001 /* Resources/Fonts/SpecialElite-Regular.ttf */; };
 		C77878C85CD0B2D47C204512 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7BE827DC7DB55949CD0472C /* SettingsView.swift */; };
 		D10000000000000000000002 /* Resources/Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D10000000000000000000001 /* Resources/Assets.xcassets */; };
+		D40000000000000000000001 /* RevenueCat in Frameworks */ = {isa = PBXBuildFile; productRef = D40000000000000000000002 /* RevenueCat */; };
+		D41000000000000000000001 /* RevenueCatConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42000000000000000000001 /* RevenueCatConfiguration.swift */; };
+		D41000000000000000000002 /* RevenueCatTestSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42000000000000000000002 /* RevenueCatTestSupport.swift */; };
+		D41000000000000000000003 /* SpoonConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42000000000000000000003 /* SpoonConfiguration.swift */; };
+		D41000000000000000000004 /* SpoonClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42000000000000000000004 /* SpoonClient.swift */; };
+		D41000000000000000000005 /* SpoonSpendingClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42000000000000000000005 /* SpoonSpendingClient.swift */; };
+		D41000000000000000000006 /* SpoonStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42000000000000000000006 /* SpoonStore.swift */; };
+		D41000000000000000000007 /* SpoonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42000000000000000000007 /* SpoonsView.swift */; };
+		D50000000000000000000001 /* RevenueCatAdMob in Frameworks */ = {isa = PBXBuildFile; productRef = D50000000000000000000002 /* RevenueCatAdMob */; };
+		D51000000000000000000001 /* SpoonRewardConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = D52000000000000000000001 /* SpoonRewardConfiguration.swift */; };
+		D51000000000000000000002 /* DailyRewardClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D52000000000000000000002 /* DailyRewardClient.swift */; };
+		D51000000000000000000003 /* ViewControllerLocator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D52000000000000000000003 /* ViewControllerLocator.swift */; };
+		D51000000000000000000004 /* SpoonRewardStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D52000000000000000000004 /* SpoonRewardStore.swift */; };
+		D51000000000000000000005 /* ImportShortfallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D52000000000000000000005 /* ImportShortfallView.swift */; };
 		E677F6EDF75C81075E928D86 /* GridLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2452A5D1B323175FF4F712 /* GridLayout.swift */; };
 		E677F6EDF75C81075E928D87 /* RecipeTableLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2452A5D1B323175FF4F713 /* RecipeTableLayout.swift */; };
 		E75F278D8A04008FF0163A5E /* KitchenTableApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA707E9E6A88A4FFF2B2BDD3 /* KitchenTableApp.swift */; };
-		E90000000000000000000005 /* Sources/IncomingRecipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90000000000000000000001 /* Sources/IncomingRecipe.swift */; };
-		E90000000000000000000006 /* Sources/IncomingRecipeStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90000000000000000000002 /* Sources/IncomingRecipeStore.swift */; };
-		E90000000000000000000007 /* Sources/IncomingRecipeSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90000000000000000000003 /* Sources/IncomingRecipeSection.swift */; };
+		E90000000000000000000005 /* IncomingRecipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90000000000000000000001 /* IncomingRecipe.swift */; };
+		E90000000000000000000006 /* IncomingRecipeStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90000000000000000000002 /* IncomingRecipeStore.swift */; };
+		E90000000000000000000007 /* IncomingRecipeSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90000000000000000000003 /* IncomingRecipeSection.swift */; };
 		F10000000000000000000001 /* AppBootstrap.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20000000000000000000001 /* AppBootstrap.swift */; };
 		F10000000000000000000002 /* CookingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20000000000000000000002 /* CookingView.swift */; };
 		F10000000000000000000003 /* CookingTimerNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20000000000000000000003 /* CookingTimerNotifications.swift */; };
@@ -81,22 +81,7 @@
 		};
 /* End PBXContainerItemProxy section */
 
-/* Begin PBXCopyFilesBuildPhase section */
-/* End PBXCopyFilesBuildPhase section */
-
 /* Begin PBXFileReference section */
-		D42000000000000000000001 /* RevenueCatConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RevenueCatConfiguration.swift; sourceTree = "<group>"; };
-		D42000000000000000000002 /* RevenueCatTestSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RevenueCatTestSupport.swift; sourceTree = "<group>"; };
-		D42000000000000000000003 /* SpoonConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpoonConfiguration.swift; sourceTree = "<group>"; };
-		D42000000000000000000004 /* SpoonClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpoonClient.swift; sourceTree = "<group>"; };
-		D42000000000000000000005 /* SpoonSpendingClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpoonSpendingClient.swift; sourceTree = "<group>"; };
-		D42000000000000000000006 /* SpoonStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpoonStore.swift; sourceTree = "<group>"; };
-		D42000000000000000000007 /* SpoonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpoonsView.swift; sourceTree = "<group>"; };
-		D52000000000000000000001 /* SpoonRewardConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpoonRewardConfiguration.swift; sourceTree = "<group>"; };
-		D52000000000000000000002 /* DailyRewardClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyRewardClient.swift; sourceTree = "<group>"; };
-		D52000000000000000000003 /* ViewControllerLocator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerLocator.swift; sourceTree = "<group>"; };
-		D52000000000000000000004 /* SpoonRewardStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpoonRewardStore.swift; sourceTree = "<group>"; };
-		D52000000000000000000005 /* ImportShortfallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportShortfallView.swift; sourceTree = "<group>"; };
 		0B373B5181295B86264B29EA /* PageHeading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageHeading.swift; sourceTree = "<group>"; };
 		18B6D67CC4AEC18C42FC7FDB /* RecipeEditing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeEditing.swift; sourceTree = "<group>"; };
 		236C48690D54E367084145DF /* KitchenTableTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KitchenTableTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -112,7 +97,7 @@
 		8F2452A5D1B323175FF4F712 /* GridLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridLayout.swift; sourceTree = "<group>"; };
 		8F2452A5D1B323175FF4F713 /* RecipeTableLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeTableLayout.swift; sourceTree = "<group>"; };
 		A10000000000000000000003 /* ThemePreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemePreview.swift; sourceTree = "<group>"; };
-		A10000000000000000000008 /* Workshop.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Workshop.xcconfig"; sourceTree = "<group>"; };
+		A10000000000000000000008 /* Workshop.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Workshop.xcconfig; sourceTree = "<group>"; };
 		A10000000000000000000010 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A22334455667788990000001 /* photo.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = photo.jpg; path = "Resources/Recipes/baba-ganoush/photo.jpg"; sourceTree = SOURCE_ROOT; };
 		A2B34C56D78E90F123456701 /* RecipeBookView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeBookView.swift; sourceTree = "<group>"; };
@@ -126,13 +111,24 @@
 		C7BD59FC020BAEAEE72CBBA4 /* RecipeGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeGridView.swift; sourceTree = "<group>"; };
 		CB6037648E8A20F142B6EC7A /* CookingSessionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CookingSessionTests.swift; sourceTree = "<group>"; };
 		D10000000000000000000001 /* Resources/Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Resources/Assets.xcassets; sourceTree = "<group>"; };
+		D42000000000000000000001 /* RevenueCatConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RevenueCatConfiguration.swift; sourceTree = "<group>"; };
+		D42000000000000000000002 /* RevenueCatTestSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RevenueCatTestSupport.swift; sourceTree = "<group>"; };
+		D42000000000000000000003 /* SpoonConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpoonConfiguration.swift; sourceTree = "<group>"; };
+		D42000000000000000000004 /* SpoonClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpoonClient.swift; sourceTree = "<group>"; };
+		D42000000000000000000005 /* SpoonSpendingClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpoonSpendingClient.swift; sourceTree = "<group>"; };
+		D42000000000000000000006 /* SpoonStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpoonStore.swift; sourceTree = "<group>"; };
+		D42000000000000000000007 /* SpoonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpoonsView.swift; sourceTree = "<group>"; };
+		D52000000000000000000001 /* SpoonRewardConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpoonRewardConfiguration.swift; sourceTree = "<group>"; };
+		D52000000000000000000002 /* DailyRewardClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyRewardClient.swift; sourceTree = "<group>"; };
+		D52000000000000000000003 /* ViewControllerLocator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerLocator.swift; sourceTree = "<group>"; };
+		D52000000000000000000004 /* SpoonRewardStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpoonRewardStore.swift; sourceTree = "<group>"; };
+		D52000000000000000000005 /* ImportShortfallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportShortfallView.swift; sourceTree = "<group>"; };
 		E7371CAA0F0434197B5C4AD8 /* CookingScreenAwake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CookingScreenAwake.swift; sourceTree = "<group>"; };
 		E7BE827DC7DB55949CD0472C /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		E90000000000000000000001 /* IncomingRecipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncomingRecipe.swift; sourceTree = "<group>"; };
 		E90000000000000000000002 /* IncomingRecipeStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncomingRecipeStore.swift; sourceTree = "<group>"; };
 		E90000000000000000000003 /* IncomingRecipeSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncomingRecipeSection.swift; sourceTree = "<group>"; };
 		EA707E9E6A88A4FFF2B2BDD3 /* KitchenTableApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KitchenTableApp.swift; sourceTree = "<group>"; };
-		F7A0A776979F2776BBC08E61 /* Recipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recipe.swift; sourceTree = "<group>"; };
 		F20000000000000000000001 /* AppBootstrap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppBootstrap.swift; sourceTree = "<group>"; };
 		F20000000000000000000002 /* CookingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CookingView.swift; sourceTree = "<group>"; };
 		F20000000000000000000003 /* CookingTimerNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CookingTimerNotifications.swift; sourceTree = "<group>"; };
@@ -143,6 +139,7 @@
 		F20000000000000000000008 /* RecipeBookStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeBookStore.swift; sourceTree = "<group>"; };
 		F20000000000000000000009 /* LibraryPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryPage.swift; sourceTree = "<group>"; };
 		F2000000000000000000000A /* ThemesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemesView.swift; sourceTree = "<group>"; };
+		F7A0A776979F2776BBC08E61 /* Recipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recipe.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -172,6 +169,42 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2EB56BE3C2D93CDAB0C52E67 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				F30000000000000000000001 /* App */,
+				F30000000000000000000002 /* DesignSystem */,
+				F30000000000000000000004 /* Domain */,
+				F30000000000000000000007 /* Features */,
+				D43000000000000000000001 /* Monetization */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		39FDEC1194D94212B871A28B /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				CB6037648E8A20F142B6EC7A /* CookingSessionTests.swift */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		8D5093D2C263EEDEAE2010BE /* UITests */ = {
+			isa = PBXGroup;
+			children = (
+				24C55B0D193BD74D4C016AFB /* KitchenTableUITests.swift */,
+			);
+			path = UITests;
+			sourceTree = "<group>";
+		};
+		9091BD8D3052CC71005571AB /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				A22334455667788990000001 /* photo.jpg */,
+			);
+			name = "Recovered References";
+			sourceTree = "<group>";
+		};
 		D43000000000000000000001 /* Monetization */ = {
 			isa = PBXGroup;
 			children = (
@@ -220,6 +253,26 @@
 				D52000000000000000000003 /* ViewControllerLocator.swift */,
 			);
 			path = Ads;
+			sourceTree = "<group>";
+		};
+		E96857C58F716104CAEAD648 = {
+			isa = PBXGroup;
+			children = (
+				A10000000000000000000010 /* Info.plist */,
+				A10000000000000000000008 /* Workshop.xcconfig */,
+				C10000000000000000000001 /* Resources/Fonts/SpecialElite-Regular.ttf */,
+				D10000000000000000000001 /* Resources/Assets.xcassets */,
+				2EB56BE3C2D93CDAB0C52E67 /* Sources */,
+				39FDEC1194D94212B871A28B /* Tests */,
+				8D5093D2C263EEDEAE2010BE /* UITests */,
+				8590CB2EBDE651C3E864E808 /* recipe.json */,
+				B10000000000000000000001 /* banana-muffins */,
+				B20000000000000000000001 /* pickled-onion */,
+				B30000000000000000000001 /* coca-de-recapte */,
+				B40000000000000000000001 /* coconut-chickpea-soup */,
+				FE0A091FDBFB3E9C31B7A1BD /* Products */,
+				9091BD8D3052CC71005571AB /* Recovered References */,
+			);
 			sourceTree = "<group>";
 		};
 		F30000000000000000000001 /* App */ = {
@@ -273,7 +326,7 @@
 			path = Recipes;
 			sourceTree = "<group>";
 		};
-		F30000000000000000000006 /* Domain Cooking */ = {
+		F30000000000000000000006 /* Cooking */ = {
 			isa = PBXGroup;
 			children = (
 				5EA45063B3D67FE28316BCD2 /* CookingSession.swift */,
@@ -295,7 +348,7 @@
 			path = Features;
 			sourceTree = "<group>";
 		};
-		F30000000000000000000008 /* Feature Cooking */ = {
+		F30000000000000000000008 /* Cooking */ = {
 			isa = PBXGroup;
 			children = (
 				E7371CAA0F0434197B5C4AD8 /* CookingScreenAwake.swift */,
@@ -352,62 +405,6 @@
 				B00000000000000000000001 /* Walkthrough.swift */,
 			);
 			path = Walkthrough;
-			sourceTree = "<group>";
-		};
-		2EB56BE3C2D93CDAB0C52E67 /* Sources */ = {
-			isa = PBXGroup;
-			children = (
-				F30000000000000000000001 /* App */,
-				F30000000000000000000002 /* DesignSystem */,
-				F30000000000000000000004 /* Domain */,
-				F30000000000000000000007 /* Features */,
-				D43000000000000000000001 /* Monetization */,
-			);
-			path = Sources;
-			sourceTree = "<group>";
-		};
-		39FDEC1194D94212B871A28B /* Tests */ = {
-			isa = PBXGroup;
-			children = (
-				CB6037648E8A20F142B6EC7A /* CookingSessionTests.swift */,
-			);
-			path = Tests;
-			sourceTree = "<group>";
-		};
-		8D5093D2C263EEDEAE2010BE /* UITests */ = {
-			isa = PBXGroup;
-			children = (
-				24C55B0D193BD74D4C016AFB /* KitchenTableUITests.swift */,
-			);
-			path = UITests;
-			sourceTree = "<group>";
-		};
-		9091BD8D3052CC71005571AB /* Recovered References */ = {
-			isa = PBXGroup;
-			children = (
-				A22334455667788990000001 /* photo.jpg */,
-			);
-			name = "Recovered References";
-			sourceTree = "<group>";
-		};
-		E96857C58F716104CAEAD648 = {
-			isa = PBXGroup;
-			children = (
-				A10000000000000000000010 /* Info.plist */,
-				A10000000000000000000008 /* Workshop.xcconfig */,
-				C10000000000000000000001 /* Resources/Fonts/SpecialElite-Regular.ttf */,
-				D10000000000000000000001 /* Resources/Assets.xcassets */,
-				2EB56BE3C2D93CDAB0C52E67 /* Sources */,
-				39FDEC1194D94212B871A28B /* Tests */,
-				8D5093D2C263EEDEAE2010BE /* UITests */,
-				8590CB2EBDE651C3E864E808 /* recipe.json */,
-				B10000000000000000000001 /* banana-muffins */,
-				B20000000000000000000001 /* pickled-onion */,
-				B30000000000000000000001 /* coca-de-recapte */,
-				B40000000000000000000001 /* coconut-chickpea-soup */,
-				FE0A091FDBFB3E9C31B7A1BD /* Products */,
-				9091BD8D3052CC71005571AB /* Recovered References */,
-			);
 			sourceTree = "<group>";
 		};
 		FE0A091FDBFB3E9C31B7A1BD /* Products */ = {
@@ -499,8 +496,8 @@
 			);
 			mainGroup = E96857C58F716104CAEAD648;
 			packageReferences = (
-				D40000000000000000000003 /* purchases-ios-spm */,
-				D50000000000000000000003 /* purchases-ios-admob */,
+				D40000000000000000000003 /* XCRemoteSwiftPackageReference "purchases-ios-spm" */,
+				D50000000000000000000003 /* XCRemoteSwiftPackageReference "purchases-ios-admob" */,
 			);
 			productRefGroup = FE0A091FDBFB3E9C31B7A1BD /* Products */;
 			projectDirPath = "";
@@ -572,9 +569,9 @@
 				F10000000000000000000008 /* RecipeBookStore.swift in Sources */,
 				F10000000000000000000009 /* LibraryPage.swift in Sources */,
 				F1000000000000000000000A /* ThemesView.swift in Sources */,
-				E90000000000000000000005 /* Sources/IncomingRecipe.swift in Sources */,
-				E90000000000000000000006 /* Sources/IncomingRecipeStore.swift in Sources */,
-				E90000000000000000000007 /* Sources/IncomingRecipeSection.swift in Sources */,
+				E90000000000000000000005 /* IncomingRecipe.swift in Sources */,
+				E90000000000000000000006 /* IncomingRecipeStore.swift in Sources */,
+				E90000000000000000000007 /* IncomingRecipeSection.swift in Sources */,
 				52258F795A53712F6D19098E /* PageHeading.swift in Sources */,
 				B28B6BA16E50B88A3857037F /* ThemeControls.swift in Sources */,
 				08AD67BBF7B168F09C7EA9B5 /* CookingScreenAwake.swift in Sources */,
@@ -677,13 +674,12 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A10000000000000000000008 /* Workshop.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = "AppIcon-studio AppIcon-editorial AppIcon-archive AppIcon-classic";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Info.plist;
-				WORKSHOP_REVENUECAT_KEY = "$(REVENUECAT_TEST_API_KEY)";
 				INFOPLIST_KEY_CFBundleDisplayName = "Kitchen Table";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -695,6 +691,7 @@
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
+				WORKSHOP_REVENUECAT_KEY = "$(REVENUECAT_TEST_API_KEY)";
 			};
 			name = Debug;
 		};
@@ -734,13 +731,12 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A10000000000000000000008 /* Workshop.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = "AppIcon-studio AppIcon-editorial AppIcon-archive AppIcon-classic";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Info.plist;
-				WORKSHOP_REVENUECAT_KEY = "$(REVENUECAT_API_KEY)";
 				INFOPLIST_KEY_CFBundleDisplayName = "Kitchen Table";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -752,6 +748,7 @@
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
+				WORKSHOP_REVENUECAT_KEY = "$(REVENUECAT_API_KEY)";
 			};
 			name = Release;
 		};
@@ -814,13 +811,35 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		D40000000000000000000003 /* purchases-ios-spm */ = {isa = XCRemoteSwiftPackageReference; repositoryURL = "https://github.com/RevenueCat/purchases-ios-spm"; requirement = {kind = exactVersion; version = 5.89.0; }; };
-		D50000000000000000000003 /* purchases-ios-admob */ = {isa = XCRemoteSwiftPackageReference; repositoryURL = "https://github.com/RevenueCat/purchases-ios-admob"; requirement = {kind = exactVersion; version = 5.89.0; }; };
+		D40000000000000000000003 /* XCRemoteSwiftPackageReference "purchases-ios-spm" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/RevenueCat/purchases-ios-spm";
+			requirement = {
+				kind = exactVersion;
+				version = 5.89.0;
+			};
+		};
+		D50000000000000000000003 /* XCRemoteSwiftPackageReference "purchases-ios-admob" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/RevenueCat/purchases-ios-admob";
+			requirement = {
+				kind = exactVersion;
+				version = 5.89.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		D40000000000000000000002 /* RevenueCat */ = {isa = XCSwiftPackageProductDependency; package = D40000000000000000000003 /* purchases-ios-spm */; productName = RevenueCat; };
-		D50000000000000000000002 /* RevenueCatAdMob */ = {isa = XCSwiftPackageProductDependency; package = D50000000000000000000003 /* purchases-ios-admob */; productName = RevenueCatAdMob; };
+		D40000000000000000000002 /* RevenueCat */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D40000000000000000000003 /* XCRemoteSwiftPackageReference "purchases-ios-spm" */;
+			productName = RevenueCat;
+		};
+		D50000000000000000000002 /* RevenueCatAdMob */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D50000000000000000000003 /* XCRemoteSwiftPackageReference "purchases-ios-admob" */;
+			productName = RevenueCatAdMob;
+		};
 /* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = F6F4DA8D93E88A08220E03B7 /* Project object */;
