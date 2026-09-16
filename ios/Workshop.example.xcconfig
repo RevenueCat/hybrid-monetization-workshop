@@ -1,3 +1,16 @@
 // Safe simulator placeholders. Override account configuration locally.
 WORKSHOP_BUNDLE_ID = com.example.kitchentable.workshop
 DEVELOPMENT_TEAM =
+
+// Public SDK keys only. The backend secret belongs in backend/.env.
+REVENUECAT_API_KEY =
+REVENUECAT_TEST_API_KEY =
+
+// Scenario D catalog. These identifiers may be overridden for a participant-owned project.
+REVENUECAT_PROJECT_ID =
+REVENUECAT_TEST_APP_ID =
+REVENUECAT_SPOONS_OFFERING_ID = spoons
+SPOON_CURRENCY_CODE = SPOON
+SPOON_IMPORT_COST = 25
+PREFLIGHT_PRODUCT_IDS = kitchen_table_spoons_monthly,kitchen_table_spoons_50,kitchen_table_spoons_200
+PREFLIGHT_OFFERINGS = spoons

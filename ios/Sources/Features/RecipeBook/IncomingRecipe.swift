@@ -38,9 +38,12 @@ struct IncomingRecipe: Codable, Identifiable {
     var createdAt: Date = Date()
     var requestedAt: Date?
     var status: Status = .ready
+    /// Stable across uncertain retries so the spending service can make the debit idempotent.
+    var spendOperationID: String? = UUID().uuidString.lowercased()
     var preparedRecipe: Data?
     var mockTemplateID: String?
     var recipeID: String { "import-" + id }
+    var effectiveSpendOperationID: String { spendOperationID ?? id }
 }
 
 struct IncomingRecipeDocument: Codable {

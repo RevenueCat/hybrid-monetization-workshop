@@ -1658,6 +1658,30 @@ extension IncomingRecipeTests {
 
 extension IncomingRecipeTests {
     @MainActor
+    func testSpendOperationPersistsAndOnlyRenewsAfterDecline() throws {
+        let repository = try repository()
+        defer { try? FileManager.default.removeItem(at: repository.fileURL.deletingLastPathComponent()) }
+        let incoming = try IncomingRecipeStore(repository: repository)
+        let id = try incoming.capture(URL(string: "https://example.com/paid-import")!)
+        let original = try XCTUnwrap(incoming.spendOperationID(for: id))
+
+        let reopened = try IncomingRecipeStore(repository: repository)
+        XCTAssertEqual(reopened.spendOperationID(for: id), original, "Uncertain retries must reuse one debit operation")
+        reopened.renewSpendOperation(for: id)
+        let renewed = try XCTUnwrap(reopened.spendOperationID(for: id))
+        XCTAssertNotEqual(renewed, original, "A completed insufficient-balance response needs a fresh operation after top-up")
+        XCTAssertEqual(try IncomingRecipeStore(repository: repository).spendOperationID(for: id), renewed)
+    }
+
+    func testOlderIncomingRecipeWithoutSpendOperationRemainsDecodable() throws {
+        let json = #"{"source":{"kind":"web","value":"https:\/\/example.com\/recipe"},"title":"Old","id":"ebf5fb88-c8cc-49ec-8bc7-7c3c8105035d","createdAt":0,"status":"ready"}"#
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .secondsSince1970
+        let item = try decoder.decode(IncomingRecipe.self, from: Data(json.utf8))
+        XCTAssertEqual(item.effectiveSpendOperationID, item.id)
+    }
+
+    @MainActor
     func testMockImportUsesVisibleBookAndReplacesRemovedRecipe() async throws {
         let repository = try repository()
         let directory = repository.fileURL.deletingLastPathComponent()

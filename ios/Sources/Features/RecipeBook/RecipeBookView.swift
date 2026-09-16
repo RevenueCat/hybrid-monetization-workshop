@@ -2,10 +2,15 @@ import SwiftUI
 
 struct RecipeBookView: View {
     @EnvironmentObject private var appearance: AppearanceStore
+    @EnvironmentObject private var spoons: SpoonStore
     @ObservedObject var library: RecipeLibrary
     var openWalkthrough: () -> Void = {}
     @State private var path: [String] = []
-    @State private var showingAddRecipe = false
+    private enum PresentedSheet: String, Identifiable {
+        case addRecipe, spoons
+        var id: String { rawValue }
+    }
+    @State private var presentedSheet: PresentedSheet?
     @State private var editingRecipes = false
     @State private var revealedRecipeID: String?
     @State private var revealedBinFrame: CGRect = .zero
@@ -50,10 +55,27 @@ struct RecipeBookView: View {
                             titleFirstLineCenter = $0
                         }
                         .frame(minHeight: 48)
-                        Text(library.stores.count == 1 ? "1 recipe" : "\(library.stores.count) recipes")
-                            .themeFont(appearance.theme, style: .subheadline)
-                            .foregroundStyle(Color(uiColor: appearance.theme.muted))
-                            .padding(.top, 6)
+                        HStack(alignment: .center, spacing: 12) {
+                            Text(library.stores.count == 1 ? "1 recipe" : "\(library.stores.count) recipes")
+                                .themeFont(appearance.theme, style: .subheadline)
+                                .foregroundStyle(Color(uiColor: appearance.theme.muted))
+                            Spacer(minLength: 8)
+                            Button { presentedSheet = .spoons } label: {
+                                HStack(spacing: 6) {
+                                    Image(systemName: "fork.knife")
+                                    Text(spoons.balanceLabel)
+                                }
+                                .themeFont(appearance.theme, style: .subheadline, emphasized: true)
+                                .padding(.horizontal, 10)
+                                .frame(minHeight: 36)
+                                .background(Color(uiColor: appearance.theme.surface), in: Capsule())
+                                .overlay(Capsule().stroke(Color(uiColor: appearance.theme.line), lineWidth: 1))
+                            }
+                            .buttonStyle(.plain)
+                            .accessibilityLabel("\(spoons.balanceLabel) Spoons. Get Spoons")
+                            .accessibilityIdentifier("book.spoons")
+                        }
+                        .padding(.top, 6)
                     }.padding(.trailing, 64).padding(.top, 20).padding(.bottom, 28)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .overlay(alignment: .topTrailing) {
@@ -84,7 +106,9 @@ struct RecipeBookView: View {
                         .listRowBackground(Color(uiColor: appearance.theme.paper))
 
                     if let incoming = library.incoming {
-                        IncomingRecipeSection(incoming: incoming, discardImport: discardImport)
+                        IncomingRecipeSection(incoming: incoming, discardImport: discardImport) {
+                            presentedSheet = .spoons
+                        }
                             .listRowInsets(EdgeInsets(top: 0, leading: 24, bottom: 0, trailing: 24))
                             .listRowSeparator(.hidden)
                             .listRowBackground(Color(uiColor: appearance.theme.paper))
@@ -162,7 +186,7 @@ struct RecipeBookView: View {
                 if !editingRecipes && library.incoming != nil {
                     Button {
                         revealedRecipeID = nil
-                        showingAddRecipe = true
+                        presentedSheet = .addRecipe
                     } label: {
                         Image(systemName: "plus")
                             .font(.system(size: 22, weight: .medium))
@@ -180,9 +204,16 @@ struct RecipeBookView: View {
                     .padding(.bottom, 16)
                 }
             }
-            .sheet(isPresented: $showingAddRecipe) {
-                if let incoming = library.incoming {
-                    AddRecipeFromLinkSheet(incoming: incoming)
+            .sheet(item: $presentedSheet) { sheet in
+                switch sheet {
+                case .addRecipe:
+                    if let incoming = library.incoming {
+                        AddRecipeFromLinkSheet(incoming: incoming) {
+                            presentedSheet = .spoons
+                        }
+                    }
+                case .spoons:
+                    SpoonsView()
                 }
             }
             .listStyle(.plain)
@@ -201,7 +232,10 @@ struct RecipeBookView: View {
             }
         }
         .tint(Color(uiColor: appearance.theme.ink))
-        .onAppear { library.incoming?.beginBookVisit() }
+        .onAppear {
+            library.incoming?.beginBookVisit()
+            Task { await spoons.refresh() }
+        }
         .onChange(of: path) { previous, current in
             if !previous.isEmpty && current.isEmpty { library.incoming?.beginBookVisit() }
         }

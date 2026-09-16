@@ -32,8 +32,8 @@ Choose the base branch for the exercise you are doing when one is available. Fin
 | Scenario B example | `scenarios/B-final` | One final ad-supported solution |
 | Scenario C start | `scenarios/C-base` | Ad-supported solution, ready to add temporary premium-feature rewards |
 | Scenario C example | `scenarios/C-final` | One final rewarded-feature solution |
-| Scenario D start | Not available | No prepared base for the in-app currency exercise yet |
-| Scenario D example | Not available | No final rewarded-currency solution yet |
+| Scenario D start | `scenarios/D-base` | Established Spoons economy, ready to add rewarded currency |
+| Scenario D example | `scenarios/D-final` | One final rewarded-currency solution |
 
 ## Code map
 
@@ -172,7 +172,7 @@ The owned rewarded unit is required because Google's demo rewarded unit cannot b
 
 ## Scenario D: Rewarding ads with in-app currency
 
-This scenario does not yet have a prepared base branch or final example solution. It assumes the app already has an in-app currency. Designing that economy can be part of the exercise, but makes the scenario more involved.
+Start from `scenarios/D-base`. This checkpoint starts directly from the free app and establishes a focused in-app economy without banners or interstitials. Recipe imports cost 25 Spoons. Customers can get Spoons from a monthly recurring purchase or one-time packs. `scenarios/D-final` adds rewarded ads as another source while preserving the same spend path.
 
 Add rewarded ads as another way to earn the existing currency. This lets users choose between money and attention to obtain the same currency, then decide when to spend it. The reward and its availability should complement purchases, subscription grants, and other earning sources without devaluing them.
 
@@ -184,6 +184,27 @@ Suggested steps:
 4. **Present the exchange clearly.** Tell users how much currency they will receive before they choose to watch.
 5. **Handle ad readiness.** Preload the rewarded ad and provide clear unavailable, cancellation, and failure states.
 6. **Verify the balance.** Confirm successful grants, repeated rewards, and spending behave consistently with purchases and subscription grants.
+
+The base catalog uses these identifiers in a participant-owned RevenueCat Test Store project:
+
+| Resource | Lookup key or identifier | Purpose |
+| --- | --- | --- |
+| Virtual currency | `SPOON` | Balance displayed and spent by Kitchen Table |
+| Offering | `spoons` | Recurring and one-time Spoons packages |
+| Monthly package | `$rc_monthly` | 100 Spoons every month |
+| Monthly product | `kitchen_table_spoons_monthly` | Recurring Spoons product |
+| Small package | `spoons_50` | One-time 50 Spoons pack |
+| Small product | `kitchen_table_spoons_50` | One-time 50 Spoons product |
+| Large package | `spoons_200` | One-time 200 Spoons pack |
+| Large product | `kitchen_table_spoons_200` | One-time 200 Spoons product |
+
+Spending runs through the simulator-only service in `backend/`, keeping the RevenueCat secret API key out of the app. Copy `backend/.env.example` to the ignored `backend/.env`, add a project secret key and project ID for the participant-owned test project, then run:
+
+```sh
+python3 backend/server.py
+```
+
+The service binds to `127.0.0.1:8787`, debits a fixed 25 Spoons per import, and persists idempotency receipts locally. It is workshop infrastructure, not a production backend.
 
 ## Build and test
 

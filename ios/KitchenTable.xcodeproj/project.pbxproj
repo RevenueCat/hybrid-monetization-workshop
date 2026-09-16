@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D40000000000000000000001 /* RevenueCat in Frameworks */ = {isa = PBXBuildFile; productRef = D40000000000000000000002 /* RevenueCat */; };
+		D41000000000000000000001 /* RevenueCatConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42000000000000000000001 /* RevenueCatConfiguration.swift */; };
+		D41000000000000000000002 /* RevenueCatTestSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42000000000000000000002 /* RevenueCatTestSupport.swift */; };
+		D41000000000000000000003 /* SpoonConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42000000000000000000003 /* SpoonConfiguration.swift */; };
+		D41000000000000000000004 /* SpoonClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42000000000000000000004 /* SpoonClient.swift */; };
+		D41000000000000000000005 /* SpoonSpendingClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42000000000000000000005 /* SpoonSpendingClient.swift */; };
+		D41000000000000000000006 /* SpoonStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42000000000000000000006 /* SpoonStore.swift */; };
+		D41000000000000000000007 /* SpoonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42000000000000000000007 /* SpoonsView.swift */; };
 		076918724BB55EC97500E4A8 /* recipe.json in Resources */ = {isa = PBXBuildFile; fileRef = 8590CB2EBDE651C3E864E808 /* recipe.json */; };
 		08623D5E3A678B4888AB86DA /* KitchenTableUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24C55B0D193BD74D4C016AFB /* KitchenTableUITests.swift */; };
 		08AD67BBF7B168F09C7EA9B5 /* CookingScreenAwake.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7371CAA0F0434197B5C4AD8 /* CookingScreenAwake.swift */; };
@@ -71,6 +79,13 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		D42000000000000000000001 /* RevenueCatConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RevenueCatConfiguration.swift; sourceTree = "<group>"; };
+		D42000000000000000000002 /* RevenueCatTestSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RevenueCatTestSupport.swift; sourceTree = "<group>"; };
+		D42000000000000000000003 /* SpoonConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpoonConfiguration.swift; sourceTree = "<group>"; };
+		D42000000000000000000004 /* SpoonClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpoonClient.swift; sourceTree = "<group>"; };
+		D42000000000000000000005 /* SpoonSpendingClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpoonSpendingClient.swift; sourceTree = "<group>"; };
+		D42000000000000000000006 /* SpoonStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpoonStore.swift; sourceTree = "<group>"; };
+		D42000000000000000000007 /* SpoonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpoonsView.swift; sourceTree = "<group>"; };
 		0B373B5181295B86264B29EA /* PageHeading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageHeading.swift; sourceTree = "<group>"; };
 		18B6D67CC4AEC18C42FC7FDB /* RecipeEditing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeEditing.swift; sourceTree = "<group>"; };
 		236C48690D54E367084145DF /* KitchenTableTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KitchenTableTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -138,12 +153,50 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D40000000000000000000001 /* RevenueCat in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D43000000000000000000001 /* Monetization */ = {
+			isa = PBXGroup;
+			children = (
+				D43000000000000000000002 /* Currency */,
+				D43000000000000000000003 /* Support */,
+			);
+			path = Monetization;
+			sourceTree = "<group>";
+		};
+		D43000000000000000000002 /* Currency */ = {
+			isa = PBXGroup;
+			children = (
+				D42000000000000000000001 /* RevenueCatConfiguration.swift */,
+				D42000000000000000000003 /* SpoonConfiguration.swift */,
+				D42000000000000000000004 /* SpoonClient.swift */,
+				D42000000000000000000005 /* SpoonSpendingClient.swift */,
+				D42000000000000000000006 /* SpoonStore.swift */,
+			);
+			path = Currency;
+			sourceTree = "<group>";
+		};
+		D43000000000000000000003 /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				D42000000000000000000002 /* RevenueCatTestSupport.swift */,
+			);
+			path = Support;
+			sourceTree = "<group>";
+		};
+		D43000000000000000000004 /* Currency */ = {
+			isa = PBXGroup;
+			children = (
+				D42000000000000000000007 /* SpoonsView.swift */,
+			);
+			path = Currency;
+			sourceTree = "<group>";
+		};
 		F30000000000000000000001 /* App */ = {
 			isa = PBXGroup;
 			children = (
@@ -208,6 +261,7 @@
 			isa = PBXGroup;
 			children = (
 				F30000000000000000000008 /* Cooking */,
+				D43000000000000000000004 /* Currency */,
 				F3000000000000000000000A /* RecipeBook */,
 				F3000000000000000000000B /* Settings */,
 				F3000000000000000000000C /* Themes */,
@@ -282,6 +336,7 @@
 				F30000000000000000000002 /* DesignSystem */,
 				F30000000000000000000004 /* Domain */,
 				F30000000000000000000007 /* Features */,
+				D43000000000000000000001 /* Monetization */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -393,6 +448,7 @@
 			);
 			name = KitchenTable;
 			packageProductDependencies = (
+				D40000000000000000000002 /* RevenueCat */,
 			);
 			productName = KitchenTable;
 			productReference = 79CEF5F5D8BB4CFF0135F0EB /* KitchenTable.app */;
@@ -417,6 +473,7 @@
 			);
 			mainGroup = E96857C58F716104CAEAD648;
 			packageReferences = (
+				D40000000000000000000003 /* purchases-ios */,
 			);
 			productRefGroup = FE0A091FDBFB3E9C31B7A1BD /* Products */;
 			projectDirPath = "";
@@ -466,6 +523,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D41000000000000000000001 /* RevenueCatConfiguration.swift in Sources */,
+				D41000000000000000000002 /* RevenueCatTestSupport.swift in Sources */,
+				D41000000000000000000003 /* SpoonConfiguration.swift in Sources */,
+				D41000000000000000000004 /* SpoonClient.swift in Sources */,
+				D41000000000000000000005 /* SpoonSpendingClient.swift in Sources */,
+				D41000000000000000000006 /* SpoonStore.swift in Sources */,
+				D41000000000000000000007 /* SpoonsView.swift in Sources */,
 				F10000000000000000000001 /* AppBootstrap.swift in Sources */,
 				F10000000000000000000002 /* CookingView.swift in Sources */,
 				F10000000000000000000003 /* CookingTimerNotifications.swift in Sources */,
@@ -587,6 +651,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Info.plist;
+				WORKSHOP_REVENUECAT_KEY = "$(REVENUECAT_TEST_API_KEY)";
 				INFOPLIST_KEY_CFBundleDisplayName = "Kitchen Table";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -643,6 +708,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Info.plist;
+				WORKSHOP_REVENUECAT_KEY = "$(REVENUECAT_API_KEY)";
 				INFOPLIST_KEY_CFBundleDisplayName = "Kitchen Table";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -716,9 +782,11 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		D40000000000000000000003 /* purchases-ios */ = {isa = XCRemoteSwiftPackageReference; repositoryURL = "https://github.com/RevenueCat/purchases-ios"; requirement = {kind = exactVersion; version = 5.89.0; }; };
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		D40000000000000000000002 /* RevenueCat */ = {isa = XCSwiftPackageProductDependency; package = D40000000000000000000003 /* purchases-ios */; productName = RevenueCat; };
 /* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = F6F4DA8D93E88A08220E03B7 /* Project object */;

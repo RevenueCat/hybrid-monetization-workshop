@@ -2,6 +2,21 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsLocalNetworking</key>
+		<true/>
+	</dict>
+	<key>RevenueCatAPIKey</key>
+	<string>$(WORKSHOP_REVENUECAT_KEY)</string>
+	<key>RevenueCatSpoonCurrencyCode</key>
+	<string>$(SPOON_CURRENCY_CODE)</string>
+	<key>RevenueCatSpoonsOfferingIdentifier</key>
+	<string>$(REVENUECAT_SPOONS_OFFERING_ID)</string>
+	<key>SpoonImportCost</key>
+	<string>$(SPOON_IMPORT_COST)</string>
+	<key>SpoonServiceURL</key>
+	<string>http://127.0.0.1:8787</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>SpecialElite-Regular.ttf</string>

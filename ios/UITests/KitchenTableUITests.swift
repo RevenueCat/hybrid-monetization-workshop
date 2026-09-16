@@ -1202,6 +1202,36 @@ extension KitchenTableUITests {
 
 extension KitchenTableUITests {
     @MainActor
+    func testSpoonsShopAndPaidImport() {
+        continueAfterFailure = false
+        let app = XCUIApplication()
+        app.launchArguments = ["--ui-testing", "--skip-walkthrough", "--reset-session", "--seed-imports"]
+        app.launch()
+
+        let balance = app.buttons["book.spoons"]
+        XCTAssertTrue(balance.waitForExistence(timeout: 8))
+        XCTAssertTrue(balance.label.contains("60 Spoons"))
+        balance.tap()
+        XCTAssertTrue(app.descendants(matching: .any)["spoons.balance"].waitForExistence(timeout: 4))
+        XCTAssertTrue(app.buttons["spoons.buy.$rc_monthly"].exists)
+        XCTAssertTrue(app.buttons["spoons.buy.spoons_50"].exists)
+        XCTAssertTrue(app.buttons["spoons.buy.spoons_200"].exists)
+        capture("spoons-economy", app: app)
+        app.buttons["page.back"].tap()
+
+        let importButton = app.buttons["incoming.action.Dinner inspiration"]
+        XCTAssertTrue(importButton.waitForExistence(timeout: 4))
+        importButton.tap()
+        let debited = XCTNSPredicateExpectation(
+            predicate: NSPredicate(format: "label CONTAINS %@", "35 Spoons"),
+            object: balance
+        )
+        XCTAssertEqual(XCTWaiter.wait(for: [debited], timeout: 4), .completed)
+    }
+}
+
+extension KitchenTableUITests {
+    @MainActor
     func testRecipeDragOrderPersistsAfterEditingAndRelaunch() {
         continueAfterFailure = false
         let app = XCUIApplication()

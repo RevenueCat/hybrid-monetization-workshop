@@ -63,6 +63,16 @@ final class IncomingRecipeStore: ObservableObject {
         }) else { return }
         startWorker()
     }
+    func spendOperationID(for id: String) -> String? {
+        items.first(where: { $0.id == id })?.effectiveSpendOperationID
+    }
+    /// A declined debit is a completed idempotent operation. A later attempt needs a new one.
+    func renewSpendOperation(for id: String) {
+        mutate { document in
+            guard let index = document.items.firstIndex(where: { $0.id == id && [.ready, .failed].contains($0.status) }) else { return }
+            document.items[index].spendOperationID = UUID().uuidString.lowercased()
+        }
+    }
     struct DiscardedImport {
         let item: IncomingRecipe
         let index: Int

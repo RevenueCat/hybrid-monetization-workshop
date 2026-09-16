@@ -2,8 +2,10 @@ import SwiftUI
 
 struct IncomingRecipeSection: View {
     @EnvironmentObject private var appearance: AppearanceStore
+    @EnvironmentObject private var spoons: SpoonStore
     @ObservedObject var incoming: IncomingRecipeStore
     var discardImport: (IncomingRecipe) -> Void
+    var showSpoons: () -> Void
 
     var body: some View {
         Group {
@@ -29,10 +31,21 @@ struct IncomingRecipeSection: View {
                                     Image(systemName: "clock").frame(width: 44, height: 44, alignment: .trailing)
                                         .accessibilityLabel("Up next")
                                 default:
-                                    Button { incoming.prepare(item.id) } label: {
-                                        Image(systemName: "tray.and.arrow.down").frame(width: 44, height: 44, alignment: .trailing).contentShape(Rectangle())
+                                    Button {
+                                        Task {
+                                            if await spoons.importRecipe(item.id, incoming: incoming) == .needsSpoons {
+                                                showSpoons()
+                                            }
+                                        }
+                                    } label: {
+                                        if spoons.spendingImportID == item.id {
+                                            ProgressView().controlSize(.small).frame(width: 44, height: 44, alignment: .trailing)
+                                        } else {
+                                            Image(systemName: "tray.and.arrow.down").frame(width: 44, height: 44, alignment: .trailing).contentShape(Rectangle())
+                                        }
                                     }
                                     .buttonStyle(.plain)
+                                    .disabled(spoons.spendingImportID != nil)
                                     .accessibilityLabel(item.status == .failed ? "Retry import" : "Import recipe")
                                     .accessibilityIdentifier("incoming.action.\(item.title)")
                                 }
@@ -69,16 +82,18 @@ struct IncomingRecipeSection: View {
         switch item.status {
         case .preparing: "Importing…"
         case .waiting: "Up next"
-        case .failed: "Couldn’t import · Try again"
-        default: "Ready to import"
+        case .failed: "Couldn’t import · Try again for \(spoons.configuration.importCost) Spoons"
+        default: "Ready to import · \(spoons.configuration.importCost) Spoons"
         }
     }
 }
 
 struct AddRecipeFromLinkSheet: View {
     @EnvironmentObject private var appearance: AppearanceStore
+    @EnvironmentObject private var spoons: SpoonStore
     @Environment(\.dismiss) private var dismiss
     @ObservedObject var incoming: IncomingRecipeStore
+    var showSpoons: () -> Void
     @State private var link = ""
     @State private var saveError: String?
     @State private var contentHeight: CGFloat = 300
@@ -132,8 +147,8 @@ struct AddRecipeFromLinkSheet: View {
                 AdaptiveActionRow {
                     Button("Cancel") { dismiss() }.buttonStyle(KitchenButtonStyle())
                         .accessibilityIdentifier("addRecipe.cancel")
-                    Button("Import recipe", action: add).buttonStyle(KitchenButtonStyle(primary: true))
-                        .disabled(url == nil)
+                    Button("Import · \(spoons.configuration.importCost) Spoons", action: add).buttonStyle(KitchenButtonStyle(primary: true))
+                        .disabled(url == nil || spoons.spendingImportID != nil)
                         .accessibilityIdentifier("addRecipe.save")
                 }
             }
@@ -153,9 +168,17 @@ struct AddRecipeFromLinkSheet: View {
         guard let url else { return }
         do {
             let id = try incoming.capture(url)
-            incoming.prepare(id)
             focused = false
-            dismiss()
+            Task {
+                switch await spoons.importRecipe(id, incoming: incoming) {
+                case .imported:
+                    dismiss()
+                case .needsSpoons:
+                    showSpoons()
+                case .failed:
+                    saveError = spoons.message
+                }
+            }
         } catch { saveError = error.localizedDescription }
     }
 }
