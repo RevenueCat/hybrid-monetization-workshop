@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		D40000000000000000000001 /* RevenueCat in Frameworks */ = {isa = PBXBuildFile; productRef = D40000000000000000000002 /* RevenueCat */; };
+		D50000000000000000000001 /* RevenueCatAdMob in Frameworks */ = {isa = PBXBuildFile; productRef = D50000000000000000000002 /* RevenueCatAdMob */; };
 		D41000000000000000000001 /* RevenueCatConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42000000000000000000001 /* RevenueCatConfiguration.swift */; };
 		D41000000000000000000002 /* RevenueCatTestSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42000000000000000000002 /* RevenueCatTestSupport.swift */; };
 		D41000000000000000000003 /* SpoonConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42000000000000000000003 /* SpoonConfiguration.swift */; };
@@ -15,6 +16,11 @@
 		D41000000000000000000005 /* SpoonSpendingClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42000000000000000000005 /* SpoonSpendingClient.swift */; };
 		D41000000000000000000006 /* SpoonStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42000000000000000000006 /* SpoonStore.swift */; };
 		D41000000000000000000007 /* SpoonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42000000000000000000007 /* SpoonsView.swift */; };
+		D51000000000000000000001 /* SpoonRewardConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = D52000000000000000000001 /* SpoonRewardConfiguration.swift */; };
+		D51000000000000000000002 /* DailyRewardClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D52000000000000000000002 /* DailyRewardClient.swift */; };
+		D51000000000000000000003 /* ViewControllerLocator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D52000000000000000000003 /* ViewControllerLocator.swift */; };
+		D51000000000000000000004 /* SpoonRewardStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D52000000000000000000004 /* SpoonRewardStore.swift */; };
+		D51000000000000000000005 /* ImportShortfallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D52000000000000000000005 /* ImportShortfallView.swift */; };
 		076918724BB55EC97500E4A8 /* recipe.json in Resources */ = {isa = PBXBuildFile; fileRef = 8590CB2EBDE651C3E864E808 /* recipe.json */; };
 		08623D5E3A678B4888AB86DA /* KitchenTableUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24C55B0D193BD74D4C016AFB /* KitchenTableUITests.swift */; };
 		08AD67BBF7B168F09C7EA9B5 /* CookingScreenAwake.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7371CAA0F0434197B5C4AD8 /* CookingScreenAwake.swift */; };
@@ -86,6 +92,11 @@
 		D42000000000000000000005 /* SpoonSpendingClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpoonSpendingClient.swift; sourceTree = "<group>"; };
 		D42000000000000000000006 /* SpoonStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpoonStore.swift; sourceTree = "<group>"; };
 		D42000000000000000000007 /* SpoonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpoonsView.swift; sourceTree = "<group>"; };
+		D52000000000000000000001 /* SpoonRewardConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpoonRewardConfiguration.swift; sourceTree = "<group>"; };
+		D52000000000000000000002 /* DailyRewardClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyRewardClient.swift; sourceTree = "<group>"; };
+		D52000000000000000000003 /* ViewControllerLocator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerLocator.swift; sourceTree = "<group>"; };
+		D52000000000000000000004 /* SpoonRewardStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpoonRewardStore.swift; sourceTree = "<group>"; };
+		D52000000000000000000005 /* ImportShortfallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportShortfallView.swift; sourceTree = "<group>"; };
 		0B373B5181295B86264B29EA /* PageHeading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageHeading.swift; sourceTree = "<group>"; };
 		18B6D67CC4AEC18C42FC7FDB /* RecipeEditing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeEditing.swift; sourceTree = "<group>"; };
 		236C48690D54E367084145DF /* KitchenTableTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KitchenTableTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -154,6 +165,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D40000000000000000000001 /* RevenueCat in Frameworks */,
+				D50000000000000000000001 /* RevenueCatAdMob in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -163,6 +175,7 @@
 		D43000000000000000000001 /* Monetization */ = {
 			isa = PBXGroup;
 			children = (
+				D53000000000000000000001 /* Ads */,
 				D43000000000000000000002 /* Currency */,
 				D43000000000000000000003 /* Support */,
 			);
@@ -192,9 +205,21 @@
 		D43000000000000000000004 /* Currency */ = {
 			isa = PBXGroup;
 			children = (
+				D52000000000000000000005 /* ImportShortfallView.swift */,
 				D42000000000000000000007 /* SpoonsView.swift */,
 			);
 			path = Currency;
+			sourceTree = "<group>";
+		};
+		D53000000000000000000001 /* Ads */ = {
+			isa = PBXGroup;
+			children = (
+				D52000000000000000000002 /* DailyRewardClient.swift */,
+				D52000000000000000000001 /* SpoonRewardConfiguration.swift */,
+				D52000000000000000000004 /* SpoonRewardStore.swift */,
+				D52000000000000000000003 /* ViewControllerLocator.swift */,
+			);
+			path = Ads;
 			sourceTree = "<group>";
 		};
 		F30000000000000000000001 /* App */ = {
@@ -449,6 +474,7 @@
 			name = KitchenTable;
 			packageProductDependencies = (
 				D40000000000000000000002 /* RevenueCat */,
+				D50000000000000000000002 /* RevenueCatAdMob */,
 			);
 			productName = KitchenTable;
 			productReference = 79CEF5F5D8BB4CFF0135F0EB /* KitchenTable.app */;
@@ -473,7 +499,8 @@
 			);
 			mainGroup = E96857C58F716104CAEAD648;
 			packageReferences = (
-				D40000000000000000000003 /* purchases-ios */,
+				D40000000000000000000003 /* purchases-ios-spm */,
+				D50000000000000000000003 /* purchases-ios-admob */,
 			);
 			productRefGroup = FE0A091FDBFB3E9C31B7A1BD /* Products */;
 			projectDirPath = "";
@@ -530,6 +557,11 @@
 				D41000000000000000000005 /* SpoonSpendingClient.swift in Sources */,
 				D41000000000000000000006 /* SpoonStore.swift in Sources */,
 				D41000000000000000000007 /* SpoonsView.swift in Sources */,
+				D51000000000000000000001 /* SpoonRewardConfiguration.swift in Sources */,
+				D51000000000000000000002 /* DailyRewardClient.swift in Sources */,
+				D51000000000000000000003 /* ViewControllerLocator.swift in Sources */,
+				D51000000000000000000004 /* SpoonRewardStore.swift in Sources */,
+				D51000000000000000000005 /* ImportShortfallView.swift in Sources */,
 				F10000000000000000000001 /* AppBootstrap.swift in Sources */,
 				F10000000000000000000002 /* CookingView.swift in Sources */,
 				F10000000000000000000003 /* CookingTimerNotifications.swift in Sources */,
@@ -782,11 +814,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		D40000000000000000000003 /* purchases-ios */ = {isa = XCRemoteSwiftPackageReference; repositoryURL = "https://github.com/RevenueCat/purchases-ios"; requirement = {kind = exactVersion; version = 5.89.0; }; };
+		D40000000000000000000003 /* purchases-ios-spm */ = {isa = XCRemoteSwiftPackageReference; repositoryURL = "https://github.com/RevenueCat/purchases-ios-spm"; requirement = {kind = exactVersion; version = 5.89.0; }; };
+		D50000000000000000000003 /* purchases-ios-admob */ = {isa = XCRemoteSwiftPackageReference; repositoryURL = "https://github.com/RevenueCat/purchases-ios-admob"; requirement = {kind = exactVersion; version = 5.89.0; }; };
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		D40000000000000000000002 /* RevenueCat */ = {isa = XCSwiftPackageProductDependency; package = D40000000000000000000003 /* purchases-ios */; productName = RevenueCat; };
+		D40000000000000000000002 /* RevenueCat */ = {isa = XCSwiftPackageProductDependency; package = D40000000000000000000003 /* purchases-ios-spm */; productName = RevenueCat; };
+		D50000000000000000000002 /* RevenueCatAdMob */ = {isa = XCSwiftPackageProductDependency; package = D50000000000000000000003 /* purchases-ios-admob */; productName = RevenueCatAdMob; };
 /* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = F6F4DA8D93E88A08220E03B7 /* Project object */;

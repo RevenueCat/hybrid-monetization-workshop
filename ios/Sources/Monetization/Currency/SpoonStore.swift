@@ -26,7 +26,9 @@ final class SpoonStore: ObservableObject {
     static func live(arguments: [String] = ProcessInfo.processInfo.arguments) -> SpoonStore {
         let configuration = SpoonConfiguration.current()
         if arguments.contains("--ui-testing") {
-            let client = PreviewSpoonClient()
+            let startingBalance = arguments.first(where: { $0.hasPrefix("--spoons-balance=") })
+                .flatMap { Int($0.dropFirst("--spoons-balance=".count)) } ?? 60
+            let client = PreviewSpoonClient(balance: startingBalance)
             return .init(
                 configuration: configuration,
                 client: client,
@@ -41,6 +43,22 @@ final class SpoonStore: ObservableObject {
     }
 
     var balanceLabel: String { balance.map(String.init) ?? "—" }
+    var appUserID: String? { client.appUserID }
+
+    func refreshBalance(force: Bool = false) async {
+        guard client.isConfigured else { return }
+        do {
+            balance = try await client.loadBalance(currencyCode: configuration.currencyCode, forceRefresh: force)
+        } catch {
+            message = error.localizedDescription
+        }
+    }
+
+    func applyPreviewReward(_ amount: Int) {
+        guard let preview = client as? PreviewSpoonClient else { return }
+        preview.credit(amount)
+        balance = preview.balance
+    }
 
     func refresh(force: Bool = false) async {
         guard client.isConfigured else {

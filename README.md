@@ -185,6 +185,15 @@ Suggested steps:
 5. **Handle ad readiness.** Preload the rewarded ad and provide clear unavailable, cancellation, and failure states.
 6. **Verify the balance.** Confirm successful grants, repeated rewards, and spending behave consistently with purchases and subscription grants.
 
+The example final branch implements two opt-in placements and no banners or
+interstitials:
+
+- **Daily claim:** one verified ad per UTC day grants 10 Spoons from the Spoons
+  shop. The local service stores workshop-only eligibility.
+- **Import shortfall:** when an import cannot debit 25 Spoons, a second verified
+  ad can grant 25 Spoons and retry that same import through the normal spend
+  path.
+
 The base catalog uses these identifiers in a participant-owned RevenueCat Test Store project:
 
 | Resource | Lookup key or identifier | Purpose |
@@ -197,6 +206,26 @@ The base catalog uses these identifiers in a participant-owned RevenueCat Test S
 | Small product | `kitchen_table_spoons_50` | One-time 50 Spoons product |
 | Large package | `spoons_200` | One-time 200 Spoons pack |
 | Large product | `kitchen_table_spoons_200` | One-time 200 Spoons product |
+| Daily rewarded placement | `daily_spoons` | Once-daily 10-Spoon claim events |
+| Import rewarded placement | `import_shortfall` | 25-Spoon import rescue events |
+
+For `scenarios/D-final`, create two rewarded ad units in an AdMob app you own.
+Enable server-side verification on each unit using RevenueCat's callback URL
+`https://api.revenuecat.com/v1/incoming-webhooks/admob-ssv-rewarded`,
+connect that AdMob account to the participant-owned RevenueCat project, and add
+these currency reward rules:
+
+| Ad unit | RevenueCat reward |
+| --- | --- |
+| Daily rewarded unit | 10 `SPOON` |
+| Import-rescue rewarded unit | 25 `SPOON` |
+
+Set `ADMOB_APP_ID`, `ADMOB_DAILY_REWARDED_AD_UNIT_ID`, and
+`ADMOB_IMPORT_RESCUE_REWARDED_AD_UNIT_ID` in the ignored
+`ios/Workshop.local.xcconfig`. Google's sample rewarded unit can load a test ad,
+but cannot be configured for SSV and therefore cannot prove a currency grant.
+Use simulator test traffic or register a physical test device; never use live
+ads for workshop verification.
 
 Spending runs through the simulator-only service in `backend/`, keeping the RevenueCat secret API key out of the app. Copy `backend/.env.example` to the ignored `backend/.env`, add a project secret key and project ID for the participant-owned test project, then run:
 

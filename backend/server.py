@@ -3,6 +3,7 @@
 import hashlib
 import json
 import os
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 import sqlite3
 from http.server import BaseHTTPRequestHandler, HTTPServer
@@ -82,6 +83,55 @@ class SpendingService:
                 status INTEGER, response TEXT
             )"""
         )
+        self.db.execute(
+            """CREATE TABLE IF NOT EXISTS daily_rewards (
+                customer TEXT NOT NULL, claim_date TEXT NOT NULL,
+                claimed_at TEXT NOT NULL, PRIMARY KEY (customer, claim_date)
+            )"""
+        )
+
+    @staticmethod
+    def _customer(body):
+        if not isinstance(body, dict) or set(body) != {"app_user_id"}:
+            return None
+        customer = body["app_user_id"]
+        if not isinstance(customer, str) or not customer.strip() or len(customer) > 1500:
+            return None
+        return customer
+
+    @staticmethod
+    def _reward_window(now=None):
+        now = (now or datetime.now(timezone.utc)).astimezone(timezone.utc)
+        tomorrow = datetime.combine(
+            now.date() + timedelta(days=1), datetime.min.time(), timezone.utc
+        )
+        return now, now.date().isoformat(), tomorrow.isoformat().replace("+00:00", "Z")
+
+    def daily_reward_status(self, body, now=None):
+        customer = self._customer(body)
+        if customer is None:
+            return 400, {"error": "expected_app_user_id"}
+        _, claim_date, next_claim_at = self._reward_window(now)
+        claimed = self.db.execute(
+            "SELECT 1 FROM daily_rewards WHERE customer = ? AND claim_date = ?",
+            (customer, claim_date),
+        ).fetchone()
+        return 200, {"claimable": claimed is None, "next_claim_at": next_claim_at}
+
+    def claim_daily_reward(self, body, now=None):
+        customer = self._customer(body)
+        if customer is None:
+            return 400, {"error": "expected_app_user_id"}
+        current, claim_date, next_claim_at = self._reward_window(now)
+        cursor = self.db.execute(
+            "INSERT OR IGNORE INTO daily_rewards VALUES (?, ?, ?)",
+            (customer, claim_date, current.isoformat().replace("+00:00", "Z")),
+        )
+        return 200, {
+            "recorded": cursor.rowcount == 1,
+            "claimable": False,
+            "next_claim_at": next_claim_at,
+        }
 
     def spend(self, body):
         if not isinstance(body, dict) or set(body) != {"app_user_id", "operation_id"}:
@@ -167,7 +217,13 @@ def handler_for(service):
                 self.reply(404, {"error": "not_found"})
 
         def do_POST(self):
-            if self.path != "/imports/spend":
+            routes = {
+                "/imports/spend": service.spend,
+                "/rewards/daily/status": service.daily_reward_status,
+                "/rewards/daily/claim": service.claim_daily_reward,
+            }
+            action = routes.get(self.path)
+            if action is None:
                 return self.reply(404, {"error": "not_found"})
             if self.headers.get("Origin"):
                 return self.reply(403, {"error": "browser_requests_not_supported"})
@@ -180,7 +236,7 @@ def handler_for(service):
                 body = json.loads(self.rfile.read(length))
             except (ValueError, UnicodeDecodeError):
                 return self.reply(400, {"error": "invalid_json_body"})
-            self.reply(*service.spend(body))
+            self.reply(*action(body))
 
         def log_message(self, format, *args):
             pass

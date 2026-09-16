@@ -6,9 +6,17 @@ struct RecipeBookView: View {
     @ObservedObject var library: RecipeLibrary
     var openWalkthrough: () -> Void = {}
     @State private var path: [String] = []
-    private enum PresentedSheet: String, Identifiable {
-        case addRecipe, spoons
-        var id: String { rawValue }
+    private enum PresentedSheet: Identifiable {
+        case addRecipe
+        case spoons
+        case importShortfall(String)
+        var id: String {
+            switch self {
+            case .addRecipe: "addRecipe"
+            case .spoons: "spoons"
+            case .importShortfall(let id): "importShortfall.\(id)"
+            }
+        }
     }
     @State private var presentedSheet: PresentedSheet?
     @State private var editingRecipes = false
@@ -106,8 +114,8 @@ struct RecipeBookView: View {
                         .listRowBackground(Color(uiColor: appearance.theme.paper))
 
                     if let incoming = library.incoming {
-                        IncomingRecipeSection(incoming: incoming, discardImport: discardImport) {
-                            presentedSheet = .spoons
+                        IncomingRecipeSection(incoming: incoming, discardImport: discardImport) { id in
+                            presentedSheet = .importShortfall(id)
                         }
                             .listRowInsets(EdgeInsets(top: 0, leading: 24, bottom: 0, trailing: 24))
                             .listRowSeparator(.hidden)
@@ -208,12 +216,21 @@ struct RecipeBookView: View {
                 switch sheet {
                 case .addRecipe:
                     if let incoming = library.incoming {
-                        AddRecipeFromLinkSheet(incoming: incoming) {
-                            presentedSheet = .spoons
+                        AddRecipeFromLinkSheet(incoming: incoming) { id in
+                            presentedSheet = .importShortfall(id)
                         }
                     }
                 case .spoons:
                     SpoonsView()
+                case .importShortfall(let id):
+                    if let incoming = library.incoming,
+                       let item = incoming.visibleItems.first(where: { $0.id == id }) {
+                        ImportShortfallView(recipeTitle: item.title) {
+                            await spoons.importRecipe(id, incoming: incoming)
+                        } openShop: {
+                            presentedSheet = .spoons
+                        }
+                    }
                 }
             }
             .listStyle(.plain)

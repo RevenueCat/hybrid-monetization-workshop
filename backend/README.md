@@ -56,6 +56,24 @@ ignored `backend/.state/` directory. RevenueCat also receives a stable
 `Idempotency-Key`, so a response lost after a debit cannot cause a second
 charge.
 
+## Daily reward eligibility
+
+`POST /rewards/daily/status` and `POST /rewards/daily/claim` accept only the
+RevenueCat App User ID:
+
+```json
+{
+  "app_user_id": "$RCAnonymousID:example"
+}
+```
+
+The service keeps a once-per-UTC-day eligibility record. It does not grant
+currency or verify ads. AdMob sends its SSV callback to RevenueCat, RevenueCat
+grants the Spoons, and the app records the daily claim here only after
+verification succeeds. A production system should enforce eligibility in a
+remotely reachable verification flow rather than trusting this local workshop
+client.
+
 ## Test without RevenueCat
 
 ```sh

@@ -17,6 +17,22 @@
 	<string>$(SPOON_IMPORT_COST)</string>
 	<key>SpoonServiceURL</key>
 	<string>http://127.0.0.1:8787</string>
+	<key>GADApplicationIdentifier</key>
+	<string>$(ADMOB_APP_ID)</string>
+	<key>AdMobDailyRewardedAdUnitIdentifier</key>
+	<string>$(ADMOB_DAILY_REWARDED_AD_UNIT_ID)</string>
+	<key>AdMobImportRescueRewardedAdUnitIdentifier</key>
+	<string>$(ADMOB_IMPORT_RESCUE_REWARDED_AD_UNIT_ID)</string>
+	<key>AdMobDailyRewardedPlacement</key>
+	<string>$(ADMOB_DAILY_REWARDED_PLACEMENT)</string>
+	<key>AdMobImportRescueRewardedPlacement</key>
+	<string>$(ADMOB_IMPORT_RESCUE_REWARDED_PLACEMENT)</string>
+	<key>AdMobTestDeviceIdentifiers</key>
+	<string>$(ADMOB_TEST_DEVICE_IDENTIFIERS)</string>
+	<key>SpoonDailyRewardAmount</key>
+	<string>$(SPOON_DAILY_REWARD_AMOUNT)</string>
+	<key>SpoonImportRescueRewardAmount</key>
+	<string>$(SPOON_IMPORT_RESCUE_REWARD_AMOUNT)</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>SpecialElite-Regular.ttf</string>

@@ -112,7 +112,8 @@ final class RevenueCatSpoonClient: SpoonClient {
 
 @MainActor
 final class PreviewSpoonClient: SpoonClient {
-    private(set) var balance = 60
+    private(set) var balance: Int
+    init(balance: Int = 60) { self.balance = max(0, balance) }
     var isConfigured: Bool { true }
     var appUserID: String? { "ui-test-customer" }
 
@@ -131,4 +132,5 @@ final class PreviewSpoonClient: SpoonClient {
     }
     func restore() async throws {}
     func spend(_ amount: Int) { balance = max(0, balance - amount) }
+    func credit(_ amount: Int) { balance += max(0, amount) }
 }

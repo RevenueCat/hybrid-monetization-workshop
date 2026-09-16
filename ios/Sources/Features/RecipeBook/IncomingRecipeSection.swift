@@ -5,7 +5,7 @@ struct IncomingRecipeSection: View {
     @EnvironmentObject private var spoons: SpoonStore
     @ObservedObject var incoming: IncomingRecipeStore
     var discardImport: (IncomingRecipe) -> Void
-    var showSpoons: () -> Void
+    var showShortfall: (String) -> Void
 
     var body: some View {
         Group {
@@ -34,7 +34,7 @@ struct IncomingRecipeSection: View {
                                     Button {
                                         Task {
                                             if await spoons.importRecipe(item.id, incoming: incoming) == .needsSpoons {
-                                                showSpoons()
+                                                showShortfall(item.id)
                                             }
                                         }
                                     } label: {
@@ -93,7 +93,7 @@ struct AddRecipeFromLinkSheet: View {
     @EnvironmentObject private var spoons: SpoonStore
     @Environment(\.dismiss) private var dismiss
     @ObservedObject var incoming: IncomingRecipeStore
-    var showSpoons: () -> Void
+    var showShortfall: (String) -> Void
     @State private var link = ""
     @State private var saveError: String?
     @State private var contentHeight: CGFloat = 300
@@ -174,7 +174,7 @@ struct AddRecipeFromLinkSheet: View {
                 case .imported:
                     dismiss()
                 case .needsSpoons:
-                    showSpoons()
+                    showShortfall(id)
                 case .failed:
                     saveError = spoons.message
                 }

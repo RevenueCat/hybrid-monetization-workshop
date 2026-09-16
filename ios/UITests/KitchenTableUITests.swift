@@ -1228,6 +1228,42 @@ extension KitchenTableUITests {
         )
         XCTAssertEqual(XCTWaiter.wait(for: [debited], timeout: 4), .completed)
     }
+
+    @MainActor
+    func testDailyRewardAndImportShortfallRescue() {
+        continueAfterFailure = false
+
+        let dailyApp = XCUIApplication()
+        dailyApp.launchArguments = ["--ui-testing", "--skip-walkthrough", "--reset-session"]
+        dailyApp.launch()
+        let dailyBalance = dailyApp.buttons["book.spoons"]
+        XCTAssertTrue(dailyBalance.waitForExistence(timeout: 8))
+        dailyBalance.tap()
+        let dailyClaim = dailyApp.buttons["spoons.daily.claim"]
+        XCTAssertTrue(dailyClaim.waitForExistence(timeout: 4))
+        XCTAssertTrue(dailyClaim.isEnabled)
+        dailyClaim.tap()
+        XCTAssertEqual(dailyClaim.label, "Claimed")
+        dailyApp.buttons["page.back"].tap()
+        XCTAssertTrue(dailyBalance.label.contains("70 Spoons"))
+
+        dailyApp.terminate()
+        let rescueApp = XCUIApplication()
+        rescueApp.launchArguments = [
+            "--ui-testing", "--skip-walkthrough", "--reset-session", "--seed-imports", "--spoons-balance=0"
+        ]
+        rescueApp.launch()
+        let importButton = rescueApp.buttons["incoming.action.Dinner inspiration"]
+        XCTAssertTrue(importButton.waitForExistence(timeout: 8))
+        importButton.tap()
+        let watch = rescueApp.buttons["import.reward.watch"]
+        XCTAssertTrue(watch.waitForExistence(timeout: 4))
+        XCTAssertTrue(watch.isEnabled)
+        capture("import-shortfall-reward", app: rescueApp)
+        watch.tap()
+        XCTAssertTrue(watch.waitForNonExistence(timeout: 4))
+        XCTAssertTrue(rescueApp.buttons["book.spoons"].label.contains("0 Spoons"))
+    }
 }
 
 extension KitchenTableUITests {

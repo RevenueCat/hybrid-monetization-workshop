@@ -14,3 +14,14 @@ SPOON_CURRENCY_CODE = SPOON
 SPOON_IMPORT_COST = 25
 PREFLIGHT_PRODUCT_IDS = kitchen_table_spoons_monthly,kitchen_table_spoons_50,kitchen_table_spoons_200
 PREFLIGHT_OFFERINGS = spoons
+
+// Scenario D rewards. Use two rewarded units from your own AdMob app, enable
+// RevenueCat SSV on both, and keep physical-device test IDs local.
+ADMOB_APP_ID = ca-app-pub-3940256099942544~1458002511
+ADMOB_DAILY_REWARDED_AD_UNIT_ID =
+ADMOB_IMPORT_RESCUE_REWARDED_AD_UNIT_ID =
+ADMOB_DAILY_REWARDED_PLACEMENT = daily_spoons
+ADMOB_IMPORT_RESCUE_REWARDED_PLACEMENT = import_shortfall
+ADMOB_TEST_DEVICE_IDENTIFIERS =
+SPOON_DAILY_REWARD_AMOUNT = 10
+SPOON_IMPORT_RESCUE_REWARD_AMOUNT = 25

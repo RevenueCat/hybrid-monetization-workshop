@@ -1,4 +1,5 @@
 import json
+from datetime import datetime, timezone
 from pathlib import Path
 import tempfile
 import threading
@@ -103,6 +104,27 @@ class SpendingTests(unittest.TestCase):
         self.assertEqual(self.service.spend(self.body)[0], 200)
         self.assertEqual(len({call[-1] for call in self.rc.calls}), 1)
 
+    def test_daily_reward_is_available_once_per_utc_day(self):
+        body = {"app_user_id": "daily-customer"}
+        first_day = datetime(2026, 9, 16, 23, 59, tzinfo=timezone.utc)
+        next_day = datetime(2026, 9, 17, 0, 1, tzinfo=timezone.utc)
+        self.assertEqual(
+            self.service.daily_reward_status(body, first_day),
+            (200, {"claimable": True, "next_claim_at": "2026-09-17T00:00:00Z"}),
+        )
+        claimed = self.service.claim_daily_reward(body, first_day)
+        self.assertEqual(claimed[0], 200)
+        self.assertTrue(claimed[1]["recorded"])
+        self.assertFalse(self.service.claim_daily_reward(body, first_day)[1]["recorded"])
+        self.assertFalse(self.service.daily_reward_status(body, first_day)[1]["claimable"])
+        self.assertTrue(self.service.daily_reward_status(body, next_day)[1]["claimable"])
+
+    def test_daily_reward_rejects_invalid_customer(self):
+        for body in ({}, {"app_user_id": "", "extra": True}, {"app_user_id": 42}):
+            with self.subTest(body=body):
+                self.assertEqual(self.service.daily_reward_status(body)[0], 400)
+                self.assertEqual(self.service.claim_daily_reward(body)[0], 400)
+
 
 class AdapterTests(unittest.TestCase):
     def test_api_request_escapes_ids_and_sets_fixed_debit_and_idempotency(self):
@@ -155,6 +177,13 @@ class HTTPTests(unittest.TestCase):
         try:
             with urlopen(base + "/health") as response:
                 self.assertEqual(json.load(response)["import_cost"], 25)
+            daily = Request(
+                base + "/rewards/daily/status",
+                data=json.dumps({"app_user_id": "test"}).encode(),
+                headers={"Content-Type": "application/json"},
+            )
+            with urlopen(daily) as response:
+                self.assertTrue(json.load(response)["claimable"])
             body = json.dumps(
                 {"app_user_id": "test", "operation_id": OPERATION}
             ).encode()
